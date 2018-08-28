@@ -724,12 +724,8 @@ static void _sde_sspp_setup_vig(struct sde_mdss_cfg *sde_cfg,
 	sblk->maxdwnscale = MAX_SSPP_DOWNSCALE;
 	sblk->format_list = plane_formats_yuv;
 	sspp->id = SSPP_VIG0 + *vig_count;
-<<<<<<< HEAD
-	snprintf(sspp->name, SDE_HW_BLK_NAME_LEN, "sspp_%u", sspp->id);
-=======
 	snprintf(sspp->name, SDE_HW_BLK_NAME_LEN, "sspp_%u",
 			sspp->id - SSPP_VIG0);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	sspp->clk_ctrl = SDE_CLK_CTRL_VIG0 + *vig_count;
 	sspp->type = SSPP_TYPE_VIG;
 	set_bit(SDE_SSPP_QOS, &sspp->features);
@@ -746,11 +742,7 @@ static void _sde_sspp_setup_vig(struct sde_mdss_cfg *sde_cfg,
 		sblk->scaler_blk.len = PROP_VALUE_ACCESS(prop_value,
 			VIG_QSEED_LEN, 0);
 		snprintf(sblk->scaler_blk.name, SDE_HW_BLK_NAME_LEN,
-<<<<<<< HEAD
-				"sspp_scaler%u", sspp->id);
-=======
 				"sspp_scaler%u", sspp->id - SSPP_VIG0);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	} else if (sde_cfg->qseed_type == SDE_SSPP_SCALER_QSEED3) {
 		set_bit(SDE_SSPP_SCALER_QSEED3, &sspp->features);
 		sblk->scaler_blk.id = SDE_SSPP_SCALER_QSEED3;
@@ -759,20 +751,12 @@ static void _sde_sspp_setup_vig(struct sde_mdss_cfg *sde_cfg,
 		sblk->scaler_blk.len = PROP_VALUE_ACCESS(prop_value,
 			VIG_QSEED_LEN, 0);
 		snprintf(sblk->scaler_blk.name, SDE_HW_BLK_NAME_LEN,
-<<<<<<< HEAD
-			"sspp_scaler%u", sspp->id);
-=======
 			"sspp_scaler%u", sspp->id - SSPP_VIG0);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	}
 
 	sblk->csc_blk.id = SDE_SSPP_CSC;
 	snprintf(sblk->csc_blk.name, SDE_HW_BLK_NAME_LEN,
-<<<<<<< HEAD
-			"sspp_csc%u", sspp->id);
-=======
 			"sspp_csc%u", sspp->id - SSPP_VIG0);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	if (sde_cfg->csc_type == SDE_SSPP_CSC) {
 		set_bit(SDE_SSPP_CSC, &sspp->features);
 		sblk->csc_blk.base = PROP_VALUE_ACCESS(prop_value,
@@ -785,11 +769,7 @@ static void _sde_sspp_setup_vig(struct sde_mdss_cfg *sde_cfg,
 
 	sblk->hsic_blk.id = SDE_SSPP_HSIC;
 	snprintf(sblk->hsic_blk.name, SDE_HW_BLK_NAME_LEN,
-<<<<<<< HEAD
-			"sspp_hsic%u", sspp->id);
-=======
 			"sspp_hsic%u", sspp->id - SSPP_VIG0);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	if (prop_exists[VIG_HSIC_PROP]) {
 		sblk->hsic_blk.base = PROP_VALUE_ACCESS(prop_value,
 			VIG_HSIC_PROP, 0);
@@ -801,11 +781,7 @@ static void _sde_sspp_setup_vig(struct sde_mdss_cfg *sde_cfg,
 
 	sblk->memcolor_blk.id = SDE_SSPP_MEMCOLOR;
 	snprintf(sblk->memcolor_blk.name, SDE_HW_BLK_NAME_LEN,
-<<<<<<< HEAD
-			"sspp_memcolor%u", sspp->id);
-=======
 			"sspp_memcolor%u", sspp->id - SSPP_VIG0);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	if (prop_exists[VIG_MEMCOLOR_PROP]) {
 		sblk->memcolor_blk.base = PROP_VALUE_ACCESS(prop_value,
 			VIG_MEMCOLOR_PROP, 0);
@@ -817,11 +793,7 @@ static void _sde_sspp_setup_vig(struct sde_mdss_cfg *sde_cfg,
 
 	sblk->pcc_blk.id = SDE_SSPP_PCC;
 	snprintf(sblk->pcc_blk.name, SDE_HW_BLK_NAME_LEN,
-<<<<<<< HEAD
-			"sspp_pcc%u", sspp->id);
-=======
 			"sspp_pcc%u", sspp->id - SSPP_VIG0);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	if (prop_exists[VIG_PCC_PROP]) {
 		sblk->pcc_blk.base = PROP_VALUE_ACCESS(prop_value,
 			VIG_PCC_PROP, 0);
@@ -841,12 +813,8 @@ static void _sde_sspp_setup_rgb(struct sde_mdss_cfg *sde_cfg,
 	sblk->maxdwnscale = MAX_SSPP_DOWNSCALE;
 	sblk->format_list = plane_formats;
 	sspp->id = SSPP_RGB0 + *rgb_count;
-<<<<<<< HEAD
-	snprintf(sspp->name, SDE_HW_BLK_NAME_LEN, "sspp_%u", sspp->id);
-=======
 	snprintf(sspp->name, SDE_HW_BLK_NAME_LEN, "sspp_%u",
 			sspp->id - SSPP_VIG0);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	sspp->clk_ctrl = SDE_CLK_CTRL_RGB0 + *rgb_count;
 	sspp->type = SSPP_TYPE_RGB;
 	set_bit(SDE_SSPP_QOS, &sspp->features);
@@ -863,11 +831,7 @@ static void _sde_sspp_setup_rgb(struct sde_mdss_cfg *sde_cfg,
 		sblk->scaler_blk.len = PROP_VALUE_ACCESS(prop_value,
 			RGB_SCALER_LEN, 0);
 		snprintf(sblk->scaler_blk.name, SDE_HW_BLK_NAME_LEN,
-<<<<<<< HEAD
-			"sspp_scaler%u", sspp->id);
-=======
 			"sspp_scaler%u", sspp->id - SSPP_VIG0);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	} else if (sde_cfg->qseed_type == SDE_SSPP_SCALER_QSEED3) {
 		set_bit(SDE_SSPP_SCALER_RGB, &sspp->features);
 		sblk->scaler_blk.id = SDE_SSPP_SCALER_QSEED3;
@@ -876,11 +840,7 @@ static void _sde_sspp_setup_rgb(struct sde_mdss_cfg *sde_cfg,
 		sblk->scaler_blk.len = PROP_VALUE_ACCESS(prop_value,
 			SSPP_SCALE_SIZE, 0);
 		snprintf(sblk->scaler_blk.name, SDE_HW_BLK_NAME_LEN,
-<<<<<<< HEAD
-			"sspp_scaler%u", sspp->id);
-=======
 			"sspp_scaler%u", sspp->id - SSPP_VIG0);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	}
 
 	sblk->pcc_blk.id = SDE_SSPP_PCC;
@@ -904,12 +864,8 @@ static void _sde_sspp_setup_cursor(struct sde_mdss_cfg *sde_cfg,
 	sblk->maxdwnscale = SSPP_UNITY_SCALE;
 	sblk->format_list = cursor_formats;
 	sspp->id = SSPP_CURSOR0 + *cursor_count;
-<<<<<<< HEAD
-	snprintf(sspp->name, SDE_HW_BLK_NAME_LEN, "sspp_%u", sspp->id);
-=======
 	snprintf(sspp->name, SDE_HW_BLK_NAME_LEN, "sspp_%u",
 			sspp->id - SSPP_VIG0);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	sspp->clk_ctrl = SDE_CLK_CTRL_CURSOR0 + *cursor_count;
 	sspp->type = SSPP_TYPE_CURSOR;
 	(*cursor_count)++;
@@ -926,12 +882,8 @@ static void _sde_sspp_setup_dma(struct sde_mdss_cfg *sde_cfg,
 	sspp->id = SSPP_DMA0 + *dma_count;
 	sspp->clk_ctrl = SDE_CLK_CTRL_DMA0 + *dma_count;
 	sspp->type = SSPP_TYPE_DMA;
-<<<<<<< HEAD
-	snprintf(sspp->name, SDE_HW_BLK_NAME_LEN, "sspp_%u", sspp->id);
-=======
 	snprintf(sspp->name, SDE_HW_BLK_NAME_LEN, "sspp_%u",
 			sspp->id - SSPP_VIG0);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	set_bit(SDE_SSPP_QOS, &sspp->features);
 	(*dma_count)++;
 	snprintf(sspp->name, sizeof(sspp->name), "dma%d", *dma_count-1);
@@ -1162,12 +1114,8 @@ static int sde_ctl_parse_dt(struct device_node *np,
 		ctl->base = PROP_VALUE_ACCESS(prop_value, HW_OFF, i);
 		ctl->len = PROP_VALUE_ACCESS(prop_value, HW_LEN, 0);
 		ctl->id = CTL_0 + i;
-<<<<<<< HEAD
-		snprintf(ctl->name, SDE_HW_BLK_NAME_LEN, "ctl_%u", ctl->id);
-=======
 		snprintf(ctl->name, SDE_HW_BLK_NAME_LEN, "ctl_%u",
 				ctl->id - CTL_0);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 		of_property_read_string_index(np,
 			ctl_prop[HW_DISP].prop_name, i, &disp_pref);
@@ -1270,12 +1218,8 @@ static int sde_mixer_parse_dt(struct device_node *np,
 		mixer->base = PROP_VALUE_ACCESS(prop_value, MIXER_OFF, i);
 		mixer->len = PROP_VALUE_ACCESS(prop_value, MIXER_LEN, 0);
 		mixer->id = LM_0 + i;
-<<<<<<< HEAD
-		snprintf(mixer->name, SDE_HW_BLK_NAME_LEN, "lm_%u", mixer->id);
-=======
 		snprintf(mixer->name, SDE_HW_BLK_NAME_LEN, "lm_%u",
 				mixer->id - LM_0);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 		if (!prop_exists[MIXER_LEN])
 			mixer->len = DEFAULT_SDE_HW_BLOCK_LEN;
@@ -1378,12 +1322,8 @@ static int sde_intf_parse_dt(struct device_node *np,
 		intf->base = PROP_VALUE_ACCESS(prop_value, INTF_OFF, i);
 		intf->len = PROP_VALUE_ACCESS(prop_value, INTF_LEN, 0);
 		intf->id = INTF_0 + i;
-<<<<<<< HEAD
-		snprintf(intf->name, SDE_HW_BLK_NAME_LEN, "intf_%u", intf->id);
-=======
 		snprintf(intf->name, SDE_HW_BLK_NAME_LEN, "intf_%u",
 				intf->id - INTF_0);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 		if (!prop_exists[INTF_LEN])
 			intf->len = DEFAULT_SDE_HW_BLOCK_LEN;
@@ -1464,12 +1404,8 @@ static int sde_wb_parse_dt(struct device_node *np,
 
 		wb->base = PROP_VALUE_ACCESS(prop_value, WB_OFF, i);
 		wb->id = WB_0 + PROP_VALUE_ACCESS(prop_value, WB_ID, i);
-<<<<<<< HEAD
-		snprintf(wb->name, SDE_HW_BLK_NAME_LEN, "wb_%u", wb->id);
-=======
 		snprintf(wb->name, SDE_HW_BLK_NAME_LEN, "wb_%u",
 				wb->id - WB_0);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		wb->clk_ctrl = SDE_CLK_CTRL_WB0 +
 			PROP_VALUE_ACCESS(prop_value, WB_ID, i);
 		wb->xin_id = PROP_VALUE_ACCESS(prop_value, WB_XIN_ID, i);
@@ -1705,12 +1641,8 @@ static int sde_dspp_parse_dt(struct device_node *np,
 		dspp->base = PROP_VALUE_ACCESS(prop_value, DSPP_OFF, i);
 		dspp->len = PROP_VALUE_ACCESS(prop_value, DSPP_SIZE, 0);
 		dspp->id = DSPP_0 + i;
-<<<<<<< HEAD
-		snprintf(dspp->name, SDE_HW_BLK_NAME_LEN, "dspp_%u", dspp->id);
-=======
 		snprintf(dspp->name, SDE_HW_BLK_NAME_LEN, "dspp_%u",
 				dspp->id - DSPP_0);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 		sblk = kzalloc(sizeof(*sblk), GFP_KERNEL);
 		if (!sblk) {
@@ -1780,12 +1712,8 @@ static int sde_cdm_parse_dt(struct device_node *np,
 		cdm = sde_cfg->cdm + i;
 		cdm->base = PROP_VALUE_ACCESS(prop_value, HW_OFF, i);
 		cdm->id = CDM_0 + i;
-<<<<<<< HEAD
-		snprintf(cdm->name, SDE_HW_BLK_NAME_LEN, "cdm_%u", cdm->id);
-=======
 		snprintf(cdm->name, SDE_HW_BLK_NAME_LEN, "cdm_%u",
 				cdm->id - CDM_0);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		cdm->len = PROP_VALUE_ACCESS(prop_value, HW_LEN, 0);
 
 		/* intf3 and wb2 for cdm block */
@@ -1980,33 +1908,21 @@ static int sde_pp_parse_dt(struct device_node *np,
 
 		pp->base = PROP_VALUE_ACCESS(prop_value, PP_OFF, i);
 		pp->id = PINGPONG_0 + i;
-<<<<<<< HEAD
-		snprintf(pp->name, SDE_HW_BLK_NAME_LEN, "pingpong_%u", pp->id);
-=======
 		snprintf(pp->name, SDE_HW_BLK_NAME_LEN, "pingpong_%u",
 				pp->id - PINGPONG_0);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		pp->len = PROP_VALUE_ACCESS(prop_value, PP_LEN, 0);
 
 		sblk->te.base = PROP_VALUE_ACCESS(prop_value, TE_OFF, i);
 		sblk->te.id = SDE_PINGPONG_TE;
-<<<<<<< HEAD
-		snprintf(sblk->te.name, SDE_HW_BLK_NAME_LEN, "te_%u", pp->id);
-=======
 		snprintf(sblk->te.name, SDE_HW_BLK_NAME_LEN, "te_%u",
 				pp->id - PINGPONG_0);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		set_bit(SDE_PINGPONG_TE, &pp->features);
 
 		sblk->te2.base = PROP_VALUE_ACCESS(prop_value, TE2_OFF, i);
 		if (sblk->te2.base) {
 			sblk->te2.id = SDE_PINGPONG_TE2;
 			snprintf(sblk->te2.name, SDE_HW_BLK_NAME_LEN, "te2_%u",
-<<<<<<< HEAD
-					pp->id);
-=======
 					pp->id - PINGPONG_0);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			set_bit(SDE_PINGPONG_TE2, &pp->features);
 			set_bit(SDE_PINGPONG_SPLIT, &pp->features);
 		}
@@ -2018,11 +1934,7 @@ static int sde_pp_parse_dt(struct device_node *np,
 		if (sblk->dsc.base) {
 			sblk->dsc.id = SDE_PINGPONG_DSC;
 			snprintf(sblk->dsc.name, SDE_HW_BLK_NAME_LEN, "dsc_%u",
-<<<<<<< HEAD
-					pp->id);
-=======
 					sblk->dsc.id - PINGPONG_0);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			set_bit(SDE_PINGPONG_DSC, &pp->features);
 		}
 	}
@@ -2154,20 +2066,12 @@ static int sde_parse_dt(struct device_node *np, struct sde_mdss_cfg *cfg)
 	cfg->mdss[0].base = MDSS_BASE_OFFSET;
 	cfg->mdss[0].id = MDP_TOP;
 	snprintf(cfg->mdss[0].name, SDE_HW_BLK_NAME_LEN, "mdss_%u",
-<<<<<<< HEAD
-			cfg->mdss[0].id);
-=======
 			cfg->mdss[0].id - MDP_TOP);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	cfg->mdp_count = 1;
 	cfg->mdp[0].id = MDP_TOP;
 	snprintf(cfg->mdp[0].name, SDE_HW_BLK_NAME_LEN, "top_%u",
-<<<<<<< HEAD
-		cfg->mdp[0].id);
-=======
 		cfg->mdp[0].id - MDP_TOP);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	cfg->mdp[0].base = PROP_VALUE_ACCESS(prop_value, SDE_OFF, 0);
 	cfg->mdp[0].len = PROP_VALUE_ACCESS(prop_value, SDE_LEN, 0);
 	if (!prop_exists[SDE_LEN])
