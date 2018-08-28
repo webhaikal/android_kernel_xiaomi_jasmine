@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
 /* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1140,12 +1136,7 @@ static void handle_event_change(enum hal_command_response cmd, void *data)
 	case HAL_EVENT_SEQ_CHANGED_SUFFICIENT_RESOURCES:
 		rc = msm_comm_g_ctrl_for_id(inst,
 			V4L2_CID_MPEG_VIDC_VIDEO_CONTINUE_DATA_TRANSFER);
-<<<<<<< HEAD
-		if (!is_thumbnail_session(inst) &&
-			(IS_ERR_VALUE(rc) || rc == false))
-=======
 		if ((IS_ERR_VALUE(rc) || rc == false))
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			event = V4L2_EVENT_SEQ_CHANGED_INSUFFICIENT;
 		else
 			event = V4L2_EVENT_SEQ_CHANGED_SUFFICIENT;
@@ -1303,26 +1294,13 @@ static void handle_event_change(enum hal_command_response cmd, void *data)
 			ptr[1] = event_notify->width;
 		} else {
 			if (msm_comm_get_stream_output_mode(inst) ==
-<<<<<<< HEAD
-					HAL_VIDEO_DECODER_SECONDARY) {
-=======
 				HAL_VIDEO_DECODER_SECONDARY) {
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 				struct hal_frame_size frame_sz;
 
 				frame_sz.buffer_type = HAL_BUFFER_OUTPUT2;
 				frame_sz.width = event_notify->width;
 				frame_sz.height = event_notify->height;
 				dprintk(VIDC_DBG,
-<<<<<<< HEAD
-						"Update OPB dimensions to firmware if buffer requirements are sufficient\n");
-				rc = msm_comm_try_set_prop(inst,
-						HAL_PARAM_FRAME_SIZE, &frame_sz);
-			}
-
-			dprintk(VIDC_DBG,
-					"send session_continue after sufficient event\n");
-=======
 					"Update OPB dimensions to firmware if buffer requirements are sufficient\n");
 				rc = msm_comm_try_set_prop(inst,
 					HAL_PARAM_FRAME_SIZE, &frame_sz);
@@ -1330,18 +1308,12 @@ static void handle_event_change(enum hal_command_response cmd, void *data)
 
 			dprintk(VIDC_DBG,
 				"send session_continue after sufficient event\n");
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			rc = call_hfi_op(hdev, session_continue,
 					(void *) inst->session);
 			if (rc) {
 				dprintk(VIDC_ERR,
-<<<<<<< HEAD
-						"%s - failed to send session_continue\n",
-						__func__);
-=======
 					"%s - failed to send session_continue\n",
 					__func__);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 				goto err_bad_event;
 			}
 		}
