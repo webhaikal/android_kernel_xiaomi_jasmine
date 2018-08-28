@@ -234,11 +234,6 @@ static inline bool lockdep_softirq_start(void) { return false; }
 static inline void lockdep_softirq_end(bool in_hardirq) { }
 #endif
 
-<<<<<<< HEAD
-#define long_softirq_pending()	(local_softirq_pending() & LONG_SOFTIRQ_MASK)
-#define defer_for_rt()		(long_softirq_pending() && cpupri_check_rt())
-asmlinkage __visible void __do_softirq(void)
-=======
 #define softirq_deferred_for_rt(pending)		\
 ({							\
 	__u32 deferred = 0;				\
@@ -250,7 +245,6 @@ asmlinkage __visible void __do_softirq(void)
 })
 
 asmlinkage __visible void __softirq_entry __do_softirq(void)
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 {
 	unsigned long end = jiffies + MAX_SOFTIRQ_TIME;
 	unsigned long old_flags = current->flags;
