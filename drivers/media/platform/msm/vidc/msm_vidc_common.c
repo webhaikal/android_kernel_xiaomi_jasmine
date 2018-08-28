@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
  * Copyright (C) 2018 XiaoMi, Inc.
+=======
+/* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1136,8 +1140,12 @@ static void handle_event_change(enum hal_command_response cmd, void *data)
 	case HAL_EVENT_SEQ_CHANGED_SUFFICIENT_RESOURCES:
 		rc = msm_comm_g_ctrl_for_id(inst,
 			V4L2_CID_MPEG_VIDC_VIDEO_CONTINUE_DATA_TRANSFER);
+<<<<<<< HEAD
 		if (!is_thumbnail_session(inst) &&
 			(IS_ERR_VALUE(rc) || rc == false))
+=======
+		if ((IS_ERR_VALUE(rc) || rc == false))
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 			event = V4L2_EVENT_SEQ_CHANGED_INSUFFICIENT;
 		else
 			event = V4L2_EVENT_SEQ_CHANGED_SUFFICIENT;
@@ -1295,13 +1303,18 @@ static void handle_event_change(enum hal_command_response cmd, void *data)
 			ptr[1] = event_notify->width;
 		} else {
 			if (msm_comm_get_stream_output_mode(inst) ==
+<<<<<<< HEAD
 					HAL_VIDEO_DECODER_SECONDARY) {
+=======
+				HAL_VIDEO_DECODER_SECONDARY) {
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 				struct hal_frame_size frame_sz;
 
 				frame_sz.buffer_type = HAL_BUFFER_OUTPUT2;
 				frame_sz.width = event_notify->width;
 				frame_sz.height = event_notify->height;
 				dprintk(VIDC_DBG,
+<<<<<<< HEAD
 						"Update OPB dimensions to firmware if buffer requirements are sufficient\n");
 				rc = msm_comm_try_set_prop(inst,
 						HAL_PARAM_FRAME_SIZE, &frame_sz);
@@ -1309,12 +1322,26 @@ static void handle_event_change(enum hal_command_response cmd, void *data)
 
 			dprintk(VIDC_DBG,
 					"send session_continue after sufficient event\n");
+=======
+					"Update OPB dimensions to firmware if buffer requirements are sufficient\n");
+				rc = msm_comm_try_set_prop(inst,
+					HAL_PARAM_FRAME_SIZE, &frame_sz);
+			}
+
+			dprintk(VIDC_DBG,
+				"send session_continue after sufficient event\n");
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 			rc = call_hfi_op(hdev, session_continue,
 					(void *) inst->session);
 			if (rc) {
 				dprintk(VIDC_ERR,
+<<<<<<< HEAD
 						"%s - failed to send session_continue\n",
 						__func__);
+=======
+					"%s - failed to send session_continue\n",
+					__func__);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 				goto err_bad_event;
 			}
 		}
@@ -2616,6 +2643,7 @@ int msm_comm_check_core_init(struct msm_vidc_core *core)
 	int rc = 0;
 	struct hfi_device *hdev;
 	struct msm_vidc_inst *inst = NULL;
+	int dref = 0;
 
 	mutex_lock(&core->lock);
 	if (core->state >= VIDC_CORE_INIT_DONE) {
@@ -2639,11 +2667,16 @@ int msm_comm_check_core_init(struct msm_vidc_core *core)
 		 * Just grab one of the inst from instances list and
 		 * use it.
 		 */
-		inst = list_first_entry(&core->instances,
+		inst = list_first_entry_or_null(&core->instances,
 			struct msm_vidc_inst, list);
+		if (inst)
+			dref = kref_get_unless_zero(&inst->kref);
 
 		mutex_unlock(&core->lock);
-		msm_comm_print_debug_info(inst);
+		if (dref) {
+			msm_comm_print_debug_info(inst);
+			put_inst(inst);
+		}
 		mutex_lock(&core->lock);
 
 		BUG_ON(msm_vidc_debug_timeout);
@@ -3118,7 +3151,7 @@ static int set_output_buffers(struct msm_vidc_inst *inst,
 {
 	int rc = 0;
 	struct msm_smem *handle;
-	struct internal_buf *binfo;
+	struct internal_buf *binfo = NULL;
 	u32 smem_flags = 0, buffer_size;
 	struct hal_buffer_requirements *output_buf, *extradata_buf;
 	int i;
@@ -3224,10 +3257,10 @@ static int set_output_buffers(struct msm_vidc_inst *inst,
 	}
 	return rc;
 fail_set_buffers:
-	kfree(binfo);
-fail_kzalloc:
 	msm_comm_smem_free(inst, handle);
 err_no_mem:
+	kfree(binfo);
+fail_kzalloc:
 	return rc;
 }
 

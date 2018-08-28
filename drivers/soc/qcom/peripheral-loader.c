@@ -1,4 +1,4 @@
-/* Copyright (c) 2010-2017, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2010-2018, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -147,7 +147,12 @@ struct pil_priv {
 	phys_addr_t region_end;
 	void *region;
 	struct pil_image_info __iomem *info;
+<<<<<<< HEAD
 	struct md_ssr_ss_info __iomem *minidump;
+=======
+	struct md_ssr_ss_info __iomem *minidump_ss;
+	struct md_ssr_ss_info __iomem *minidump_pdr;
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 	int minidump_id;
 	int id;
 	int unvoted_flag;
@@ -156,17 +161,30 @@ struct pil_priv {
 
 static int pil_do_minidump(struct pil_desc *desc, void *ramdump_dev)
 {
+<<<<<<< HEAD
 	struct boot_minidump_smem_region __iomem *region_info;
 	struct ramdump_segment *ramdump_segs, *s;
 	struct pil_priv *priv = desc->priv;
 	void __iomem *subsys_smem_base;
 	void __iomem *offset;
 	int ss_mdump_seg_cnt;
+=======
+	struct boot_minidump_smem_region __iomem *region_info_ss;
+	struct boot_minidump_smem_region __iomem *region_info_pdr;
+	struct ramdump_segment *ramdump_segs, *s;
+	struct pil_priv *priv = desc->priv;
+	void __iomem *subsys_smem_base_pdr;
+	void __iomem *subsys_smem_base_ss;
+	void __iomem *offset_ss;
+	void __iomem *offset_pdr;
+	int ss_mdump_seg_cnt_ss = 0, ss_mdump_seg_cnt_pdr = 0, total_segs;
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 	int ret, i;
 
 	if (!ramdump_dev)
 		return -ENODEV;
 
+<<<<<<< HEAD
 	memcpy(&offset, &priv->minidump, sizeof(priv->minidump));
 	offset = offset + sizeof(priv->minidump->md_ss_smem_regions_baseptr);
 	/* There are 3 encryption keys which also need to be dumped */
@@ -180,6 +198,42 @@ static int pil_do_minidump(struct pil_desc *desc, void *ramdump_dev)
 	region_info =
 		(struct boot_minidump_smem_region __iomem *)subsys_smem_base;
 	ramdump_segs = kcalloc(ss_mdump_seg_cnt,
+=======
+	memcpy(&offset_ss, &priv->minidump_ss, sizeof(priv->minidump_ss));
+	offset_ss = offset_ss +
+		sizeof(priv->minidump_ss->md_ss_smem_regions_baseptr);
+	/* There are 3 encryption keys which also need to be dumped */
+	ss_mdump_seg_cnt_ss = readb_relaxed(offset_ss) +
+				NUM_OF_ENCRYPTED_KEY;
+
+	pr_debug("SMEM base to read minidump ss segments is 0x%x\n",
+			__raw_readl(priv->minidump_ss));
+	subsys_smem_base_ss = ioremap(__raw_readl(priv->minidump_ss),
+			ss_mdump_seg_cnt_ss * sizeof(*region_info_ss));
+	region_info_ss =
+		(struct boot_minidump_smem_region __iomem *)subsys_smem_base_ss;
+
+	if (priv->minidump_pdr && (__raw_readl(priv->minidump_pdr) != 0)) {
+		memcpy(&offset_pdr, &priv->minidump_pdr,
+				sizeof(priv->minidump_pdr));
+		offset_pdr = offset_pdr +
+			sizeof(priv->minidump_pdr->md_ss_smem_regions_baseptr);
+		/* There are 3 encryption keys which also need to be dumped */
+		ss_mdump_seg_cnt_pdr = readb_relaxed(offset_pdr) +
+					NUM_OF_ENCRYPTED_KEY;
+
+		pr_debug("SMEM base to read minidump pdr segments is 0x%x\n",
+				__raw_readl(priv->minidump_pdr));
+		subsys_smem_base_pdr = ioremap(__raw_readl(priv->minidump_pdr),
+			ss_mdump_seg_cnt_pdr * sizeof(*region_info_pdr));
+		region_info_pdr =
+			(struct boot_minidump_smem_region __iomem *)
+						subsys_smem_base_pdr;
+	}
+
+	total_segs = ss_mdump_seg_cnt_ss + ss_mdump_seg_cnt_pdr;
+	ramdump_segs = kcalloc(total_segs,
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 			       sizeof(*ramdump_segs), GFP_KERNEL);
 	if (!ramdump_segs)
 		return -ENOMEM;
@@ -189,6 +243,7 @@ static int pil_do_minidump(struct pil_desc *desc, void *ramdump_dev)
 			(priv->region_end - priv->region_start));
 
 	s = ramdump_segs;
+<<<<<<< HEAD
 	for (i = 0; i < ss_mdump_seg_cnt; i++) {
 		memcpy(&offset, &region_info, sizeof(region_info));
 		memcpy(&s->name, &region_info, sizeof(region_info));
@@ -196,18 +251,55 @@ static int pil_do_minidump(struct pil_desc *desc, void *ramdump_dev)
 		s->address = __raw_readl(offset);
 		offset = offset + sizeof(region_info->region_base_address);
 		s->size = __raw_readl(offset);
+=======
+	for (i = 0; i < ss_mdump_seg_cnt_ss; i++) {
+		memcpy(&offset_ss, &region_info_ss, sizeof(region_info_ss));
+		memcpy(&s->name, &region_info_ss, sizeof(region_info_ss));
+		offset_ss = offset_ss + sizeof(region_info_ss->region_name);
+		s->address = __raw_readl(offset_ss);
+		offset_ss = offset_ss +
+				sizeof(region_info_ss->region_base_address);
+		s->size = __raw_readl(offset_ss);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 		pr_debug("Dumping segment %s with address %pK and size 0x%x\n",
 				s->name, (void *)s->address,
 				(unsigned int)s->size);
 		s++;
+<<<<<<< HEAD
 		region_info++;
 	}
 	ret = do_minidump(ramdump_dev, ramdump_segs, ss_mdump_seg_cnt);
+=======
+		region_info_ss++;
+	}
+
+	for (i = 0; i < ss_mdump_seg_cnt_pdr; i++) {
+		memcpy(&offset_pdr, &region_info_pdr, sizeof(region_info_pdr));
+		memcpy(&s->name, &region_info_pdr, sizeof(region_info_pdr));
+		offset_pdr = offset_pdr + sizeof(region_info_pdr->region_name);
+		s->address = __raw_readl(offset_pdr);
+		offset_pdr = offset_pdr +
+			sizeof(region_info_pdr->region_base_address);
+		s->size = __raw_readl(offset_pdr);
+		pr_debug("Dumping segment %s with address %pK and size 0x%x\n",
+				s->name, (void *)s->address,
+				(unsigned int)s->size);
+		s++;
+		region_info_pdr++;
+	}
+
+	ret = do_minidump(ramdump_dev, ramdump_segs, total_segs);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 	kfree(ramdump_segs);
 	if (ret)
 		pil_err(desc, "%s: Ramdump collection failed for subsys %s rc:%d\n",
 			__func__, desc->name, ret);
+<<<<<<< HEAD
 	writeb_relaxed(1, &priv->minidump->md_ss_ssr_cause);
+=======
+	writeb_relaxed(1, &priv->minidump_ss->md_ss_ssr_cause);
+	writeb_relaxed(1, &priv->minidump_pdr->md_ss_ssr_cause);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	if (desc->subsys_vmid > 0)
 		ret = pil_assign_mem_to_subsys(desc, priv->region_start,
@@ -232,13 +324,22 @@ int pil_do_ramdump(struct pil_desc *desc,
 	struct ramdump_segment *ramdump_segs, *s;
 	void __iomem *offset;
 
+<<<<<<< HEAD
 	memcpy(&offset, &priv->minidump, sizeof(priv->minidump));
+=======
+	memcpy(&offset, &priv->minidump_ss, sizeof(priv->minidump_ss));
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 	/*
 	 * Collect minidump if smem base is initialized,
 	 * ssr cause is 0. No need to check encryption status
 	 */
+<<<<<<< HEAD
 	if (priv->minidump
 	&& (__raw_readl(priv->minidump) != 0)
+=======
+	if (priv->minidump_ss
+	&& (__raw_readl(priv->minidump_ss) != 0)
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 	&& (readb_relaxed(offset + sizeof(u32) + 2 * sizeof(u8)) == 0)) {
 		pr_debug("Dumping Minidump for %s\n", desc->name);
 		return pil_do_minidump(desc, minidump_dev);
@@ -722,6 +823,12 @@ static void pil_clear_segment(struct pil_desc *desc)
 	/* Clear memory so that unauthorized ELF code is not left behind */
 	buf = desc->map_fw_mem(priv->region_start, (priv->region_end -
 					priv->region_start), map_data);
+
+	if (!buf) {
+		pil_err(desc, "Failed to map memory\n");
+		return;
+	}
+
 	pil_memset_io(buf, 0, (priv->region_end - priv->region_start));
 	desc->unmap_fw_mem(buf, (priv->region_end - priv->region_start),
 								map_data);
@@ -1107,7 +1214,11 @@ int pil_desc_init(struct pil_desc *desc)
 {
 	struct pil_priv *priv;
 	void __iomem *addr;
+<<<<<<< HEAD
 	int ret, ss_imem_offset_mdump;
+=======
+	int ret, ss_imem_offset_mdump_ss, ss_imem_offset_mdump_pdr;
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 	char buf[sizeof(priv->info->name)];
 	struct device_node *ofnode = desc->dev->of_node;
 
@@ -1136,16 +1247,35 @@ int pil_desc_init(struct pil_desc *desc)
 		&priv->minidump_id))
 		pr_debug("minidump-id not found for %s\n", desc->name);
 	else {
+<<<<<<< HEAD
 		ss_imem_offset_mdump =
 			sizeof(struct md_ssr_ss_info) * priv->minidump_id;
+=======
+		ss_imem_offset_mdump_ss =
+			sizeof(struct md_ssr_ss_info) * priv->minidump_id;
+		ss_imem_offset_mdump_pdr =
+			sizeof(struct md_ssr_ss_info) * (priv->minidump_id + 1);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 		if (pil_minidump_base) {
 			/* Add 0x4 to get start of struct md_ssr_ss_info base
 			 * from struct md_ssr_toc for any subsystem,
 			 * struct md_ssr_ss_info is actually the pointer
 			 * of ToC in smem for any subsystem.
 			 */
+<<<<<<< HEAD
 			addr = pil_minidump_base + ss_imem_offset_mdump + 0x4;
 			priv->minidump = (struct md_ssr_ss_info __iomem *)addr;
+=======
+			addr = pil_minidump_base +
+				ss_imem_offset_mdump_ss + 0x4;
+			priv->minidump_ss =
+				(struct md_ssr_ss_info __iomem *)addr;
+
+			addr = pil_minidump_base +
+				ss_imem_offset_mdump_pdr + 0x4;
+			priv->minidump_pdr =
+				(struct md_ssr_ss_info __iomem *)addr;
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 		}
 	}
 

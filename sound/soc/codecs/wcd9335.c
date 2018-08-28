@@ -4554,6 +4554,10 @@ static int tasha_codec_hphr_dac_event(struct snd_soc_dapm_widget *w,
 	switch (event) {
 	case SND_SOC_DAPM_PRE_PMU:
 		if (!(strcmp(w->name, "RX INT2 DAC"))) {
+<<<<<<< HEAD
+=======
+			snd_soc_update_bits(codec, WCD9335_ANA_HPH, 0x20, 0x20);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 			snd_soc_update_bits(codec, WCD9335_ANA_HPH, 0x10, 0x10);
 		}
 		if (tasha->anc_func) {
@@ -4595,7 +4599,11 @@ static int tasha_codec_hphr_dac_event(struct snd_soc_dapm_widget *w,
 		break;
 	case SND_SOC_DAPM_PRE_PMD:
 		if (!(strcmp(w->name, "RX INT2 DAC")))
+<<<<<<< HEAD
 			snd_soc_update_bits(codec, WCD9335_ANA_HPH, 0x10, 0x00);
+=======
+			snd_soc_update_bits(codec, WCD9335_ANA_HPH, 0x30, 0x00);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 		if ((hph_mode == CLS_H_LP) &&
 		   (TASHA_IS_1_1(wcd9xxx))) {
 			snd_soc_update_bits(codec, WCD9335_HPH_L_DAC_CTL,

@@ -123,15 +123,24 @@ void binder_selftest_alloc(struct binder_alloc *alloc);
 static inline void binder_selftest_alloc(struct binder_alloc *alloc) {}
 #endif
 enum lru_status binder_alloc_free_page(struct list_head *item,
+<<<<<<< HEAD
 				struct list_lru_one *lru,
 				spinlock_t *lock, void *cb_arg);
+=======
+				       struct list_lru_one *lru,
+				       spinlock_t *lock, void *cb_arg);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 extern struct binder_buffer *binder_alloc_new_buf(struct binder_alloc *alloc,
 						  size_t data_size,
 						  size_t offsets_size,
 						  size_t extra_buffers_size,
 						  int is_async);
 extern void binder_alloc_init(struct binder_alloc *alloc);
+<<<<<<< HEAD
 void binder_alloc_shrinker_init(void);
+=======
+extern int binder_alloc_shrinker_init(void);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 extern void binder_alloc_vma_close(struct binder_alloc *alloc);
 extern struct binder_buffer *
 binder_alloc_prepare_to_free(struct binder_alloc *alloc,

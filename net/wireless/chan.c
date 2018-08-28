@@ -462,7 +462,11 @@ bool cfg80211_chandef_dfs_usable(struct wiphy *wiphy,
  * range of chandef.
  */
 bool cfg80211_is_sub_chan(struct cfg80211_chan_def *chandef,
+<<<<<<< HEAD
 			struct ieee80211_channel *chan)
+=======
+			  struct ieee80211_channel *chan)
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 {
 	int width;
 	u32 cf_offset, freq;
@@ -477,7 +481,11 @@ bool cfg80211_is_sub_chan(struct cfg80211_chan_def *chandef,
 	cf_offset = width / 2 - 10;
 
 	for (freq = chandef->center_freq1 - width / 2 + 10;
+<<<<<<< HEAD
 		freq <= chandef->center_freq1 + width / 2 - 10; freq += 20) {
+=======
+	     freq <= chandef->center_freq1 + width / 2 - 10; freq += 20) {
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 		if (chan->center_freq == freq)
 			return true;
 	}
@@ -486,7 +494,11 @@ bool cfg80211_is_sub_chan(struct cfg80211_chan_def *chandef,
 		return false;
 
 	for (freq = chandef->center_freq2 - width / 2 + 10;
+<<<<<<< HEAD
 		freq <= chandef->center_freq2 + width / 2 - 10; freq += 20) {
+=======
+	     freq <= chandef->center_freq2 + width / 2 - 10; freq += 20) {
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 		if (chan->center_freq == freq)
 			return true;
 	}
@@ -531,7 +543,11 @@ bool cfg80211_beaconing_iface_active(struct wireless_dev *wdev)
 }
 
 bool cfg80211_any_wiphy_oper_chan(struct wiphy *wiphy,
+<<<<<<< HEAD
 			struct ieee80211_channel *chan)
+=======
+				  struct ieee80211_channel *chan)
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 {
 	struct wireless_dev *wdev;
 

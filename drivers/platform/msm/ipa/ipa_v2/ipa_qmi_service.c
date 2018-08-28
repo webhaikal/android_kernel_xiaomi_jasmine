@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 /* Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
  * Copyright (C) 2018 XiaoMi, Inc.
+=======
+/* Copyright (c) 2013-2018, The Linux Foundation. All rights reserved.
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -514,6 +518,17 @@ int qmi_filter_request_send(struct ipa_install_fltr_rule_req_msg_v01 *req)
 	struct msg_desc req_desc, resp_desc;
 	int rc;
 	int i;
+<<<<<<< HEAD
+=======
+
+	/* check if modem up */
+	if (!qmi_indication_fin ||
+		!qmi_modem_init_fin ||
+		!ipa_q6_clnt) {
+		IPAWANDBG("modem QMI haven't up yet\n");
+		return -EINVAL;
+	}
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	/* check if the filter rules from IPACM is valid */
 	if (req->filter_spec_list_len == 0) {
@@ -530,29 +545,53 @@ int qmi_filter_request_send(struct ipa_install_fltr_rule_req_msg_v01 *req)
 	} else if (req->source_pipe_index_valid != 0) {
 		IPAWANDBG(
 		"IPACM passes source_pipe_index_valid not zero 0 != %d\n",
+<<<<<<< HEAD
 				req->source_pipe_index_valid);
 		return -EINVAL;
 	} else if (req->source_pipe_index >= ipa_ctx->ipa_num_pipes) {
 		IPAWANDBG(
 				"IPACM passes source pipe index not valid ID = %d\n",
 				req->source_pipe_index);
+=======
+			req->source_pipe_index_valid);
+		return -EINVAL;
+	} else if (req->source_pipe_index >= ipa_ctx->ipa_num_pipes) {
+		IPAWANDBG(
+		"IPACM passes source pipe index not valid ID = %d\n",
+		req->source_pipe_index);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 		return -EINVAL;
 	}
 	for (i = 0; i < req->filter_spec_list_len; i++) {
 		if ((req->filter_spec_list[i].ip_type !=
+<<<<<<< HEAD
 				QMI_IPA_IP_TYPE_V4_V01) &&
 				(req->filter_spec_list[i].ip_type !=
 				QMI_IPA_IP_TYPE_V6_V01))
+=======
+			QMI_IPA_IP_TYPE_V4_V01) &&
+			(req->filter_spec_list[i].ip_type !=
+			QMI_IPA_IP_TYPE_V6_V01))
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 			return -EINVAL;
 		if (req->filter_spec_list[i].is_mux_id_valid == false)
 			return -EINVAL;
 		if (req->filter_spec_list[i].is_routing_table_index_valid
+<<<<<<< HEAD
 				== false)
 			return -EINVAL;
 		if ((req->filter_spec_list[i].filter_action <=
 				QMI_IPA_FILTER_ACTION_INVALID_V01) &&
 				(req->filter_spec_list[i].filter_action >
 				QMI_IPA_FILTER_ACTION_EXCEPTION_V01))
+=======
+			== false)
+			return -EINVAL;
+		if ((req->filter_spec_list[i].filter_action <=
+			QMI_IPA_FILTER_ACTION_INVALID_V01) &&
+			(req->filter_spec_list[i].filter_action >
+			QMI_IPA_FILTER_ACTION_EXCEPTION_V01))
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 			return -EINVAL;
 	}
 	mutex_lock(&ipa_qmi_lock);
@@ -711,7 +750,11 @@ int qmi_filter_notify_send(struct ipa_fltr_installed_notif_req_msg_v01 *req)
 
 	if (req->install_status != IPA_QMI_RESULT_SUCCESS_V01) {
 		IPAWANERR(" UL filter rule for pipe %d install_status = %d\n",
+<<<<<<< HEAD
 				req->source_pipe_index, req->install_status);
+=======
+			req->source_pipe_index, req->install_status);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 		return -EINVAL;
 	} else if (req->source_pipe_index >= ipa_ctx->ipa_num_pipes) {
 		IPAWANERR("IPACM passes source pipe index not valid ID = %d\n",
@@ -722,7 +765,11 @@ int qmi_filter_notify_send(struct ipa_fltr_installed_notif_req_msg_v01 *req)
 			((req->embedded_pipe_index_valid != false) ||
 			(req->embedded_call_mux_id_valid != false))) {
 		IPAWANERR(
+<<<<<<< HEAD
 				"IPACM passes embedded pipe and mux valid not valid\n");
+=======
+			"IPACM passes embedded pipe and mux valid not valid\n");
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 		return -EINVAL;
 	} else if (req->embedded_pipe_index >= ipa_ctx->ipa_num_pipes) {
 		IPAWANERR("IPACM passes source pipe index not valid ID = %d\n",

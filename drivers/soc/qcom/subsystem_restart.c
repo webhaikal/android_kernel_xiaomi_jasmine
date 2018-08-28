@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 /* Copyright (c) 2011-2017, The Linux Foundation. All rights reserved.
  * Copyright (C) 2018 XiaoMi, Inc.
+=======
+/* Copyright (c) 2011-2018, The Linux Foundation. All rights reserved.
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1085,7 +1089,7 @@ int subsystem_restart_dev(struct subsys_device *dev)
 {
 	const char *name;
 
-	if (!get_device(&dev->dev))
+	if ((!dev) || !get_device(&dev->dev))
 		return -ENODEV;
 
 	if (!try_module_get(dev->owner)) {
@@ -1183,11 +1187,21 @@ EXPORT_SYMBOL(subsystem_crashed);
 void subsys_set_crash_status(struct subsys_device *dev,
 				enum crash_status crashed)
 {
+	if (!dev) {
+		pr_err("Invalid subsystem device\n");
+		return;
+	}
+
 	dev->crashed = crashed;
 }
 
 enum crash_status subsys_get_crash_status(struct subsys_device *dev)
 {
+	if (!dev) {
+		pr_err("Invalid subsystem device\n");
+		return CRASH_STATUS_NO_CRASH;
+	}
+
 	return dev->crashed;
 }
 

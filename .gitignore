@@ -33,6 +33,7 @@
 *.lzo
 *.patch
 *.gcno
+*.ll
 modules.builtin
 Module.symvers
 *.dwo
@@ -113,5 +114,10 @@ all.config
 # Kdevelop4
 *.kdev4
 
+<<<<<<< HEAD
 # out
 out
+=======
+# fetched Android config fragments
+android/configs/android-*.cfg
+>>>>>>> stable/kernel.lnx.4.4.r35-rel

@@ -61,7 +61,10 @@ static int uas_use_uas_driver(struct usb_interface *intf,
 	unsigned long flags = id->driver_info;
 	struct usb_host_interface *alt;
 	int r;
+<<<<<<< HEAD
 
+=======
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	alt = uas_find_uas_alt_setting(intf);
 	if (!alt)
@@ -111,6 +114,10 @@ static int uas_use_uas_driver(struct usb_interface *intf,
 			flags |= US_FL_MAX_SECTORS_240;
 		}
 	}
+
+	/* All Seagate disk enclosures have broken ATA pass-through support */
+	if (le16_to_cpu(udev->descriptor.idVendor) == 0x0bc2)
+		flags |= US_FL_NO_ATA_1X;
 
 	usb_stor_adjust_quirks(udev, &flags);
 

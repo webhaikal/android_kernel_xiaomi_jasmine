@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
  * Copyright (C) 2018 XiaoMi, Inc.
+=======
+/* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -334,11 +338,13 @@ struct ipa_mhi_connect_params_internal {
  * @link: entry's link in global header offset entries list
  * @offset: the offset
  * @bin: bin
+ * @ipacm_installed: indicate if installed by ipacm
  */
 struct ipa_hdr_offset_entry {
 	struct list_head link;
 	u32 offset;
 	u32 bin;
+	bool ipacm_installed;
 };
 
 extern const char *ipa_clients_strings[];
@@ -417,6 +423,9 @@ u8 *ipa_write_16(u16 hw, u8 *dest);
 u8 *ipa_write_8(u8 b, u8 *dest);
 u8 *ipa_pad_to_64(u8 *dest);
 u8 *ipa_pad_to_32(u8 *dest);
+int ipa_ntn_uc_reg_rdyCB(void (*ipauc_ready_cb)(void *user_data),
+			      void *user_data);
+void ipa_ntn_uc_dereg_rdyCB(void);
 const char *ipa_get_version_string(enum ipa_hw_type ver);
 
 #endif /* _IPA_COMMON_I_H_ */

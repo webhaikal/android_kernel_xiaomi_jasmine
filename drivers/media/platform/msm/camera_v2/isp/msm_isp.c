@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 /* Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
  * Copyright (C) 2018 XiaoMi, Inc.
+=======
+/* Copyright (c) 2013-2018, The Linux Foundation. All rights reserved.
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -54,7 +58,6 @@ MODULE_DEVICE_TABLE(of, msm_vfe_dt_match);
 #define MAX_OVERFLOW_COUNTERS  29
 #define OVERFLOW_LENGTH 1024
 #define OVERFLOW_BUFFER_LENGTH 64
-static char stat_line[OVERFLOW_LENGTH];
 
 struct msm_isp_statistics stats;
 struct msm_isp_ub_info ub_info;
@@ -114,19 +117,30 @@ static int vfe_debugfs_statistics_open(struct inode *inode, struct file *file)
 	return 0;
 }
 
-static ssize_t vfe_debugfs_statistics_read(struct file *t_file, char *t_char,
-	size_t t_size_t, loff_t *t_loff_t)
+static ssize_t vfe_debugfs_statistics_read(struct file *t_file,
+	char __user *t_char, size_t t_size_t, loff_t *t_loff_t)
 {
 	int i;
+	size_t rc;
 	uint64_t *ptr;
 	char buffer[OVERFLOW_BUFFER_LENGTH] = {0};
+	char *stat_line;
 	struct vfe_device *vfe_dev = (struct vfe_device *)
 		t_file->private_data;
-	struct msm_isp_statistics *stats = vfe_dev->stats;
+	struct msm_isp_statistics *stats;
 
-	memset(stat_line, 0, sizeof(stat_line));
+	stat_line = kzalloc(OVERFLOW_LENGTH, GFP_KERNEL);
+	if (!stat_line)
+		return -ENOMEM;
+	spin_lock(&vfe_dev->common_data->common_dev_data_lock);
+	stats = vfe_dev->stats;
 	msm_isp_util_get_bandwidth_stats(vfe_dev, stats);
+	spin_unlock(&vfe_dev->common_data->common_dev_data_lock);
 	ptr = (uint64_t *)(stats);
+	if (MAX_OVERFLOW_COUNTERS > OVERFLOW_LENGTH) {
+		kfree(stat_line);
+		return -EINVAL;
+	}
 	for (i = 0; i < MAX_OVERFLOW_COUNTERS; i++) {
 		strlcat(stat_line, stats_str[i], sizeof(stat_line));
 		strlcat(stat_line, "     ", sizeof(stat_line));
@@ -134,8 +148,10 @@ static ssize_t vfe_debugfs_statistics_read(struct file *t_file, char *t_char,
 		strlcat(stat_line, buffer, sizeof(stat_line));
 		strlcat(stat_line, "\r\n", sizeof(stat_line));
 	}
-	return simple_read_from_buffer(t_char, t_size_t,
+	rc = simple_read_from_buffer(t_char, t_size_t,
 		t_loff_t, stat_line, strlen(stat_line));
+	kfree(stat_line);
+	return rc;
 }
 
 static ssize_t vfe_debugfs_statistics_write(struct file *t_file,
@@ -143,8 +159,12 @@ static ssize_t vfe_debugfs_statistics_write(struct file *t_file,
 {
 	struct vfe_device *vfe_dev = (struct vfe_device *)
 		t_file->private_data;
-	struct msm_isp_statistics *stats = vfe_dev->stats;
+	struct msm_isp_statistics *stats;
+
+	spin_lock(&vfe_dev->common_data->common_dev_data_lock);
+	stats = vfe_dev->stats;
 	memset(stats, 0, sizeof(struct msm_isp_statistics));
+	spin_unlock(&vfe_dev->common_data->common_dev_data_lock);
 
 	return sizeof(struct msm_isp_statistics);
 }
@@ -457,14 +477,23 @@ static int isp_vma_fault(struct vm_area_struct *vma, struct vm_fault *vmf)
 	isp_page = vfe_dev->isp_page;
 
 	pr_debug("%s: vfeid:%d u_virt_addr:0x%lx k_virt_addr:%pK\n",
+<<<<<<< HEAD
 			__func__, vfe_dev->pdev->id, vma->vm_start,
 			(void *)isp_page);
+=======
+		__func__, vfe_dev->pdev->id, vma->vm_start,
+		(void *)isp_page);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 	if (isp_page != NULL) {
 		page = virt_to_page(isp_page);
 		get_page(page);
 		vmf->page = page;
 		isp_page->kernel_sofid =
+<<<<<<< HEAD
 				vfe_dev->axi_data.src_info[VFE_PIX_0].frame_id;
+=======
+			vfe_dev->axi_data.src_info[VFE_PIX_0].frame_id;
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 		isp_page->vfeid = vfe_dev->pdev->id;
 	}
 	return 0;
@@ -486,12 +515,20 @@ static int msm_isp_v4l2_fops_mmap(struct file *filep,
 
 	vma->vm_ops = &isp_vm_ops;
 	vma->vm_flags |=
+<<<<<<< HEAD
 			(unsigned long)(VM_DONTEXPAND | VM_DONTDUMP);
+=======
+		(unsigned long)(VM_DONTEXPAND | VM_DONTDUMP);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 	vma->vm_private_data = vfe_dev;
 	isp_vma_open(vma);
 	ret = 0;
 	pr_debug("%s: isp mmap is called vm_start: 0x%lx\n",
+<<<<<<< HEAD
 			__func__, vma->vm_start);
+=======
+		__func__, vma->vm_start);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 	return ret;
 }
 
@@ -697,7 +734,8 @@ int vfe_hw_probe(struct platform_device *pdev)
 	spin_lock_init(&vfe_dev->shared_data_lock);
 	spin_lock_init(&vfe_dev->reg_update_lock);
 	spin_lock_init(&req_history_lock);
-	spin_lock_init(&vfe_dev->completion_lock);
+	spin_lock_init(&vfe_dev->reset_completion_lock);
+	spin_lock_init(&vfe_dev->halt_completion_lock);
 	media_entity_init(&vfe_dev->subdev.sd.entity, 0, NULL, 0);
 	vfe_dev->subdev.sd.entity.type = MEDIA_ENT_T_V4L2_SUBDEV;
 	vfe_dev->subdev.sd.entity.group_id = MSM_CAMERA_SUBDEV_VFE;

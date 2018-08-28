@@ -665,7 +665,7 @@ static ssize_t dwc3_store_ep_num(struct file *file, const char __user *ubuf,
 	unsigned int		num, dir, temp;
 	unsigned long		flags;
 
-	if (copy_from_user(kbuf, ubuf, count > 10 ? 10 : count))
+	if (copy_from_user(kbuf, ubuf, min_t(size_t, sizeof(kbuf) - 1, count)))
 		return -EFAULT;
 
 	if (sscanf(kbuf, "%u %u", &num, &dir) != 2)
@@ -1275,7 +1275,11 @@ int dwc3_debugfs_init(struct dwc3 *dwc)
 
 	if (dwc->create_reg_debugfs) {
 		file = debugfs_create_regset32("regdump", 0444,
+<<<<<<< HEAD
 				root, dwc->regset);
+=======
+						root, dwc->regset);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 		if (!file) {
 			dev_dbg(dwc->dev, "Can't create debugfs regdump\n");
 			ret = -ENOMEM;

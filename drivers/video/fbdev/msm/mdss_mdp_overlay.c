@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
  * Copyright (C) 2018 XiaoMi, Inc.
+=======
+/* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -3441,7 +3445,7 @@ static void dfps_update_panel_params(struct mdss_panel_data *pdata,
 		dfps_update_fps(&pdata->panel_info, new_fps);
 
 		pdata->panel_info.prg_fet =
-			mdss_mdp_get_prefetch_lines(&pdata->panel_info);
+			mdss_mdp_get_prefetch_lines(&pdata->panel_info, false);
 
 	} else if (pdata->panel_info.dfps_update ==
 			DFPS_IMMEDIATE_PORCH_UPDATE_MODE_HFP) {
@@ -5808,6 +5812,7 @@ static int mdss_mdp_overlay_off(struct msm_fb_data_type *mfd)
 	int rc;
 	struct mdss_overlay_private *mdp5_data;
 	struct mdss_mdp_mixer *mixer;
+	struct mdss_mdp_pipe *pipe, *tmp;
 	int need_cleanup;
 	int retire_cnt;
 	bool destroy_ctl = false;
@@ -5863,6 +5868,13 @@ static int mdss_mdp_overlay_off(struct msm_fb_data_type *mfd)
 		mixer->cursor_enabled = 0;
 
 	mutex_lock(&mdp5_data->list_lock);
+	if (!list_empty(&mdp5_data->pipes_used)) {
+		list_for_each_entry_safe(
+			pipe, tmp, &mdp5_data->pipes_used, list) {
+			pipe->file = NULL;
+			list_move(&pipe->list, &mdp5_data->pipes_cleanup);
+		}
+	}
 	need_cleanup = !list_empty(&mdp5_data->pipes_cleanup);
 	mutex_unlock(&mdp5_data->list_lock);
 	mutex_unlock(&mdp5_data->ov_lock);
@@ -6366,7 +6378,11 @@ void mdss_mdp_footswitch_ctrl_handler(bool on)
 }
 
 static void mdss_mdp_signal_retire_fence(struct msm_fb_data_type *mfd,
+<<<<<<< HEAD
 			int retire_cnt)
+=======
+					 int retire_cnt)
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 {
 	__vsync_retire_signal(mfd, retire_cnt);
 	pr_debug("Signaled (%d) pending retire fence\n", retire_cnt);
@@ -6643,14 +6659,18 @@ static int mdss_mdp_scaler_lut_init(struct mdss_data_type *mdata,
 	if (!mdata->scaler_off)
 		return -EFAULT;
 
+	mutex_lock(&mdata->scaler_off->scaler_lock);
+
 	qseed3_lut_tbl = &mdata->scaler_off->lut_tbl;
 	if ((lut_tbl->dir_lut_size !=
 		DIR_LUT_IDX * DIR_LUT_COEFFS * sizeof(uint32_t)) ||
 		(lut_tbl->cir_lut_size !=
 		 CIR_LUT_IDX * CIR_LUT_COEFFS * sizeof(uint32_t)) ||
 		(lut_tbl->sep_lut_size !=
-		 SEP_LUT_IDX * SEP_LUT_COEFFS * sizeof(uint32_t)))
-			return -EINVAL;
+		 SEP_LUT_IDX * SEP_LUT_COEFFS * sizeof(uint32_t))) {
+		mutex_unlock(&mdata->scaler_off->scaler_lock);
+		return -EINVAL;
+	}
 
 	if (!qseed3_lut_tbl->dir_lut) {
 		qseed3_lut_tbl->dir_lut = devm_kzalloc(&mdata->pdev->dev,
@@ -6658,7 +6678,7 @@ static int mdss_mdp_scaler_lut_init(struct mdss_data_type *mdata,
 				GFP_KERNEL);
 		if (!qseed3_lut_tbl->dir_lut) {
 			ret = -ENOMEM;
-			goto fail;
+			goto err;
 		}
 	}
 
@@ -6668,7 +6688,7 @@ static int mdss_mdp_scaler_lut_init(struct mdss_data_type *mdata,
 				GFP_KERNEL);
 		if (!qseed3_lut_tbl->cir_lut) {
 			ret = -ENOMEM;
-			goto fail;
+			goto fail_free_dir_lut;
 		}
 	}
 
@@ -6678,44 +6698,52 @@ static int mdss_mdp_scaler_lut_init(struct mdss_data_type *mdata,
 				GFP_KERNEL);
 		if (!qseed3_lut_tbl->sep_lut) {
 			ret = -ENOMEM;
-			goto fail;
+			goto fail_free_cir_lut;
 		}
 	}
 
 	/* Invalidate before updating */
 	qseed3_lut_tbl->valid = false;
 
-
 	if (copy_from_user(qseed3_lut_tbl->dir_lut,
 				(void *)(unsigned long)lut_tbl->dir_lut,
 				lut_tbl->dir_lut_size)) {
 			ret = -EINVAL;
-			goto err;
+			goto fail_free_sep_lut;
 	}
 
 	if (copy_from_user(qseed3_lut_tbl->cir_lut,
 				(void *)(unsigned long)lut_tbl->cir_lut,
 				lut_tbl->cir_lut_size)) {
 			ret = -EINVAL;
-			goto err;
+			goto fail_free_sep_lut;
 	}
 
 	if (copy_from_user(qseed3_lut_tbl->sep_lut,
 				(void *)(unsigned long)lut_tbl->sep_lut,
 				lut_tbl->sep_lut_size)) {
 			ret = -EINVAL;
-			goto err;
+			goto fail_free_sep_lut;
 	}
 
 	qseed3_lut_tbl->valid = true;
+	mutex_unlock(&mdata->scaler_off->scaler_lock);
+
 	return ret;
 
-fail:
-	kfree(qseed3_lut_tbl->dir_lut);
-	kfree(qseed3_lut_tbl->cir_lut);
-	kfree(qseed3_lut_tbl->sep_lut);
+fail_free_sep_lut:
+	devm_kfree(&mdata->pdev->dev, qseed3_lut_tbl->sep_lut);
+fail_free_cir_lut:
+	devm_kfree(&mdata->pdev->dev, qseed3_lut_tbl->cir_lut);
+fail_free_dir_lut:
+	devm_kfree(&mdata->pdev->dev, qseed3_lut_tbl->dir_lut);
 err:
+	qseed3_lut_tbl->dir_lut = NULL;
+	qseed3_lut_tbl->cir_lut = NULL;
+	qseed3_lut_tbl->sep_lut = NULL;
 	qseed3_lut_tbl->valid = false;
+	mutex_unlock(&mdata->scaler_off->scaler_lock);
+
 	return ret;
 }
 

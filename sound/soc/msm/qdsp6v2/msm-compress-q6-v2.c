@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
  * Copyright (C) 2018 XiaoMi, Inc.
+=======
+/* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1543,7 +1547,39 @@ static int msm_compr_map_ion_fd(struct msm_compr_audio *prtd, int fd)
 		msm_audio_ion_phys_free(prtd->lib_ion_client,
 					prtd->lib_ion_handle,
 					&paddr, &pa_len, ADSP_TO_HLOS);
+<<<<<<< HEAD
+=======
 	}
+
+done:
+	return ret;
+}
+
+static int msm_compr_unmap_ion_fd(struct msm_compr_audio *prtd)
+{
+	ion_phys_addr_t paddr;
+	size_t pa_len = 0;
+	int ret = 0;
+
+	if (!prtd->lib_ion_client || !prtd->lib_ion_handle) {
+		pr_err("%s: ion_client or ion_handle is NULL", __func__);
+		return -EINVAL;
+	}
+
+	ret = msm_audio_ion_phys_free(prtd->lib_ion_client,
+				      prtd->lib_ion_handle,
+				      &paddr, &pa_len, ADSP_TO_HLOS);
+	if (ret) {
+		pr_err("%s: audio lib ION phys failed, rc = %d\n",
+			__func__, ret);
+		goto done;
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
+	}
+
+	ret = q6core_add_remove_pool_pages(paddr, pa_len,
+				 ADSP_MEMORY_MAP_HLOS_PHYSPOOL, false);
+	if (ret)
+		pr_err("%s: add remove pages failed, rc = %d\n", __func__, ret);
 
 done:
 	return ret;
@@ -1590,7 +1626,11 @@ static int msm_compr_playback_open(struct snd_compr_stream *cstream)
 	pr_debug("%s\n", __func__);
 	if (pdata->is_in_use[rtd->dai_link->be_id] == true) {
 		pr_err("%s: %s is already in use,err: %d ",
+<<<<<<< HEAD
 				__func__, rtd->dai_link->cpu_dai_name, -EBUSY);
+=======
+			__func__, rtd->dai_link->cpu_dai_name, -EBUSY);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 		return -EBUSY;
 	}
 	prtd = kzalloc(sizeof(struct msm_compr_audio), GFP_KERNEL);
@@ -1853,12 +1893,21 @@ static int msm_compr_playback_free(struct snd_compr_stream *cstream)
 	q6asm_audio_client_free(ac);
 	msm_adsp_clean_mixer_ctl_pp_event_queue(soc_prtd);
 	if (pdata->audio_effects[soc_prtd->dai_link->be_id] != NULL) {
+<<<<<<< HEAD
 		kfree(pdata->audio_effects[soc_prtd->dai_link->be_id]);
 		pdata->audio_effects[soc_prtd->dai_link->be_id] = NULL;
 	}
 	if (pdata->dec_params[soc_prtd->dai_link->be_id] != NULL) {
 		kfree(pdata->dec_params[soc_prtd->dai_link->be_id]);
 		pdata->dec_params[soc_prtd->dai_link->be_id] = NULL;
+=======
+	kfree(pdata->audio_effects[soc_prtd->dai_link->be_id]);
+	pdata->audio_effects[soc_prtd->dai_link->be_id] = NULL;
+	}
+	if (pdata->dec_params[soc_prtd->dai_link->be_id] != NULL) {
+	kfree(pdata->dec_params[soc_prtd->dai_link->be_id]);
+	pdata->dec_params[soc_prtd->dai_link->be_id] = NULL;
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 	}
 	pdata->is_in_use[soc_prtd->dai_link->be_id] = false;
 	kfree(prtd);
@@ -3713,6 +3762,7 @@ static int msm_compr_adsp_stream_cmd_put(struct snd_kcontrol *kcontrol,
 	struct msm_compr_audio *prtd;
 	int ret = 0;
 	struct msm_adsp_event_data *event_data = NULL;
+	uint64_t actual_payload_len = 0;
 
 	if (fe_id >= MSM_FRONTEND_DAI_MAX) {
 		pr_err("%s Received invalid fe_id %lu\n",
@@ -3750,8 +3800,17 @@ static int msm_compr_adsp_stream_cmd_put(struct snd_kcontrol *kcontrol,
 		goto done;
 	}
 
-	if ((sizeof(struct msm_adsp_event_data) + event_data->payload_len) >=
-					sizeof(ucontrol->value.bytes.data)) {
+	actual_payload_len = sizeof(struct msm_adsp_event_data) +
+					event_data->payload_len;
+	if (actual_payload_len >= U32_MAX) {
+		pr_err("%s payload length 0x%X  exceeds limit",
+				__func__, event_data->payload_len);
+		ret = -EINVAL;
+		goto done;
+	}
+
+	if (event_data->payload_len > sizeof(ucontrol->value.bytes.data)
+			 - sizeof(struct msm_adsp_event_data)) {
 		pr_err("%s param length=%d  exceeds limit",
 			__func__, event_data->payload_len);
 		ret = -EINVAL;

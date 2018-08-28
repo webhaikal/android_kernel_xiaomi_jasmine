@@ -3,7 +3,7 @@
  * MSM 7k High speed uart driver
  *
  * Copyright (c) 2008 Google Inc.
- * Copyright (c) 2007-2017, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2007-2018, The Linux Foundation. All rights reserved.
  * Modified: Nick Pelly <npelly@google.com>
  * Copyright (C) 2018 XiaoMi, Inc.
  *
@@ -67,6 +67,7 @@
 #include <linux/msm-sps.h>
 #include <linux/platform_data/msm_serial_hs.h>
 #include <linux/msm-bus.h>
+#include <soc/qcom/boot_stats.h>
 
 #include "msm_serial_hs_hwreg.h"
 #define UART_SPS_CONS_PERIPHERAL 0
@@ -2657,6 +2658,7 @@ static int msm_hs_startup(struct uart_port *uport)
 	int ret;
 	int rfr_level;
 	unsigned long flags;
+	u32 irq_type;
 	unsigned int data;
 	struct msm_hs_port *msm_uport = UARTDM_TO_MSM(uport);
 	struct circ_buf *tx_buf = &uport->state->xmit;
@@ -2677,8 +2679,11 @@ static int msm_hs_startup(struct uart_port *uport)
 	msm_hs_resource_vote(msm_uport);
 
 	if (is_use_low_power_wakeup(msm_uport)) {
+		irq_type = irq_get_trigger_type(msm_uport->wakeup.irq);
+		if (irq_type == IRQ_TYPE_NONE)
+			irq_type = IRQ_TYPE_EDGE_FALLING;
 		ret = request_irq(msm_uport->wakeup.irq, msm_hs_wakeup_isr,
-					IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
+					irq_type | IRQF_ONESHOT,
 					"msm_hs_wakeup", msm_uport);
 		if (unlikely(ret)) {
 			MSM_HS_ERR("%s():Err getting uart wakeup_irq %d\n",
@@ -3414,6 +3419,7 @@ static int msm_hs_probe(struct platform_device *pdev)
 	struct msm_serial_hs_platform_data *pdata = pdev->dev.platform_data;
 	unsigned long data;
 	char name[30];
+	char boot_marker[40];
 
 	if (pdev->dev.of_node) {
 		dev_dbg(&pdev->dev, "device tree enabled\n");
@@ -3438,6 +3444,10 @@ static int msm_hs_probe(struct platform_device *pdev)
 		}
 		pdev->dev.platform_data = pdata;
 	}
+
+	snprintf(boot_marker, sizeof(boot_marker),
+			"M - DRIVER MSM HS-UART_%d Init", pdev->id);
+	place_marker(boot_marker);
 
 	if (pdev->id < 0 || pdev->id >= UARTDM_NR) {
 		dev_err(&pdev->dev, "Invalid plaform device ID = %d\n",
@@ -3672,6 +3682,9 @@ static int msm_hs_probe(struct platform_device *pdev)
 	if (!ret) {
 		msm_hs_clk_bus_unvote(msm_uport);
 		msm_serial_hs_rt_init(uport);
+		snprintf(boot_marker, sizeof(boot_marker),
+				"M - DRIVER MSM HS-UART_%d Ready", pdev->id);
+		place_marker(boot_marker);
 		return ret;
 	}
 

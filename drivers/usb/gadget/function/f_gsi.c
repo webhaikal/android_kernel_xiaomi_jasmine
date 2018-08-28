@@ -50,6 +50,10 @@ static struct gsi_inst_status {
 /* Deregister misc device and free instance structures */
 static void gsi_inst_clean(struct gsi_opts *opts);
 
+<<<<<<< HEAD
+=======
+static void gsi_rndis_ipa_reset_trigger(struct gsi_data_port *d_port);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 static void ipa_disconnect_handler(struct gsi_data_port *d_port);
 static int gsi_ctrl_send_notification(struct f_gsi *gsi);
 static int gsi_alloc_trb_buffer(struct f_gsi *gsi);
@@ -502,14 +506,11 @@ static void ipa_disconnect_handler(struct gsi_data_port *d_port)
 		 */
 		usb_gsi_ep_op(d_port->in_ep, (void *)&block_db,
 				GSI_EP_OP_SET_CLR_BLOCK_DBL);
-		gsi->in_ep_desc_backup = gsi->d_port.in_ep->desc;
 		usb_gsi_ep_op(gsi->d_port.in_ep, NULL, GSI_EP_OP_DISABLE);
 	}
 
-	if (gsi->d_port.out_ep) {
-		gsi->out_ep_desc_backup = gsi->d_port.out_ep->desc;
+	if (gsi->d_port.out_ep)
 		usb_gsi_ep_op(gsi->d_port.out_ep, NULL, GSI_EP_OP_DISABLE);
-	}
 
 	gsi->d_port.net_ready_trigger = false;
 }
@@ -555,6 +556,9 @@ static int ipa_suspend_work_handler(struct gsi_data_port *d_port)
 	if (!usb_gsi_ep_op(gsi->d_port.in_ep, (void *) &f_suspend,
 				GSI_EP_OP_CHECK_FOR_SUSPEND)) {
 		ret = -EFAULT;
+		block_db = false;
+		usb_gsi_ep_op(d_port->in_ep, (void *)&block_db,
+			GSI_EP_OP_SET_CLR_BLOCK_DBL);
 		goto done;
 	}
 
@@ -615,6 +619,7 @@ static void ipa_work_handler(struct work_struct *w)
 	struct usb_gadget *gadget = gsi->gadget;
 	struct device *dev;
 	struct device *gad_dev;
+	bool block_db;
 
 	event = read_event(d_port);
 
@@ -675,28 +680,6 @@ static void ipa_work_handler(struct work_struct *w)
 				log_event_err("%s: gsi_alloc_trb_failed\n",
 								__func__);
 				break;
-			}
-
-			/*
-			 * Update desc and reconfigure USB GSI OUT and IN
-			 * endpoint for RNDIS Adaptor enable case.
-			 */
-			if (d_port->out_ep && !d_port->out_ep->desc &&
-					gsi->out_ep_desc_backup) {
-				d_port->out_ep->desc = gsi->out_ep_desc_backup;
-				d_port->out_ep->ep_intr_num = 1;
-				log_event_dbg("%s: OUT ep_op_config", __func__);
-				usb_gsi_ep_op(d_port->out_ep,
-					&d_port->out_request, GSI_EP_OP_CONFIG);
-			}
-
-			if (d_port->in_ep && !d_port->in_ep->desc &&
-					gsi->in_ep_desc_backup) {
-				d_port->in_ep->desc = gsi->in_ep_desc_backup;
-				d_port->in_ep->ep_intr_num = 2;
-				log_event_dbg("%s: IN ep_op_config", __func__);
-				usb_gsi_ep_op(d_port->in_ep,
-					&d_port->in_request, GSI_EP_OP_CONFIG);
 			}
 
 			ipa_connect_channels(d_port);
@@ -760,7 +743,15 @@ static void ipa_work_handler(struct work_struct *w)
 			if (event == EVT_HOST_NRDY) {
 				log_event_dbg("%s: ST_CON_HOST_NRDY\n",
 								__func__);
-				ipa_disconnect_handler(d_port);
+				block_db = true;
+				/* stop USB ringing doorbell to GSI(OUT_EP) */
+				usb_gsi_ep_op(d_port->in_ep, (void *)&block_db,
+						GSI_EP_OP_SET_CLR_BLOCK_DBL);
+				gsi_rndis_ipa_reset_trigger(d_port);
+				usb_gsi_ep_op(d_port->in_ep, NULL,
+						GSI_EP_OP_ENDXFER);
+				usb_gsi_ep_op(d_port->out_ep, NULL,
+						GSI_EP_OP_ENDXFER);
 			}
 
 			ipa_disconnect_work_handler(d_port);
@@ -895,8 +886,9 @@ static void gsi_ctrl_clear_cpkt_queues(struct f_gsi *gsi, bool skip_req_q)
 {
 	struct gsi_ctrl_pkt *cpkt = NULL;
 	struct list_head *act, *tmp;
+	unsigned long flags;
 
-	spin_lock(&gsi->c_port.lock);
+	spin_lock_irqsave(&gsi->c_port.lock, flags);
 	if (skip_req_q)
 		goto clean_resp_q;
 
@@ -911,7 +903,7 @@ clean_resp_q:
 		list_del(&cpkt->list);
 		gsi_ctrl_pkt_free(cpkt);
 	}
-	spin_unlock(&gsi->c_port.lock);
+	spin_unlock_irqrestore(&gsi->c_port.lock, flags);
 }
 
 static int gsi_ctrl_send_cpkt_tomodem(struct f_gsi *gsi, void *buf, size_t len)
@@ -1015,9 +1007,15 @@ static int gsi_ctrl_dev_release(struct inode *ip, struct file *fp)
 	}
 
 	inst_cur->opts->gsi->c_port.is_open = false;
+<<<<<<< HEAD
 
 	mutex_unlock(&inst_cur->gsi_lock);
 
+=======
+
+	mutex_unlock(&inst_cur->gsi_lock);
+
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 	log_event_dbg("close ctrl dev %s\n",
 			inst_cur->opts->gsi->c_port.name);
 
@@ -1466,6 +1464,27 @@ static void gsi_rndis_open(struct f_gsi *rndis)
 	rndis_set_param_medium(rndis->params, RNDIS_MEDIUM_802_3,
 				gsi_xfer_bitrate(cdev->gadget) / 100);
 	rndis_signal_connect(rndis->params);
+}
+
+static void gsi_rndis_ipa_reset_trigger(struct gsi_data_port *d_port)
+{
+	struct f_gsi *rndis = d_port_to_gsi(d_port);
+	unsigned long flags;
+
+	if (!rndis) {
+		log_event_err("%s: gsi prot ctx is %pK", __func__, rndis);
+		return;
+	}
+
+	spin_lock_irqsave(&rndis->d_port.lock, flags);
+	if (!rndis) {
+		log_event_err("%s: No RNDIS instance", __func__);
+		spin_unlock_irqrestore(&rndis->d_port.lock, flags);
+		return;
+	}
+
+	rndis->d_port.net_ready_trigger = false;
+	spin_unlock_irqrestore(&rndis->d_port.lock, flags);
 }
 
 void gsi_rndis_flow_ctrl_enable(bool enable, struct rndis_params *param)
@@ -2615,11 +2634,19 @@ static int gsi_bind(struct usb_configuration *c, struct usb_function *f)
 					DEFAULT_PKT_ALIGNMENT_FACTOR);
 		if (gsi->rndis_use_wceis) {
 			info.iad_desc->bFunctionClass =
+<<<<<<< HEAD
 					USB_CLASS_WIRELESS_CONTROLLER;
 			info.iad_desc->bFunctionSubClass = 0x01;
 			info.iad_desc->bFunctionProtocol = 0x03;
 			info.ctrl_desc->bInterfaceClass =
 					USB_CLASS_WIRELESS_CONTROLLER;
+=======
+				USB_CLASS_WIRELESS_CONTROLLER;
+			info.iad_desc->bFunctionSubClass = 0x01;
+			info.iad_desc->bFunctionProtocol = 0x03;
+			info.ctrl_desc->bInterfaceClass =
+				USB_CLASS_WIRELESS_CONTROLLER;
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 			info.ctrl_desc->bInterfaceSubClass = 0x1;
 			info.ctrl_desc->bInterfaceProtocol = 0x03;
 		}
@@ -3191,8 +3218,12 @@ static int gsi_set_inst_name(struct usb_function_instance *fi,
 
 	if (prot_id == IPA_USB_RNDIS)
 		config_group_init_type_name(&opts->func_inst.group, "",
+<<<<<<< HEAD
 			&gsi_func_rndis_type);
 
+=======
+					    &gsi_func_rndis_type);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 	gsi = gsi_function_init(prot_id);
 	if (IS_ERR(gsi))
 		return PTR_ERR(gsi);

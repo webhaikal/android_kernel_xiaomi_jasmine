@@ -1,4 +1,4 @@
-/* Copyright (c) 2016-2017, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2016-2018, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -16,6 +16,9 @@
 #include "sde_kms.h"
 #include "sde_connector.h"
 #include "sde_backlight.h"
+#include "sde_splash.h"
+#include <linux/workqueue.h>
+#include <linux/atomic.h>
 
 #define SDE_DEBUG_CONN(c, fmt, ...) SDE_DEBUG("conn%d " fmt,\
 		(c) ? (c)->base.base.id : -1, ##__VA_ARGS__)
@@ -45,6 +48,16 @@ static const struct drm_prop_enum_list e_power_mode[] = {
 	{SDE_MODE_DPMS_OFF,     "OFF"},
 };
 
+<<<<<<< HEAD
+=======
+static const struct drm_prop_enum_list hpd_clock_state[] = {
+	{SDE_MODE_HPD_ON,      "ON"},
+	{SDE_MODE_HPD_OFF,     "OFF"},
+};
+
+static struct work_struct cpu_up_work;
+
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 int sde_connector_get_info(struct drm_connector *connector,
 		struct msm_display_info *info)
 {
@@ -474,6 +487,12 @@ static int sde_connector_atomic_set_property(struct drm_connector *connector,
 		_sde_connector_update_power_locked(c_conn);
 		mutex_unlock(&c_conn->lock);
 		break;
+<<<<<<< HEAD
+=======
+	case CONNECTOR_PROP_HPD_OFF:
+		c_conn->hpd_mode = val;
+		break;
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 	default:
 		break;
 	}
@@ -533,13 +552,7 @@ static int sde_connector_atomic_get_property(struct drm_connector *connector,
 
 	idx = msm_property_index(&c_conn->property_info, property);
 	if (idx == CONNECTOR_PROP_RETIRE_FENCE)
-		/*
-		 * Set a fence offset if not a virtual connector, so that the
-		 * fence signals after one additional commit rather than at the
-		 * end of the current one.
-		 */
-		rc = sde_fence_create(&c_conn->retire_fence, val,
-			c_conn->connector_type != DRM_MODE_CONNECTOR_VIRTUAL);
+		rc = sde_fence_create(&c_conn->retire_fence, val, 0);
 	else
 		/* get cached property value */
 		rc = msm_property_atomic_get(&c_conn->property_info,
@@ -565,15 +578,100 @@ void sde_connector_prepare_fence(struct drm_connector *connector)
 	sde_fence_prepare(&to_sde_connector(connector)->retire_fence);
 }
 
+static void wake_up_cpu(struct work_struct *work)
+{
+	if (!cpu_up(1))
+		pr_info("cpu1 is online\n");
+}
+
 void sde_connector_complete_commit(struct drm_connector *connector)
 {
+	struct drm_device *dev;
+	struct msm_drm_private *priv;
+	struct sde_connector *c_conn;
+	static atomic_t cpu_up_scheduled = ATOMIC_INIT(0);
+
 	if (!connector) {
 		SDE_ERROR("invalid connector\n");
 		return;
 	}
 
+	dev = connector->dev;
+	priv = dev->dev_private;
+
 	/* signal connector's retire fence */
 	sde_fence_signal(&to_sde_connector(connector)->retire_fence, 0);
+
+	/*
+	 * After LK totally exits, LK's early splash resource
+	 * should be released, cpu1 is hot-plugged in case LK's
+	 * early domain has reserved it.
+	 */
+	if (sde_splash_get_lk_complete_status(priv->kms)) {
+		c_conn = to_sde_connector(connector);
+
+		sde_splash_free_resource(priv->kms, &priv->phandle,
+					c_conn->connector_type,
+					c_conn->display);
+		if (atomic_add_unless(&cpu_up_scheduled, 1, 1)) {
+			INIT_WORK(&cpu_up_work, wake_up_cpu);
+			schedule_work(&cpu_up_work);
+		}
+	}
+}
+
+static int sde_connector_dpms(struct drm_connector *connector,
+		int mode)
+{
+	struct sde_connector *c_conn;
+
+	if (!connector) {
+		SDE_ERROR("invalid connector\n");
+		return -EINVAL;
+	}
+	c_conn = to_sde_connector(connector);
+
+	/* validate incoming dpms request */
+	switch (mode) {
+	case DRM_MODE_DPMS_ON:
+	case DRM_MODE_DPMS_STANDBY:
+	case DRM_MODE_DPMS_SUSPEND:
+	case DRM_MODE_DPMS_OFF:
+		SDE_DEBUG("conn %d dpms set to %d\n",
+			connector->base.id, mode);
+		break;
+	default:
+		SDE_ERROR("conn %d dpms set to unrecognized mode %d\n",
+			connector->base.id, mode);
+		break;
+	}
+
+	mutex_lock(&c_conn->lock);
+	c_conn->dpms_mode = mode;
+	_sde_connector_update_power_locked(c_conn);
+	mutex_unlock(&c_conn->lock);
+
+	/* use helper for boilerplate handling */
+	return drm_atomic_helper_connector_dpms(connector, mode);
+}
+
+int sde_connector_get_dpms(struct drm_connector *connector)
+{
+	struct sde_connector *c_conn;
+	int rc;
+
+	if (!connector) {
+		SDE_DEBUG("invalid connector\n");
+		return DRM_MODE_DPMS_OFF;
+	}
+
+	c_conn = to_sde_connector(connector);
+
+	mutex_lock(&c_conn->lock);
+	rc = c_conn->dpms_mode;
+	mutex_unlock(&c_conn->lock);
+
+	return rc;
 }
 
 static int sde_connector_dpms(struct drm_connector *connector,
@@ -802,6 +900,10 @@ struct drm_connector *sde_connector_init(struct drm_device *dev,
 	c_conn->display = display;
 
 	c_conn->dpms_mode = DRM_MODE_DPMS_ON;
+<<<<<<< HEAD
+=======
+	c_conn->hpd_mode = SDE_MODE_HPD_ON;
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 	c_conn->lp_mode = 0;
 	c_conn->last_panel_power_mode = SDE_MODE_DPMS_ON;
 
@@ -929,6 +1031,14 @@ struct drm_connector *sde_connector_init(struct drm_device *dev,
 			ARRAY_SIZE(e_power_mode),
 			CONNECTOR_PROP_LP, 0);
 
+<<<<<<< HEAD
+=======
+	msm_property_install_enum(&c_conn->property_info, "HPD_OFF",
+			DRM_MODE_PROP_ATOMIC, 0, hpd_clock_state,
+			ARRAY_SIZE(hpd_clock_state),
+			CONNECTOR_PROP_HPD_OFF, 0);
+
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 	rc = msm_property_install_get_status(&c_conn->property_info);
 	if (rc) {
 		SDE_ERROR("failed to create one or more properties\n");

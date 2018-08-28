@@ -207,6 +207,7 @@ static int binder_update_page_range(struct binder_alloc *alloc, int allocate,
 
 	if (allocate == 0)
 		goto free_range;
+<<<<<<< HEAD
 
 	for (page_addr = start; page_addr < end; page_addr += PAGE_SIZE) {
 		page = &alloc->pages[(page_addr - alloc->buffer) / PAGE_SIZE];
@@ -225,6 +226,26 @@ static int binder_update_page_range(struct binder_alloc *alloc, int allocate,
 		vma = alloc->vma;
 	}
 
+=======
+
+	for (page_addr = start; page_addr < end; page_addr += PAGE_SIZE) {
+		page = &alloc->pages[(page_addr - alloc->buffer) / PAGE_SIZE];
+		if (!page->page_ptr) {
+			need_mm = true;
+			break;
+		}
+	}
+
+	/* Same as mmget_not_zero() in later kernel versions */
+	if (need_mm && atomic_inc_not_zero(&alloc->vma_vm_mm->mm_users))
+		mm = alloc->vma_vm_mm;
+
+	if (mm) {
+		down_read(&mm->mmap_sem);
+		vma = alloc->vma;
+	}
+
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 	if (!vma && need_mm) {
 		pr_err("%d: binder_alloc_buf failed to map pages in userspace, no vma\n",
 			alloc->pid);
@@ -238,6 +259,7 @@ static int binder_update_page_range(struct binder_alloc *alloc, int allocate,
 
 		index = (page_addr - alloc->buffer) / PAGE_SIZE;
 		page = &alloc->pages[index];
+<<<<<<< HEAD
 
 		if (page->page_ptr) {
 			trace_binder_alloc_lru_start(alloc, index);
@@ -245,6 +267,15 @@ static int binder_update_page_range(struct binder_alloc *alloc, int allocate,
 			on_lru = list_lru_del(&binder_alloc_lru, &page->lru);
 			WARN_ON(!on_lru);
 
+=======
+
+		if (page->page_ptr) {
+			trace_binder_alloc_lru_start(alloc, index);
+
+			on_lru = list_lru_del(&binder_alloc_lru, &page->lru);
+			WARN_ON(!on_lru);
+
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 			trace_binder_alloc_lru_end(alloc, index);
 			continue;
 		}
@@ -290,7 +321,7 @@ static int binder_update_page_range(struct binder_alloc *alloc, int allocate,
 		/* vm_insert_page does not seem to increment the refcount */
 	}
 	if (mm) {
-		up_write(&mm->mmap_sem);
+		up_read(&mm->mmap_sem);
 		mmput(mm);
 	}
 	return 0;
@@ -323,17 +354,18 @@ err_page_ptr_cleared:
 	}
 err_no_vma:
 	if (mm) {
-		up_write(&mm->mmap_sem);
+		up_read(&mm->mmap_sem);
 		mmput(mm);
 	}
 	return vma ? -ENOMEM : -ESRCH;
 }
 
-struct binder_buffer *binder_alloc_new_buf_locked(struct binder_alloc *alloc,
-						  size_t data_size,
-						  size_t offsets_size,
-						  size_t extra_buffers_size,
-						  int is_async)
+static struct binder_buffer *binder_alloc_new_buf_locked(
+				struct binder_alloc *alloc,
+				size_t data_size,
+				size_t offsets_size,
+				size_t extra_buffers_size,
+				int is_async)
 {
 	struct rb_node *n = alloc->free_buffers.rb_node;
 	struct binder_buffer *buffer;
@@ -452,7 +484,11 @@ struct binder_buffer *binder_alloc_new_buf_locked(struct binder_alloc *alloc,
 		new_buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
 		if (!new_buffer) {
 			pr_err("%s: %d failed to alloc new buffer struct\n",
+<<<<<<< HEAD
 					__func__, alloc->pid);
+=======
+			       __func__, alloc->pid);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 			goto err_alloc_buf_struct_failed;
 		}
 		new_buffer->data = (u8 *)buffer->data + size;
@@ -482,8 +518,13 @@ struct binder_buffer *binder_alloc_new_buf_locked(struct binder_alloc *alloc,
 
 err_alloc_buf_struct_failed:
 	binder_update_page_range(alloc, 0,
+<<<<<<< HEAD
 			(void *)PAGE_ALIGN((uintptr_t)buffer->data),
 			end_page_addr);
+=======
+				 (void *)PAGE_ALIGN((uintptr_t)buffer->data),
+				 end_page_addr);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 	return ERR_PTR(-ENOMEM);
 }
 
@@ -555,6 +596,7 @@ static void binder_delete_free_buffer(struct binder_alloc *alloc,
 	}
 
 	if (PAGE_ALIGNED(buffer->data)) {
+<<<<<<< HEAD
 		binder_alloc_debug(BINDER_DEBUG_BUFFER_ALLOC,
 				"%d: merge free, buffer start %pK is page aligned\n",
 				alloc->pid, buffer->data);
@@ -569,6 +611,22 @@ static void binder_delete_free_buffer(struct binder_alloc *alloc,
 		binder_update_page_range(alloc, 0, buffer_start_page(buffer),
 				buffer_start_page(buffer) + PAGE_SIZE);
 	}
+=======
+		binder_alloc_debug(BINDER_DEBUG_BUFFER_ALLOC,
+				   "%d: merge free, buffer start %pK is page aligned\n",
+				   alloc->pid, buffer->data);
+		to_free = false;
+	}
+
+	if (to_free) {
+		binder_alloc_debug(BINDER_DEBUG_BUFFER_ALLOC,
+				   "%d: merge free, buffer %pK do not share page with %pK or %pK\n",
+				   alloc->pid, buffer->data,
+				   prev->data, next ? next->data : NULL);
+		binder_update_page_range(alloc, 0, buffer_start_page(buffer),
+					 buffer_start_page(buffer) + PAGE_SIZE);
+	}
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 	list_del(&buffer->entry);
 	kfree(buffer);
 }
@@ -671,7 +729,7 @@ int binder_alloc_mmap_handler(struct binder_alloc *alloc,
 		goto err_already_mapped;
 	}
 
-	area = get_vm_area(vma->vm_end - vma->vm_start, VM_IOREMAP);
+	area = get_vm_area(vma->vm_end - vma->vm_start, VM_ALLOC);
 	if (area == NULL) {
 		ret = -ENOMEM;
 		failure_string = "get_vm_area";
@@ -761,7 +819,11 @@ void binder_alloc_deferred_release(struct binder_alloc *alloc)
 
 	while (!list_empty(&alloc->buffers)) {
 		buffer = list_first_entry(&alloc->buffers,
+<<<<<<< HEAD
 				struct binder_buffer, entry);
+=======
+					  struct binder_buffer, entry);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 		WARN_ON(!buffer->free);
 
 		list_del(&buffer->entry);
@@ -781,12 +843,21 @@ void binder_alloc_deferred_release(struct binder_alloc *alloc)
 				continue;
 
 			on_lru = list_lru_del(&binder_alloc_lru,
+<<<<<<< HEAD
 					&alloc->pages[i].lru);
 			page_addr = alloc->buffer + i * PAGE_SIZE;
 			binder_alloc_debug(BINDER_DEBUG_BUFFER_ALLOC,
 					"%s: %d: page %d at %pK %s\n",
 					__func__, alloc->pid, i, page_addr,
 					on_lru ? "on lru" : "active");
+=======
+					      &alloc->pages[i].lru);
+			page_addr = alloc->buffer + i * PAGE_SIZE;
+			binder_alloc_debug(BINDER_DEBUG_BUFFER_ALLOC,
+				     "%s: %d: page %d at %pK %s\n",
+				     __func__, alloc->pid, i, page_addr,
+				     on_lru ? "on lru" : "active");
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 			unmap_kernel_range((unsigned long)page_addr, PAGE_SIZE);
 			__free_page(alloc->pages[i].page_ptr);
 			page_count++;
@@ -839,7 +910,11 @@ void binder_alloc_print_allocated(struct seq_file *m,
  * @alloc: binder_alloc for this proc
  */
 void binder_alloc_print_pages(struct seq_file *m,
+<<<<<<< HEAD
 		struct binder_alloc *alloc)
+=======
+			      struct binder_alloc *alloc)
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 {
 	struct binder_lru_page *page;
 	int i;
@@ -904,6 +979,7 @@ void binder_alloc_vma_close(struct binder_alloc *alloc)
  * up pages when the system is under memory pressure.
  */
 enum lru_status binder_alloc_free_page(struct list_head *item,
+<<<<<<< HEAD
 			struct list_lru_one *lru,
 			spinlock_t *lock,
 			void *cb_arg)
@@ -912,6 +988,16 @@ enum lru_status binder_alloc_free_page(struct list_head *item,
 	struct binder_lru_page *page = container_of(item,
 			struct binder_lru_page,
 			lru);
+=======
+				       struct list_lru_one *lru,
+				       spinlock_t *lock,
+				       void *cb_arg)
+{
+	struct mm_struct *mm = NULL;
+	struct binder_lru_page *page = container_of(item,
+						    struct binder_lru_page,
+						    lru);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 	struct binder_alloc *alloc;
 	uintptr_t page_addr;
 	size_t index;
@@ -943,9 +1029,15 @@ enum lru_status binder_alloc_free_page(struct list_head *item,
 		trace_binder_unmap_user_start(alloc, index);
 
 		zap_page_range(vma,
+<<<<<<< HEAD
 				page_addr +
 				alloc->user_buffer_offset,
 				PAGE_SIZE, NULL);
+=======
+			       page_addr +
+			       alloc->user_buffer_offset,
+			       PAGE_SIZE, NULL);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 		trace_binder_unmap_user_end(alloc, index);
 
@@ -1011,8 +1103,21 @@ void binder_alloc_init(struct binder_alloc *alloc)
 	INIT_LIST_HEAD(&alloc->buffers);
 }
 
+<<<<<<< HEAD
 void binder_alloc_shrinker_init(void)
 {
 	list_lru_init(&binder_alloc_lru);
 	register_shrinker(&binder_shrinker);
+=======
+int binder_alloc_shrinker_init(void)
+{
+	int ret = list_lru_init(&binder_alloc_lru);
+
+	if (ret == 0) {
+		ret = register_shrinker(&binder_shrinker);
+		if (ret)
+			list_lru_destroy(&binder_alloc_lru);
+	}
+	return ret;
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 }

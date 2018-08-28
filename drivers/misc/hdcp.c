@@ -2339,9 +2339,15 @@ bool hdcp1_check_if_supported_load_app(void)
 	}
 
 	pr_debug("hdcp1 app %s loaded\n",
+<<<<<<< HEAD
 			hdcp1_supported ? "successfully" : "not");
 	pr_debug("hdcp1 srm app %s loaded\n",
 			hdcp1_srm_supported ? "successfully" : "not");
+=======
+		 hdcp1_supported ? "successfully" : "not");
+	pr_debug("hdcp1 srm app %s loaded\n",
+		 hdcp1_srm_supported ? "successfully" : "not");
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	return hdcp1_supported;
 }
@@ -2441,7 +2447,11 @@ int hdcp1_validate_receiver_ids(struct hdcp_srm_device_id_t *device_ids,
 	/* Start the hdcp srm app if not already started */
 	if (hdcp1_handle && !hdcp1_handle->srm_handle) {
 		rc = qseecom_start_app(&hdcp1_handle->srm_handle,
+<<<<<<< HEAD
 				SRMAPP_NAME, QSEECOM_SBUFF_SIZE);
+=======
+					SRMAPP_NAME, QSEECOM_SBUFF_SIZE);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 		if (rc) {
 			pr_err("qseecom_start_app failed for SRM TA %d\n", rc);
 			goto end;
@@ -2453,13 +2463,19 @@ int hdcp1_validate_receiver_ids(struct hdcp_srm_device_id_t *device_ids,
 	hdcp1_srmhandle = hdcp1_handle->srm_handle;
 
 	sbuf_len = sizeof(struct hdcp_srm_check_device_ids_req)
+<<<<<<< HEAD
 			+ sizeof(struct hdcp_srm_device_id_t) * device_id_cnt
 			- 1;
+=======
+		+ sizeof(struct hdcp_srm_device_id_t) * device_id_cnt
+		- 1;
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	rbuf_len = sizeof(struct hdcp_srm_check_device_ids_rsp);
 
 	/* Create a SRM validate receiver ID request */
 	recv_id_req = (struct hdcp_srm_check_device_ids_req *)
+<<<<<<< HEAD
 			hdcp1_srmhandle->sbuf;
 	recv_id_req->commandid = HDCP_SRM_CMD_CHECK_DEVICE_ID;
 	recv_id_req->num_device_ids = device_id_cnt;
@@ -2470,6 +2486,18 @@ int hdcp1_validate_receiver_ids(struct hdcp_srm_device_id_t *device_ids,
 			i++) {
 		pr_debug("recv_id_req->device_ids[%d] = 0x%x\n", i,
 				recv_id_req->device_ids[i]);
+=======
+					hdcp1_srmhandle->sbuf;
+	recv_id_req->commandid = HDCP_SRM_CMD_CHECK_DEVICE_ID;
+	recv_id_req->num_device_ids = device_id_cnt;
+	memcpy(recv_id_req->device_ids, device_ids,
+		   device_id_cnt * sizeof(struct hdcp_srm_device_id_t));
+
+	for (i = 0; i < device_id_cnt * sizeof(struct hdcp_srm_device_id_t);
+		i++) {
+		pr_debug("recv_id_req->device_ids[%d] = 0x%x\n", i,
+			   recv_id_req->device_ids[i]);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 	}
 
 	recv_id_rsp = (struct hdcp_srm_check_device_ids_rsp *)

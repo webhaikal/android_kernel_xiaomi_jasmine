@@ -5,7 +5,11 @@
  *
  * Copyright (C) 2012 Alexandra Chin <alexandra.chin@tw.synaptics.com>
  * Copyright (C) 2012 Scott Lin <scott.lin@tw.synaptics.com>
+<<<<<<< HEAD
  * Copyright (C) 2018 XiaoMi, Inc.
+=======
+ * Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -767,8 +771,33 @@ static ssize_t synaptics_rmi4_f01_reset_store(struct device *dev,
 	unsigned int reset;
 	struct synaptics_rmi4_data *rmi4_data = dev_get_drvdata(dev);
 
+<<<<<<< HEAD
 	if (sscanf(buf, "%u", &reset) != 1)
 		return -EINVAL;
+=======
+#if defined(CONFIG_SECURE_TOUCH)
+static int synaptics_i2c_change_pipe_owner(
+	struct synaptics_rmi4_data *rmi4_data, enum subsystem subsystem)
+{
+	/*scm call descriptor */
+	struct scm_desc desc = {0};
+	struct i2c_client *i2c = to_i2c_client(rmi4_data->pdev->dev.parent);
+	int ret = 0;
+
+	/* number of arguments */
+	desc.arginfo = SCM_ARGS(2);
+	/* BLSPID (1-12) */
+	desc.args[0] = i2c->adapter->nr - 1;
+	 /* Owner if TZ or APSS */
+	desc.args[1] = subsystem;
+	ret = scm_call2(SCM_SIP_FNID(SCM_SVC_TZ, TZ_BLSP_MODIFY_OWNERSHIP_ID),
+			&desc);
+	if (ret)
+		return ret;
+
+	return desc.ret[0];
+}
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	if (reset != 1)
 		return -EINVAL;
@@ -4325,6 +4354,7 @@ static int synaptics_rmi4_probe(struct platform_device *pdev)
 		goto err_enable_irq;
 	}
 
+<<<<<<< HEAD
 	if (vir_button_map->nbuttons) {
 		rmi4_data->board_prop_dir = kobject_create_and_add(
 				"board_properties", NULL);
@@ -4343,6 +4373,40 @@ static int synaptics_rmi4_probe(struct platform_device *pdev)
 				goto err_virtual_buttons;
 			}
 		}
+=======
+	exp_data.workqueue = create_singlethread_workqueue("dsx_exp_workqueue");
+	if (exp_data.workqueue == NULL) {
+		dev_err(&pdev->dev,
+			"%s: Failed to create workqueue\n", __func__);
+		retval = -ENOMEM;
+		goto err_create_wq;
+	}
+
+	INIT_DELAYED_WORK(&exp_data.work, synaptics_rmi4_exp_fn_work);
+	exp_data.rmi4_data = rmi4_data;
+	exp_data.queue_work = true;
+	queue_delayed_work(exp_data.workqueue,
+			&exp_data.work,
+			msecs_to_jiffies(EXP_FN_WORK_DELAY_MS));
+
+	rmi4_data->dir = debugfs_create_dir(DEBUGFS_DIR_NAME, NULL);
+	if (rmi4_data->dir == NULL || IS_ERR(rmi4_data->dir)) {
+		retval = rmi4_data->dir ? PTR_ERR(rmi4_data->dir) : -EIO;
+		dev_err(&pdev->dev,
+			"%s: Failed to create debugfs directory, rc = %d\n",
+			__func__, retval);
+		goto err_create_debugfs_dir;
+	}
+
+	temp = debugfs_create_file("suspend", S_IRUSR | S_IWUSR, rmi4_data->dir,
+					rmi4_data, &debug_suspend_fops);
+	if (temp == NULL || IS_ERR(temp)) {
+		retval = temp ? PTR_ERR(temp) : -EIO;
+		dev_err(&pdev->dev,
+			"%s: Failed to create suspend debugfs file, rc = %d\n",
+			__func__, retval);
+		goto err_create_debugfs_file;
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 	}
 
 	for (attr_count = 0; attr_count < ARRAY_SIZE(attrs); attr_count++) {
@@ -4394,6 +4458,7 @@ err_sysfs:
 		sysfs_remove_file(&rmi4_data->input_dev->dev.kobj,
 				&attrs[attr_count].attr);
 	}
+<<<<<<< HEAD
 
 err_virtual_buttons:
 	if (rmi4_data->board_prop_dir) {
@@ -4403,6 +4468,17 @@ err_virtual_buttons:
 	}
 
 	synaptics_rmi4_irq_enable(rmi4_data, false, false);
+=======
+err_create_debugfs_file:
+	debugfs_remove_recursive(rmi4_data->dir);
+err_create_debugfs_dir:
+	cancel_delayed_work_sync(&exp_data.work);
+	flush_workqueue(exp_data.workqueue);
+	destroy_workqueue(exp_data.workqueue);
+err_create_wq:
+	synaptics_rmi4_irq_enable(rmi4_data, false);
+	free_irq(rmi4_data->irq, rmi4_data);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 err_enable_irq:
 #ifdef CONFIG_FB

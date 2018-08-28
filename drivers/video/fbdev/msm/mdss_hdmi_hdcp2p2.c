@@ -1,5 +1,8 @@
 /* Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
+<<<<<<< HEAD
  * Copyright (C) 2018 XiaoMi, Inc.
+=======
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and

@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 /* Copyright (c) 2016-2017, The Linux Foundation. All rights reserved.
  * Copyright (C) 2018 XiaoMi, Inc.
+=======
+/* Copyright (c) 2016-2018, The Linux Foundation. All rights reserved.
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -316,7 +320,11 @@
 					dev = "/dev/block/platform/soc/c0c4000.sdhci/by-name/vendor";
 					type = "ext4";
 					mnt_flags = "ro,barrier=1,discard";
+<<<<<<< HEAD
 					fsmgr_flags = "wait,verify";
+=======
+					fsmgr_flags = "wait,slotselect,verify";
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 					status = "ok";
 				};
 			};
@@ -686,6 +694,16 @@
 		clocks = <&clock_gcc GCC_BLSP1_UART2_APPS_CLK>,
 			 <&clock_gcc GCC_BLSP1_AHB_CLK>;
 		clock-names = "core", "iface";
+	};
+
+	qcom,qbt1000 {
+		compatible = "qcom,qbt1000";
+		clock-names = "core", "iface";
+		clocks = <&clock_gcc GCC_BLSP1_QUP3_SPI_APPS_CLK>,
+			<&clock_gcc GCC_BLSP1_AHB_CLK>;
+		clock-frequency = <15000000>;
+		qcom,ipc-gpio = <&tlmm 72 0>;
+		qcom,finger-detect-gpio = <&pm660_gpios 11 0>;
 	};
 
 	qcom,sensor-information {
@@ -1264,6 +1282,7 @@
 		compatible = "qcom,clk-cpu-osm";
 		reg = <0x179c0000 0x4000>, <0x17916000 0x1000>,
 		      <0x17816000 0x1000>, <0x179d1000 0x1000>,
+<<<<<<< HEAD
 		      <0x00784130 0x8>, <0x00784130 0x8>,
 		      <0x17914800 0x800>;
 		reg-names = "osm", "pwrcl_pll", "perfcl_pll",
@@ -1276,6 +1295,12 @@
 		qcom,acdextint0-val = <0x2cf9ae8 0x2cf9ae8>;
 		qcom,acdextint1-val = <0x2cf9afe 0x2cf9afe>;
 		qcom,acdautoxfer-val = <0x00000015 0x00000015>;
+=======
+		      <0x00784130 0x8>, <0x00784130 0x8>;
+		reg-names = "osm", "pwrcl_pll", "perfcl_pll",
+			    "apcs_common", "pwrcl_efuse",
+			    "perfcl_efuse";
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 		vdd-pwrcl-supply = <&apc0_pwrcl_vreg>;
 		vdd-perfcl-supply = <&apc1_perfcl_vreg>;
@@ -1313,6 +1338,19 @@
 			<  1536000000 0x04040050 0x08400040 0x2 6 >,
 			<  1612800000 0x04040054 0x09430043 0x2 7 >;
 
+<<<<<<< HEAD
+=======
+		qcom,pwrcl-speedbin4-v0 =
+			<   300000000 0x0004000f 0x01200020 0x1 1 >,
+			<   633600000 0x05040021 0x03200020 0x1 2 >,
+			<   902400000 0x0404002f 0x04260026 0x1 3 >,
+			<  1113600000 0x0404003a 0x052e002e 0x2 4 >,
+			<  1401600000 0x04040049 0x073a003a 0x2 5 >,
+			<  1536000000 0x04040050 0x08400040 0x2 6 >,
+			<  1747200000 0x0404005b 0x09480048 0x2 7 >,
+			<  1843200000 0x04040060 0x094c004c 0x3 8 >;
+
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 		qcom,perfcl-speedbin0-v0 =
 			<   300000000 0x0004000f 0x01200020 0x1 1 >,
 			<  1113600000 0x0404003a 0x052e002e 0x1 2 >,
@@ -1338,9 +1376,18 @@
 			<  1747200000 0x0404005b 0x09480048 0x2 4 >,
 			<  1804800000 0x0404005e 0x094b004b 0x2 5 >;
 
+<<<<<<< HEAD
+=======
+		qcom,perfcl-speedbin4-v0 =
+			<   300000000 0x0004000f 0x01200020 0x1 1 >,
+			<  1113600000 0x0404003a 0x052e002e 0x1 2 >,
+			<  1401600000 0x04040049 0x073a003a 0x2 3 >,
+			<  1747200000 0x0404005b 0x09480048 0x2 4 >,
+			<  1958400000 0x04040066 0x0a510051 0x2 5 >;
+
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 		qcom,up-timer = <1000 1000>;
 		qcom,down-timer = <1000 1000>;
-		qcom,pc-override-index = <0 0>;
 		qcom,set-ret-inactive;
 		qcom,enable-llm-freq-vote;
 		qcom,llm-freq-up-timer = <327675 327675>;
@@ -1985,7 +2032,7 @@
 		vdd-1.8-xo-supply = <&pm660_l9_pin_ctrl>;
 		vdd-1.3-rfa-supply = <&pm660_l6_pin_ctrl>;
 		vdd-3.3-ch0-supply = <&pm660_l19_pin_ctrl>;
-		qcom,vdd-0.8-cx-mx-config = <525000 950000>;
+		qcom,vdd-0.8-cx-mx-config = <848000 848000>;
 		qcom,vdd-1.8-xo-config = <1750000 1900000>;
 		qcom,vdd-1.3-rfa-config = <1200000 1370000>;
 		qcom,vdd-3.3-ch0-config = <3200000 3400000>;
@@ -1997,6 +2044,7 @@
 	qcom,lpass@15700000 {
 		compatible = "qcom,pil-tz-generic";
 		reg = <0x15700000 0x00100>;
+		reg-names = "base_reg";
 		interrupts = <0 162 1>;
 
 		vdd_cx-supply = <&pm660l_l9_level>;
@@ -2029,6 +2077,7 @@
 	qcom,turing@1a300000 {
 		compatible = "qcom,pil-tz-generic";
 		reg = <0x1a300000 0x00100>;
+		reg-names = "base_reg";
 		interrupts = <0 518 1>;
 
 		vdd_cx-supply = <&pm660l_s3_level>;

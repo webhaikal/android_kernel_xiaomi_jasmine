@@ -236,7 +236,11 @@ struct msm_mdp_interface {
 	void (*footswitch_ctrl)(bool on);
 	int (*pp_release_fnc)(struct msm_fb_data_type *mfd);
 	void (*signal_retire_fence)(struct msm_fb_data_type *mfd,
+<<<<<<< HEAD
 				int retire_cnt);
+=======
+					int retire_cnt);
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 	void *private1;
 };
 

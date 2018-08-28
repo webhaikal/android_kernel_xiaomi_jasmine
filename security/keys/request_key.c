@@ -466,11 +466,19 @@ static struct key *construct_key_and_link(struct keyring_search_context *ctx,
 
 	if (ctx->index_key.type == &key_type_keyring)
 		return ERR_PTR(-EPERM);
+<<<<<<< HEAD
 	
 	ret = construct_get_dest_keyring(&dest_keyring);
 	if (ret)
 		goto error;
 
+=======
+
+	ret = construct_get_dest_keyring(&dest_keyring);
+	if (ret)
+		goto error;
+
+>>>>>>> stable/kernel.lnx.4.4.r35-rel
 	user = key_user_lookup(current_fsuid());
 	if (!user) {
 		ret = -ENOMEM;
@@ -623,10 +631,9 @@ int wait_for_key_construction(struct key *key, bool intr)
 			  intr ? TASK_INTERRUPTIBLE : TASK_UNINTERRUPTIBLE);
 	if (ret)
 		return -ERESTARTSYS;
-	if (test_bit(KEY_FLAG_NEGATIVE, &key->flags)) {
-		smp_rmb();
-		return key->reject_error;
-	}
+	ret = key_read_state(key);
+	if (ret < 0)
+		return ret;
 	return key_validate(key);
 }
 EXPORT_SYMBOL(wait_for_key_construction);
