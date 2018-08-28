@@ -1060,11 +1060,6 @@ CSID_TG:
 		goto free_camera_info;
 	}
 
-<<<<<<< HEAD
-	pr_err("%s probe succeeded", slave_info->sensor_name);
-
-=======
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	/*
 	 * Update the subdevice id of flash-src based on availability in kernel.
 	 */
