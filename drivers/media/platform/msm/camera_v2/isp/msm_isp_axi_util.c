@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-/* Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
 /* Copyright (c) 2013-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -757,17 +753,12 @@ void msm_isp_check_for_output_error(struct vfe_device *vfe_dev,
 		if (stream_info->controllable_output &&
 			!vfe_dev->reg_updated) {
 			if (stream_info->undelivered_request_cnt) {
-<<<<<<< HEAD
-				sof_info->regs_not_updated =
-						!vfe_dev->reg_updated;
-=======
 				/*report that registers are not updated
 				* and return empty buffer for controllable
 				* outputs
 				*/
 				sof_info->regs_not_updated =
 					!vfe_dev->reg_updated;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 				pr_err("Drop frame no reg update\n");
 				if (msm_isp_drop_frame(vfe_dev, stream_info, ts,
 					sof_info)) {
@@ -955,11 +946,7 @@ void msm_isp_increment_frame_id(struct vfe_device *vfe_dev,
 
 	if (frame_src == VFE_PIX_0) {
 		vfe_dev->isp_page->kernel_sofid =
-<<<<<<< HEAD
-				vfe_dev->axi_data.src_info[frame_src].frame_id;
-=======
 			vfe_dev->axi_data.src_info[frame_src].frame_id;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		if (!src_info->frame_id &&
 			!src_info->reg_update_frame_id &&
 			((src_info->frame_id -
@@ -2250,26 +2237,6 @@ int msm_isp_drop_frame(struct vfe_device *vfe_dev,
 		if ((stream_info->sw_ping_pong_bit != -1) &&
 			!vfe_dev->reg_updated) {
 			rc = msm_isp_cfg_ping_pong_address(
-<<<<<<< HEAD
-					stream_info, ~pingpong_status, done_buf);
-			if (rc < 0) {
-				ISP_DBG("%s: Error configuring ping_pong\n",
-						__func__);
-				bufq = vfe_dev->buf_mgr->ops->get_bufq(
-						vfe_dev->buf_mgr,
-						done_buf->bufq_handle);
-				if (!bufq) {
-					spin_unlock_irqrestore(
-							&stream_info->lock,
-							flags);
-					pr_err("%s: Invalid bufq buf_handle %x\n",
-							__func__,
-							done_buf->bufq_handle);
-					return -EINVAL;
-				}
-				sof_info->reg_update_fail_mask_ext |=
-						(bufq->bufq_handle & 0xFF);
-=======
 				stream_info, ~pingpong_status, done_buf);
 			if (rc < 0) {
 				ISP_DBG("%s: Error configuring ping_pong\n",
@@ -2288,7 +2255,6 @@ int msm_isp_drop_frame(struct vfe_device *vfe_dev,
 				}
 				sof_info->reg_update_fail_mask_ext |=
 					(bufq->bufq_handle & 0xFF);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			}
 		}
 		/*Avoid Drop Frame and re-issue pingpong cfg*/
@@ -4263,14 +4229,11 @@ void msm_isp_process_axi_irq_stream(struct vfe_device *vfe_dev,
 		(done_buf != NULL) &&
 		(stream_info->sw_ping_pong_bit == -1) &&
 		(done_buf->is_drop_reconfig == 1)) {
-<<<<<<< HEAD
-=======
 		/*When wm reloaded and corresponding reg_update fail
 		* then buffer is reconfig as PING buffer. so, avoid
 		* NULL assignment to PING buffer and eventually
 		* next AXI_DONE or buf_done can be successful
 		*/
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		stream_info->buf[pingpong_bit] = done_buf;
 	}
 
@@ -4329,12 +4292,9 @@ void msm_isp_process_axi_irq_stream(struct vfe_device *vfe_dev,
 	}
 
 	if (done_buf->is_drop_reconfig == 1) {
-<<<<<<< HEAD
-=======
 	/*When ping/pong buf is already reconfigured
 	* then dont issue buf-done for current buffer
 	*/
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		done_buf->is_drop_reconfig = 0;
 		spin_unlock_irqrestore(&stream_info->lock, flags);
 	} else {
