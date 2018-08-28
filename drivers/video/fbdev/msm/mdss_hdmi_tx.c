@@ -122,11 +122,7 @@ static int hdmi_tx_get_audio_edid_blk(struct platform_device *pdev,
 static int hdmi_tx_get_cable_status(struct platform_device *pdev, u32 vote);
 static int hdmi_tx_update_ppm(struct hdmi_tx_ctrl *hdmi_ctrl, s32 ppm);
 static int hdmi_tx_enable_pll_update(struct hdmi_tx_ctrl *hdmi_ctrl,
-<<<<<<< HEAD
-		int enable);
-=======
 	int enable);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 static struct mdss_hw hdmi_tx_hw = {
 	.hw_ndx = MDSS_HW_HDMI,
@@ -1380,11 +1376,7 @@ static ssize_t hdmi_tx_sysfs_rda_pll_enable(struct device *dev,
 {
 	ssize_t ret;
 	struct hdmi_tx_ctrl *hdmi_ctrl =
-<<<<<<< HEAD
-			hdmi_tx_get_drvdata_from_sysfs_dev(dev);
-=======
 		hdmi_tx_get_drvdata_from_sysfs_dev(dev);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	if (!hdmi_ctrl) {
 		pr_err("invalid input\n");
@@ -1393,11 +1385,7 @@ static ssize_t hdmi_tx_sysfs_rda_pll_enable(struct device *dev,
 
 	mutex_lock(&hdmi_ctrl->tx_lock);
 	ret = snprintf(buf, PAGE_SIZE, "%d\n",
-<<<<<<< HEAD
-			hdmi_ctrl->pll_update_enable);
-=======
 		hdmi_ctrl->pll_update_enable);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	pr_debug("HDMI PLL update: %s\n",
 			hdmi_ctrl->pll_update_enable ? "enable" : "disable");
 
@@ -1459,11 +1447,7 @@ static DEVICE_ATTR(hdr_stream, S_IWUSR, NULL, hdmi_tx_sysfs_wta_hdr_stream);
 static DEVICE_ATTR(hdmi_ppm, S_IRUGO | S_IWUSR, NULL,
 	hdmi_tx_sysfs_wta_hdmi_ppm);
 static DEVICE_ATTR(pll_enable, S_IRUGO | S_IWUSR, hdmi_tx_sysfs_rda_pll_enable,
-<<<<<<< HEAD
-		hdmi_tx_sysfs_wta_pll_enable);
-=======
 	hdmi_tx_sysfs_wta_pll_enable);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 
 static struct attribute *hdmi_tx_fs_attrs[] = {
@@ -3300,11 +3284,6 @@ static int hdmi_tx_power_off(struct hdmi_tx_ctrl *hdmi_ctrl)
 		hdmi_ctrl->panel_ops.off(pdata);
 
 	hdmi_tx_set_mode(hdmi_ctrl, false);
-<<<<<<< HEAD
-	hdmi_tx_phy_reset(hdmi_ctrl);
-=======
-
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	hdmi_tx_set_mode(hdmi_ctrl, true);
 
 	hdmi_tx_core_off(hdmi_ctrl);
