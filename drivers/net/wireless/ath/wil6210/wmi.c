@@ -400,11 +400,7 @@ static void wmi_evt_rx_mgmt(struct wil6210_priv *wil, int id, void *d, int len)
 		signal = 100 * data->info.rssi;
 	else
 		signal = data->info.sqi;
-<<<<<<< HEAD
-	d_status = le16_to_cpu(data->info.status);
-=======
 	snr = le16_to_cpu(data->info.snr); /* 1/4 dB units */
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	fc = rx_mgmt_frame->frame_control;
 
 	wil_dbg_wmi(wil, "MGMT Rx: channel %d MCS %d RSSI %d SQI %d%%\n",
