@@ -7687,10 +7687,6 @@ static const struct ieee80211_ops ath10k_ops = {
 	.suspend			= ath10k_wow_op_suspend,
 	.resume				= ath10k_wow_op_resume,
 	.set_wakeup			= ath10k_wow_op_set_wakeup,
-<<<<<<< HEAD
-	.set_rekey_data			= ath10k_wow_op_set_rekey_data,
-=======
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 #endif
 #ifdef CONFIG_MAC80211_DEBUGFS
 	.sta_add_debugfs		= ath10k_sta_add_debugfs,
