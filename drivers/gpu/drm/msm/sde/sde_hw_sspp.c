@@ -936,8 +936,6 @@ struct sde_hw_pipe *sde_hw_sspp_init(enum sde_sspp idx,
 	_setup_layer_ops(hw_pipe, hw_pipe->cap->features);
 	hw_pipe->highest_bank_bit = catalog->mdp[0].highest_bank_bit;
 
-<<<<<<< HEAD
-=======
 	sde_dbg_reg_register_dump_range(SDE_DBG_NAME, cfg->name,
 			hw_pipe->hw.blk_off,
 			hw_pipe->hw.blk_off + hw_pipe->hw.length,
@@ -951,7 +949,6 @@ struct sde_hw_pipe *sde_hw_sspp_init(enum sde_sspp idx,
 				cfg->sblk->scaler_blk.len,
 			hw_pipe->hw.xin_id);
 
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	return hw_pipe;
 }
 
