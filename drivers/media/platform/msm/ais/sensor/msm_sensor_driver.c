@@ -1098,11 +1098,6 @@ CSID_TG:
 
 	msm_sensor_fill_sensor_info(s_ctrl, probed_info, entity_name);
 
-<<<<<<< HEAD
-	/* Set probe succeeded flag to 1 so that no other camera shall
-	 *  probed on this slot
-	 */
-=======
 	if (slave_info->gpio_intr_config.gpio_num != -1) {
 		/* Configure INTB interrupt */
 		s_ctrl->gpio_array[0].gpio =
@@ -1156,7 +1151,6 @@ CSID_TG:
 	Set probe succeeded flag to 1 so that no other camera shall
 	* probed on this slot
 	*/
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	s_ctrl->is_probe_succeed = 1;
 	return rc;
 
