@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
 /* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -66,15 +62,10 @@ static int ipa3_generate_flt_hw_rule(enum ipa_ip_type ip,
 	gen_params.rule = (const struct ipa_flt_rule *)&entry->rule;
 
 	res = ipahal_flt_generate_hw_rule(&gen_params, &entry->hw_len, buf);
-<<<<<<< HEAD
-	if (res)
-		IPAERR_RL("failed to generate flt h/w rule\n");
-=======
 	if (res) {
 		IPAERR_RL("failed to generate flt h/w rule\n");
 		return res;
 	}
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	return 0;
 }
@@ -1200,11 +1191,7 @@ int ipa3_add_flt_rule_after(struct ipa_ioc_add_flt_rule_after *rules)
 	}
 
 	if (entry->cookie != IPA_FLT_COOKIE) {
-<<<<<<< HEAD
-		IPAERR_RL("Invalid cookie value =  %u rule = %d in rt tbls\n",
-=======
 		IPAERR_RL("Invalid cookie value =  %u flt hdl id = %d\n",
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			entry->cookie, rules->add_after_hdl);
 		result = -EINVAL;
 		goto bail;
@@ -1410,23 +1397,6 @@ int ipa3_reset_flt(enum ipa_ip_type ip, bool user_only)
 				mutex_unlock(&ipa3_ctx->lock);
 				return -EFAULT;
 			}
-<<<<<<< HEAD
-			list_del(&entry->link);
-			entry->tbl->rule_cnt--;
-			if (entry->rt_tbl)
-				entry->rt_tbl->ref_cnt--;
-			/* if rule id was allocated from idr, remove it */
-			if ((entry->rule_id < ipahal_get_rule_id_hi_bit()) &&
-				(entry->rule_id >= ipahal_get_low_rule_id()))
-				idr_remove(&entry->tbl->rule_ids,
-					entry->rule_id);
-			entry->cookie = 0;
-			id = entry->id;
-			kmem_cache_free(ipa3_ctx->flt_rule_cache, entry);
-
-			/* remove the handle from the database */
-			ipa3_id_remove(id);
-=======
 
 			if (!user_only ||
 					entry->ipacm_installed) {
@@ -1448,7 +1418,6 @@ int ipa3_reset_flt(enum ipa_ip_type ip, bool user_only)
 				/* remove the handle from the database */
 				ipa3_id_remove(id);
 			}
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		}
 	}
 
