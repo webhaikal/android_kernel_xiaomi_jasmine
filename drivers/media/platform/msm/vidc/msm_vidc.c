@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
  * Copyright (C) 2018 XiaoMi, Inc.
-=======
-/* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1180,7 +1176,6 @@ int msm_vidc_enum_framesizes(void *instance, struct v4l2_frmsizeenum *fsize)
 	codec = get_hal_codec(fsize->pixel_format);
 	if (codec == HAL_UNUSED_CODEC)
 		return -EINVAL;
-<<<<<<< HEAD
 
 	for (i = 0; i < VIDC_MAX_SESSIONS; i++) {
 		if (inst->core->capabilities[i].codec == codec) {
@@ -1189,16 +1184,6 @@ int msm_vidc_enum_framesizes(void *instance, struct v4l2_frmsizeenum *fsize)
 		}
 	}
 
-=======
-
-	for (i = 0; i < VIDC_MAX_SESSIONS; i++) {
-		if (inst->core->capabilities[i].codec == codec) {
-			capability = &inst->core->capabilities[i];
-			break;
-		}
-	}
-
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	if (capability) {
 		fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
 		fsize->stepwise.min_width = capability->width.min;
