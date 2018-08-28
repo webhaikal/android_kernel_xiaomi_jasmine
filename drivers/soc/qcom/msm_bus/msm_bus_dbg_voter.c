@@ -1,8 +1,5 @@
-/* Copyright (c) 2014-2017, The Linux Foundation. All rights reserved.
-<<<<<<< HEAD
+/* Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
  * Copyright (C) 2018 XiaoMi, Inc.
-=======
->>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is Mree software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
