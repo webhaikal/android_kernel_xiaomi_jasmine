@@ -164,10 +164,7 @@ enum msm_mdp_conn_property {
 	CONNECTOR_PROP_TOPOLOGY_NAME,
 	CONNECTOR_PROP_TOPOLOGY_CONTROL,
 	CONNECTOR_PROP_LP,
-<<<<<<< HEAD
-=======
 	CONNECTOR_PROP_HPD_OFF,
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	/* total # of properties */
 	CONNECTOR_PROP_COUNT
