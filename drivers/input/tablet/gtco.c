@@ -232,21 +232,12 @@ static void parse_hid_report_descriptor(struct gtco *device, char * report,
 	/* Walk  this report and pull out the info we need */
 	while (i < length) {
 		prefix = report[i++];
-<<<<<<< HEAD
-=======
-
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		/* Determine data size and save the data in the proper variable */
 		size = (1U << PREF_SIZE(prefix)) >> 1;
 		if (i + size > length) {
 			dev_err(ddev,
-<<<<<<< HEAD
-					"Not enough data (need %d, have %d)\n",
-					i + size, length);
-=======
 				"Not enough data (need %d, have %d)\n",
 				i + size, length);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			break;
 		}
 
