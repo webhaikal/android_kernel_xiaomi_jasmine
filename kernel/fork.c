@@ -738,11 +738,7 @@ int mmput(struct mm_struct *mm)
 	might_sleep();
 
 	if (atomic_dec_and_test(&mm->mm_users)) {
-<<<<<<< HEAD
-	    __mmput(mm);
-=======
 		__mmput(mm);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		mm_freed = 1;
 	}
 	return mm_freed;
@@ -763,11 +759,6 @@ void mmput_async(struct mm_struct *mm)
 	}
 }
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 /**
  * set_mm_exe_file - change a reference to the mm's executable file
  *
