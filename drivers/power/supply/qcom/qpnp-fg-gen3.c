@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-/* Copyright (c) 2016-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
 /* Copyright (c) 2016-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -812,27 +808,6 @@ static int fg_get_msoc(struct fg_chip *chip, int *msoc)
 	rc = fg_get_msoc_raw(chip, msoc);
 	if (rc < 0)
 		return rc;
-<<<<<<< HEAD
-#if defined(CONFIG_KERNEL_CUSTOM_D2S)
-	if ((*msoc >= FULL_SOC_REPORT_THR - 2)
-			&& (*msoc < FULL_SOC_RAW) && chip->report_full) {
-		*msoc = DIV_ROUND_CLOSEST(*msoc * FULL_CAPACITY, FULL_SOC_RAW) + 1;
-		if (*msoc >= FULL_CAPACITY)
-			*msoc = FULL_CAPACITY;
-	} else if (*msoc == FULL_SOC_RAW)
-		*msoc = 100;
-	else if (*msoc == 0)
-		*msoc = 0;
-	else if (*msoc >= FULL_SOC_REPORT_THR - 4 && *msoc <= FULL_SOC_REPORT_THR - 3 && chip->report_full) {
-		*msoc = DIV_ROUND_CLOSEST(*msoc * FULL_CAPACITY, FULL_SOC_RAW);
-	} else {
-		*msoc = DIV_ROUND_CLOSEST((*msoc - 1) * (FULL_CAPACITY - 2),
-				FULL_SOC_RAW - 2) + 1;
-	}
-#else
-	*msoc = DIV_ROUND_CLOSEST(*msoc * FULL_CAPACITY, FULL_SOC_RAW);
-#endif
-=======
 
 	/*
 	 * To have better endpoints for 0 and 100, it is good to tune the
@@ -847,7 +822,6 @@ static int fg_get_msoc(struct fg_chip *chip, int *msoc)
 	else
 		*msoc = DIV_ROUND_CLOSEST((*msoc - 1) * (FULL_CAPACITY - 2),
 				FULL_SOC_RAW - 2) + 1;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	return 0;
 }
 
@@ -1949,12 +1923,8 @@ static int fg_charge_full_update(struct fg_chip *chip)
 			fg_dbg(chip, FG_STATUS, "Terminated charging @ SOC%d\n",
 				msoc);
 		}
-<<<<<<< HEAD
-	} else if (msoc_raw <= recharge_soc && chip->charge_full) {
-=======
 	} else if ((msoc_raw <= recharge_soc || !chip->charge_done)
 			&& chip->charge_full) {
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		if (chip->dt.linearize_soc) {
 			chip->delta_soc = FULL_CAPACITY - msoc;
 
