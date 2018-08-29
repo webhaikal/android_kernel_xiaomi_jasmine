@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
 /* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -91,14 +86,6 @@ static int msm_digcdc_clock_control(bool flag)
 	if (flag) {
 		mutex_lock(&pdata->cdc_int_mclk0_mutex);
 		if (atomic_read(&pdata->int_mclk0_enabled) == false) {
-<<<<<<< HEAD
-			if (pdata->native_clk_set)
-				pdata->digital_cdc_core_clk.clk_freq_in_hz =
-						NATIVE_MCLK_RATE;
-			else
-				pdata->digital_cdc_core_clk.clk_freq_in_hz =
-						DEFAULT_MCLK_RATE;
-=======
 			if (msm_dig_cdc->regmap->cache_only == true)
 				return ret;
 			if (pdata->native_clk_set)
@@ -107,7 +94,6 @@ static int msm_digcdc_clock_control(bool flag)
 			else
 				pdata->digital_cdc_core_clk.clk_freq_in_hz =
 							DEFAULT_MCLK_RATE;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			pdata->digital_cdc_core_clk.enable = 1;
 			ret = afe_set_lpass_clock_v2(
 						AFE_PORT_ID_INT0_MI2S_RX,
