@@ -157,7 +157,6 @@ struct dm_buffer {
 /*----------------------------------------------------------------*/
 
 static struct kmem_cache *dm_bufio_caches[PAGE_SHIFT - SECTOR_SHIFT];
-static char *dm_bufio_cache_names[PAGE_SHIFT - SECTOR_SHIFT];
 
 static inline int dm_bufio_cache_index(struct dm_bufio_client *c)
 {
