@@ -277,14 +277,6 @@ config PGTABLE_LEVELS
 	default 3 if ARM64_16K_PAGES && ARM64_VA_BITS_47
 	default 4 if !ARM64_64K_PAGES && ARM64_VA_BITS_48
 
-<<<<<<< HEAD
-config BOOT_INFO
-	bool "Boot information from bootloader"
-	default y
-	help
-	  On embedded linux device, we try to collect more information from
-	  bootloader to kernel. eg. powerup reason.
-=======
 config MSM_GVM
 	bool "Enable virtualization Support for MSM kernel"
 	help
@@ -302,7 +294,6 @@ config MSM_GVM_QUIN
 		This helps to enable virtual driver support.
 		This should work on 64bit machine.
 		If you don't know what to do here, say N.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 source "init/Kconfig"
 
