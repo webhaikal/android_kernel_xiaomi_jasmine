@@ -119,11 +119,7 @@ int qti_pfk_ice_set_key(uint32_t index, uint8_t *key, uint8_t *salt,
 	ret = qcom_ice_setup_ice_hw((const char *)s_type, true);
 
 	if (ret) {
-<<<<<<< HEAD
-		pr_err("%s: could not enable clocks: 0x%x\n", __func__, ret);
-=======
 		pr_err("%s: could not enable clocks: %d\n", __func__, ret);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		goto out;
 	}
 
@@ -132,17 +128,6 @@ int qti_pfk_ice_set_key(uint32_t index, uint8_t *key, uint8_t *salt,
 	pr_debug(" %s , ret = %d\n", __func__, ret);
 
 	if (ret) {
-<<<<<<< HEAD
-		pr_err("%s: Error: 0x%x\n", __func__, ret);
-		if (ret == -EBUSY) {
-			goto out;
-		} else {
-			smc_id = TZ_ES_INVALIDATE_ICE_KEY_ID;
-			desc.arginfo = TZ_ES_INVALIDATE_ICE_KEY_PARAM_ID;
-			desc.args[0] = index;
-			scm_call2(smc_id, &desc);
-		}
-=======
 		pr_err("%s: Set key Error: %d\n", __func__, ret);
 		if (ret == -EBUSY) {
 			if (qcom_ice_setup_ice_hw((const char *)s_type, false))
@@ -157,7 +142,6 @@ int qti_pfk_ice_set_key(uint32_t index, uint8_t *key, uint8_t *salt,
 		if (ret1)
 			pr_err("%s:Invalidate key Error: %d\n", __func__,
 						ret1);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	}
 
 	ret = qcom_ice_setup_ice_hw((const char *)s_type, false);
@@ -197,17 +181,10 @@ int qti_pfk_ice_invalidate_key(uint32_t index, char *storage_type)
 
 	ret = scm_call2(smc_id, &desc);
 
-<<<<<<< HEAD
-	pr_debug(" %s , ret = %d\n", __func__, ret);
-	if (ret) {
-		pr_err("%s: Error: 0x%x\n", __func__, ret);
-		qcom_ice_setup_ice_hw((const char *)storage_type, false);
-=======
 	if (ret) {
 		pr_err("%s: Error: 0x%x\n", __func__, ret);
 		if (qcom_ice_setup_ice_hw((const char *)storage_type, false))
 			pr_err("%s: could not disable clocks\n", __func__);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	} else {
 		ret = qcom_ice_setup_ice_hw((const char *)storage_type, false);
 	}
