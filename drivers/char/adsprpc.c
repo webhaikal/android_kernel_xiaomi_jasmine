@@ -1,9 +1,6 @@
 /*
  * Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
-<<<<<<< HEAD
  * Copyright (C) 2018 XiaoMi, Inc.
-=======
->>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -70,11 +67,8 @@
 #define NUM_CHANNELS	4		/* adsp,sdsp,mdsp,cdsp */
 #define NUM_SESSIONS	9		/*8 compute, 1 cpz*/
 #define FASTRPC_CTX_MAGIC (0xbeeddeed)
-<<<<<<< HEAD
-=======
 #define FASTRPC_CTX_MAX (256)
 #define FASTRPC_CTXID_MASK (0xFF0)
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 #define IS_CACHE_ALIGNED(x) (((x) & ((L1_CACHE_BYTES)-1)) == 0)
 
@@ -186,10 +180,7 @@ struct smq_invoke_ctx {
 	struct overlap **overps;
 	struct smq_msg msg;
 	unsigned int magic;
-<<<<<<< HEAD
-=======
 	uint64_t ctxid;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 };
 
 struct fastrpc_ctx_lst {
@@ -924,12 +915,8 @@ static int context_alloc(struct fastrpc_file *fl, uint32_t kernel,
 			 struct fastrpc_ioctl_invoke_attrs *invokefd,
 			 struct smq_invoke_ctx **po)
 {
-<<<<<<< HEAD
-	int err = 0, bufs, size = 0;
-=======
 	int err = 0, bufs, ii, size = 0;
 	struct fastrpc_apps *me = &gfa;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	struct smq_invoke_ctx *ctx = NULL;
 	struct fastrpc_ctx_lst *clst = &fl->clst;
 	struct fastrpc_ioctl_invoke *invoke = &invokefd->inv;
@@ -1035,8 +1022,6 @@ static void context_free(struct smq_invoke_ctx *ctx)
 		fastrpc_mmap_free(ctx->maps[i]);
 	fastrpc_buf_free(ctx->buf, 1);
 	ctx->magic = 0;
-<<<<<<< HEAD
-=======
 	ctx->ctxid = 0;
 
 	spin_lock(&me->ctxlock);
@@ -1048,7 +1033,6 @@ static void context_free(struct smq_invoke_ctx *ctx)
 	}
 	spin_unlock(&me->ctxlock);
 
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	kfree(ctx);
 }
 
@@ -1321,11 +1305,7 @@ static int get_args(uint32_t kernel, struct smq_invoke_ctx *ctx)
 		if (map && (map->attr & FASTRPC_ATTR_COHERENT))
 			continue;
 
-<<<<<<< HEAD
-		if (rpra[i].buf.len && ctx->overps[oix]->mstart) {
-=======
 		if (rpra && rpra[i].buf.len && ctx->overps[oix]->mstart) {
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			if (map && map->handle)
 				msm_ion_do_cache_op(ctx->fl->apps->client,
 					map->handle,
@@ -1528,27 +1508,14 @@ static void fastrpc_smd_read_handler(int cid)
 {
 	struct fastrpc_apps *me = &gfa;
 	struct smq_invoke_rsp rsp = {0};
-<<<<<<< HEAD
-	struct smq_invoke_ctx *ctx;
-	int ret = 0, err = 0;
-=======
 	int ret = 0, err = 0;
 	uint32_t index;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	do {
 		ret = smd_read_from_cb(me->channel[cid].chan, &rsp,
 					sizeof(rsp));
 		if (ret != sizeof(rsp))
 			break;
-<<<<<<< HEAD
-		ctx = (struct smq_invoke_ctx *)(uint64_to_ptr(rsp.ctx));
-		VERIFY(err, (ctx && ctx->magic == FASTRPC_CTX_MAGIC));
-		if (err)
-			goto bail;
-		context_notify_user(uint64_to_ptr(rsp.ctx), rsp.retval);
-	} while (ret == sizeof(rsp));
-=======
 		index = (uint32_t)((rsp.ctx & FASTRPC_CTXID_MASK) >> 4);
 		VERIFY(err, index < FASTRPC_CTX_MAX);
 		if (err)
@@ -1566,7 +1533,6 @@ static void fastrpc_smd_read_handler(int cid)
 		context_notify_user(me->ctxtable[index], rsp.retval);
 	} while (ret == sizeof(rsp));
 
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 bail:
 	if (err)
 		pr_err("adsprpc: invalid response or context\n");
@@ -2384,11 +2350,7 @@ static int fastrpc_device_release(struct inode *inode, struct file *file)
 	if (fl) {
 		if (fl->debugfs_file != NULL)
 			debugfs_remove(fl->debugfs_file);
-<<<<<<< HEAD
-		mutex_destroy(&fl->map_mutex);
-=======
 
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		fastrpc_file_free(fl);
 		file->private_data = NULL;
 	}
@@ -2807,8 +2769,6 @@ static long fastrpc_device_ioctl(struct file *file, unsigned int ioctl_num,
 	case FASTRPC_IOCTL_MUNMAP:
 		K_COPY_FROM_USER(err, 0, &p.munmap, param,
 						sizeof(p.munmap));
-<<<<<<< HEAD
-=======
 		if (err)
 			goto bail;
 		VERIFY(err, 0 == (err = fastrpc_internal_munmap(fl,
@@ -2831,7 +2791,6 @@ static long fastrpc_device_ioctl(struct file *file, unsigned int ioctl_num,
 	case FASTRPC_IOCTL_MUNMAP_64:
 		K_COPY_FROM_USER(err, 0, &p.munmap, param,
 						sizeof(p.munmap));
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		if (err)
 			goto bail;
 		VERIFY(err, 0 == (err = fastrpc_internal_munmap(fl,

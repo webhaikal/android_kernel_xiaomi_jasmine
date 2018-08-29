@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
 /* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -215,31 +210,18 @@ static int check_bufsize_for_encoding(struct diagfwd_buf_t *buf, uint32_t len)
 		if (buf->len < max_size) {
 			if (driver->logging_mode == DIAG_MEMORY_DEVICE_MODE) {
 				ch = &diag_md[DIAG_LOCAL_PROC];
-<<<<<<< HEAD
-				for (i = 0; ch != NULL &&
-						i < ch->num_tbl_entries; i++) {
-=======
 				if (!ch || !ch->md_info_inited) {
 					mutex_unlock(&driver->md_session_lock);
 					return -EINVAL;
 				}
 				spin_lock_irqsave(&ch->lock, flags);
 				for (i = 0; i < ch->num_tbl_entries; i++) {
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 					if (ch->tbl[i].buf == buf->data) {
 						ctx = ch->tbl[i].ctx;
 						ch->tbl[i].buf = NULL;
 						ch->tbl[i].len = 0;
 						ch->tbl[i].ctx = 0;
 						DIAG_LOG(DIAG_DEBUG_PERIPHERALS,
-<<<<<<< HEAD
-								"Flushed mdlog table entries before reallocating data buffer, p:%d, t:%d\n",
-								GET_BUF_PERIPHERAL(ctx),
-								GET_BUF_TYPE(ctx));
-						break;
-					}
-				}
-=======
 						"Flushed mdlog table entries before reallocating data buffer, p:%d, t:%d\n",
 						GET_BUF_PERIPHERAL(ctx),
 						GET_BUF_TYPE(ctx));
@@ -247,7 +229,6 @@ static int check_bufsize_for_encoding(struct diagfwd_buf_t *buf, uint32_t len)
 					}
 				}
 				spin_unlock_irqrestore(&ch->lock, flags);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			}
 			temp_buf = krealloc(buf->data, max_size +
 						APF_DIAG_PADDING,
@@ -255,16 +236,10 @@ static int check_bufsize_for_encoding(struct diagfwd_buf_t *buf, uint32_t len)
 			if (!temp_buf) {
 				mutex_unlock(&driver->md_session_lock);
 				return -ENOMEM;
-<<<<<<< HEAD
-			DIAG_LOG(DIAG_DEBUG_PERIPHERALS,
-					"Reallocated data buffer: %pK with size: %d\n",
-					temp_buf, max_size);
-=======
 			}
 			DIAG_LOG(DIAG_DEBUG_PERIPHERALS,
 			"Reallocated data buffer: %pK with size: %d\n",
 			temp_buf, max_size);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			buf->data = temp_buf;
 			buf->len = max_size;
 		}
@@ -415,15 +390,9 @@ end_write:
 	diag_ws_release();
 	if (buf) {
 		DIAG_LOG(DIAG_DEBUG_PERIPHERALS,
-<<<<<<< HEAD
-				"Marking buffer as free p: %d, t: %d, buf_num: %d\n",
-				fwd_info->peripheral, fwd_info->type,
-				GET_BUF_NUM(buf->ctxt));
-=======
 		"Marking buffer as free p: %d, t: %d, buf_num: %d\n",
 			fwd_info->peripheral, fwd_info->type,
 			GET_BUF_NUM(buf->ctxt));
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		diagfwd_write_done(fwd_info->peripheral, fwd_info->type,
 				   GET_BUF_NUM(buf->ctxt));
 	}
@@ -637,15 +606,9 @@ end:
 	diag_ws_release();
 	if (temp_ptr_cpd) {
 		DIAG_LOG(DIAG_DEBUG_PERIPHERALS,
-<<<<<<< HEAD
-				"Marking buffer as free p: %d, t: %d, buf_num: %d\n",
-				fwd_info->peripheral, fwd_info->type,
-				GET_BUF_NUM(temp_ptr_cpd->ctxt));
-=======
 		"Marking buffer as free p: %d, t: %d, buf_num: %d\n",
 			fwd_info->peripheral, fwd_info->type,
 			GET_BUF_NUM(temp_ptr_cpd->ctxt));
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		diagfwd_write_done(fwd_info->peripheral, fwd_info->type,
 				   GET_BUF_NUM(temp_ptr_cpd->ctxt));
 	}
@@ -765,15 +728,9 @@ end_write:
 	diag_ws_release();
 	if (temp_buf) {
 		DIAG_LOG(DIAG_DEBUG_PERIPHERALS,
-<<<<<<< HEAD
-				"Marking buffer as free p: %d, t: %d, buf_num: %d\n",
-				fwd_info->peripheral, fwd_info->type,
-				GET_BUF_NUM(temp_buf->ctxt));
-=======
 		"Marking buffer as free p: %d, t: %d, buf_num: %d\n",
 			fwd_info->peripheral, fwd_info->type,
 			GET_BUF_NUM(temp_buf->ctxt));
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		diagfwd_write_done(fwd_info->peripheral, fwd_info->type,
 				   GET_BUF_NUM(temp_buf->ctxt));
 	}
@@ -865,15 +822,6 @@ static void diagfwd_reset_buffers(struct diagfwd_info *fwd_info,
 	}
 	if (fwd_info->buf_1 && !atomic_read(&(fwd_info->buf_1->in_busy))) {
 		DIAG_LOG(DIAG_DEBUG_PERIPHERALS,
-<<<<<<< HEAD
-				"Buffer 1 for core PD is marked free, p: %d, t: %d\n",
-				fwd_info->peripheral, fwd_info->type);
-	}
-	if (fwd_info->buf_2 && !atomic_read(&(fwd_info->buf_2->in_busy))) {
-		DIAG_LOG(DIAG_DEBUG_PERIPHERALS,
-				"Buffer 2 for core PD is marked free, p: %d, t: %d\n",
-				fwd_info->peripheral, fwd_info->type);
-=======
 		"Buffer 1 for core PD is marked free, p: %d, t: %d\n",
 			fwd_info->peripheral, fwd_info->type);
 	}
@@ -881,7 +829,6 @@ static void diagfwd_reset_buffers(struct diagfwd_info *fwd_info,
 		DIAG_LOG(DIAG_DEBUG_PERIPHERALS,
 		"Buffer 2 for core PD is marked free, p: %d, t: %d\n",
 			fwd_info->peripheral, fwd_info->type);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	}
 }
 
@@ -1279,24 +1226,14 @@ static void __diag_fwd_open(struct diagfwd_info *fwd_info)
 		if (fwd_info->buf_1) {
 			atomic_set(&fwd_info->buf_1->in_busy, 0);
 			DIAG_LOG(DIAG_DEBUG_PERIPHERALS,
-<<<<<<< HEAD
-					"Buffer 1 for core PD is marked free, p: %d, t: %d\n",
-					fwd_info->peripheral, fwd_info->type);
-=======
 			"Buffer 1 for core PD is marked free, p: %d, t: %d\n",
 				fwd_info->peripheral, fwd_info->type);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		}
 		if (fwd_info->buf_2) {
 			atomic_set(&fwd_info->buf_2->in_busy, 0);
 			DIAG_LOG(DIAG_DEBUG_PERIPHERALS,
-<<<<<<< HEAD
-					"Buffer 2 for core PD is marked free, p: %d, t: %d\n",
-					fwd_info->peripheral, fwd_info->type);
-=======
 			"Buffer 2 for core PD is marked free, p: %d, t: %d\n",
 				fwd_info->peripheral, fwd_info->type);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		}
 	}
 
@@ -1459,13 +1396,8 @@ int diagfwd_channel_read_done(struct diagfwd_info *fwd_info,
 	 */
 	if (len == 0) {
 		DIAG_LOG(DIAG_DEBUG_PERIPHERALS,
-<<<<<<< HEAD
-				"Read Length is 0, resetting the diag buffers p: %d, t: %d\n",
-				fwd_info->peripheral, fwd_info->type);
-=======
 		"Read Length is 0, resetting the diag buffers p: %d, t: %d\n",
 			fwd_info->peripheral, fwd_info->type);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		diagfwd_reset_buffers(fwd_info, buf);
 		diag_ws_release();
 		return 0;
@@ -1505,13 +1437,8 @@ void diagfwd_write_done(uint8_t peripheral, uint8_t type, int buf_num)
 		}
 		if (!atomic_read(&(fwd_info->buf_1->in_busy))) {
 			DIAG_LOG(DIAG_DEBUG_PERIPHERALS,
-<<<<<<< HEAD
-					"Buffer 1 for core PD is marked free, p: %d, t: %d, buf_num: %d\n",
-					fwd_info->peripheral, fwd_info->type, buf_num);
-=======
 			"Buffer 1 for core PD is marked free, p: %d, t: %d, buf_num: %d\n",
 				fwd_info->peripheral, fwd_info->type, buf_num);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		}
 	} else if (buf_num == 2 && fwd_info->buf_2) {
 		/* Buffer 2 for core PD is freed */
@@ -1529,13 +1456,8 @@ void diagfwd_write_done(uint8_t peripheral, uint8_t type, int buf_num)
 		}
 		if (!atomic_read(&(fwd_info->buf_2->in_busy))) {
 			DIAG_LOG(DIAG_DEBUG_PERIPHERALS,
-<<<<<<< HEAD
-					"Buffer 2 for core PD is marked free, p: %d, t: %d, buf_num: %d\n",
-					fwd_info->peripheral, fwd_info->type, buf_num);
-=======
 			"Buffer 2 for core PD is marked free, p: %d, t: %d, buf_num: %d\n",
 				fwd_info->peripheral, fwd_info->type, buf_num);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		}
 	} else if (buf_num == 3 && fwd_info->buf_upd_1_a && fwd_info->buf_1) {
 		/* Buffer 1 for user pd 1  is freed */
@@ -1557,13 +1479,8 @@ void diagfwd_write_done(uint8_t peripheral, uint8_t type, int buf_num)
 		}
 		if (!atomic_read(&(fwd_info->buf_1->in_busy))) {
 			DIAG_LOG(DIAG_DEBUG_PERIPHERALS,
-<<<<<<< HEAD
-					"Buffer 1 for core PD is marked free, p: %d, t: %d, buf_num: %d\n",
-					fwd_info->peripheral, fwd_info->type, buf_num);
-=======
 			"Buffer 1 for core PD is marked free, p: %d, t: %d, buf_num: %d\n",
 				fwd_info->peripheral, fwd_info->type, buf_num);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		}
 		fwd_info->upd_len_1_a = 0;
 
@@ -1586,13 +1503,8 @@ void diagfwd_write_done(uint8_t peripheral, uint8_t type, int buf_num)
 		}
 		if (!atomic_read(&(fwd_info->buf_2->in_busy))) {
 			DIAG_LOG(DIAG_DEBUG_PERIPHERALS,
-<<<<<<< HEAD
-					"Buffer 2 for core PD is marked free, p: %d, t: %d, buf_num: %d\n",
-					fwd_info->peripheral, fwd_info->type, buf_num);
-=======
 			"Buffer 2 for core PD is marked free, p: %d, t: %d, buf_num: %d\n",
 				fwd_info->peripheral, fwd_info->type, buf_num);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		}
 		fwd_info->upd_len_1_b = 0;
 
@@ -1606,13 +1518,8 @@ void diagfwd_write_done(uint8_t peripheral, uint8_t type, int buf_num)
 			!fwd_info->upd_len_1_a) {
 			atomic_set(&fwd_info->buf_1->in_busy, 0);
 			DIAG_LOG(DIAG_DEBUG_PERIPHERALS,
-<<<<<<< HEAD
-					"Buffer 1 for core PD is marked free, p: %d, t: %d, buf_num: %d\n",
-					fwd_info->peripheral, fwd_info->type, buf_num);
-=======
 			"Buffer 1 for core PD is marked free, p: %d, t: %d, buf_num: %d\n",
 				fwd_info->peripheral, fwd_info->type, buf_num);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		}
 
 		fwd_info->upd_len_2_a = 0;
@@ -1627,13 +1534,8 @@ void diagfwd_write_done(uint8_t peripheral, uint8_t type, int buf_num)
 			!fwd_info->upd_len_1_b) {
 			atomic_set(&fwd_info->buf_2->in_busy, 0);
 			DIAG_LOG(DIAG_DEBUG_PERIPHERALS,
-<<<<<<< HEAD
-					"Buffer 2 for core PD is marked free, p: %d, t: %d, buf_num: %d\n",
-					fwd_info->peripheral, fwd_info->type, buf_num);
-=======
 			"Buffer 2 for core PD is marked free, p: %d, t: %d, buf_num: %d\n",
 				fwd_info->peripheral, fwd_info->type, buf_num);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		}
 		fwd_info->upd_len_2_b = 0;
 

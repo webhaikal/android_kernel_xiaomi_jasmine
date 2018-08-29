@@ -5,11 +5,8 @@
  *
  * Copyright (C) 2012 Alexandra Chin <alexandra.chin@tw.synaptics.com>
  * Copyright (C) 2012 Scott Lin <scott.lin@tw.synaptics.com>
-<<<<<<< HEAD
  * Copyright (C) 2018 XiaoMi, Inc.
-=======
  * Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -771,10 +768,6 @@ static ssize_t synaptics_rmi4_f01_reset_store(struct device *dev,
 	unsigned int reset;
 	struct synaptics_rmi4_data *rmi4_data = dev_get_drvdata(dev);
 
-<<<<<<< HEAD
-	if (sscanf(buf, "%u", &reset) != 1)
-		return -EINVAL;
-=======
 #if defined(CONFIG_SECURE_TOUCH)
 static int synaptics_i2c_change_pipe_owner(
 	struct synaptics_rmi4_data *rmi4_data, enum subsystem subsystem)
@@ -797,7 +790,6 @@ static int synaptics_i2c_change_pipe_owner(
 
 	return desc.ret[0];
 }
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	if (reset != 1)
 		return -EINVAL;
@@ -4354,26 +4346,6 @@ static int synaptics_rmi4_probe(struct platform_device *pdev)
 		goto err_enable_irq;
 	}
 
-<<<<<<< HEAD
-	if (vir_button_map->nbuttons) {
-		rmi4_data->board_prop_dir = kobject_create_and_add(
-				"board_properties", NULL);
-		if (!rmi4_data->board_prop_dir) {
-			dev_err(&pdev->dev,
-					"%s: Failed to create board_properties directory\n",
-					__func__);
-			goto err_virtual_buttons;
-		} else {
-			retval = sysfs_create_file(rmi4_data->board_prop_dir,
-					&virtual_key_map_attr.attr);
-			if (retval < 0) {
-				dev_err(&pdev->dev,
-						"%s: Failed to create virtual key map file\n",
-						__func__);
-				goto err_virtual_buttons;
-			}
-		}
-=======
 	exp_data.workqueue = create_singlethread_workqueue("dsx_exp_workqueue");
 	if (exp_data.workqueue == NULL) {
 		dev_err(&pdev->dev,
@@ -4406,7 +4378,6 @@ static int synaptics_rmi4_probe(struct platform_device *pdev)
 			"%s: Failed to create suspend debugfs file, rc = %d\n",
 			__func__, retval);
 		goto err_create_debugfs_file;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	}
 
 	for (attr_count = 0; attr_count < ARRAY_SIZE(attrs); attr_count++) {
@@ -4458,17 +4429,6 @@ err_sysfs:
 		sysfs_remove_file(&rmi4_data->input_dev->dev.kobj,
 				&attrs[attr_count].attr);
 	}
-<<<<<<< HEAD
-
-err_virtual_buttons:
-	if (rmi4_data->board_prop_dir) {
-		sysfs_remove_file(rmi4_data->board_prop_dir,
-				&virtual_key_map_attr.attr);
-		kobject_put(rmi4_data->board_prop_dir);
-	}
-
-	synaptics_rmi4_irq_enable(rmi4_data, false, false);
-=======
 err_create_debugfs_file:
 	debugfs_remove_recursive(rmi4_data->dir);
 err_create_debugfs_dir:
@@ -4478,7 +4438,6 @@ err_create_debugfs_dir:
 err_create_wq:
 	synaptics_rmi4_irq_enable(rmi4_data, false);
 	free_irq(rmi4_data->irq, rmi4_data);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 err_enable_irq:
 #ifdef CONFIG_FB

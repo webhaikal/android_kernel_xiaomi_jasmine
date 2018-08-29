@@ -210,10 +210,7 @@ struct sde_connector {
 	struct sde_fence retire_fence;
 	struct sde_connector_ops ops;
 	int dpms_mode;
-<<<<<<< HEAD
-=======
 	u64 hpd_mode;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	int lp_mode;
 	int last_panel_power_mode;
 
@@ -397,8 +394,6 @@ enum sde_csc_type sde_connector_get_csc_type(struct drm_connector *conn);
  */
 int sde_connector_get_dpms(struct drm_connector *connector);
 
-<<<<<<< HEAD
-=======
 /**
  * sde_connector_needs_offset - adjust the output fence offset based on
  *                              display type
@@ -416,6 +411,5 @@ static inline bool sde_connector_needs_offset(struct drm_connector *connector)
 	return (c_conn->connector_type != DRM_MODE_CONNECTOR_VIRTUAL);
 }
 
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 #endif /* _SDE_CONNECTOR_H_ */
 

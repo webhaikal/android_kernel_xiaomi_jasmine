@@ -209,13 +209,6 @@ again:
 		if (selected->mm)
 			task_set_lmk_waiting(selected);
 		task_unlock(selected);
-<<<<<<< HEAD
-		lowmem_print(1, "Killing '%s' (%d), adj %hd,\n"
-				 "   to free %ldkB on behalf of '%s' (%d) because\n"
-				 "   cache %ldkB is below limit %ldkB for oom_score_adj %hd\n"
-				 "   Free memory is %ldkB above reserved\n",
-			     selected->comm, selected->pid,
-=======
 		cache_size = other_file * (long)(PAGE_SIZE / 1024);
 		cache_limit = minfree * (long)(PAGE_SIZE / 1024);
 		free = other_free * (long)(PAGE_SIZE / 1024);
@@ -231,7 +224,6 @@ again:
 				"   Total zcache is %ldkB\n" \
 				"   GFP mask is 0x%x\n",
 			     selected->comm, selected->pid, selected->tgid,
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			     selected_oom_score_adj,
 			     selected_tasksize * (long)(PAGE_SIZE / 1024),
 			     current->comm, current->pid,

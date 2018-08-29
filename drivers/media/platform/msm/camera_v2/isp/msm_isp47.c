@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-/* Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
 /* Copyright (c) 2013-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1456,15 +1452,9 @@ void msm_vfe47_cfg_camif(struct vfe_device *vfe_dev,
 	* configure EPOCH1: epoch_line1 before EOF
 	*/
 	msm_camera_io_w_mb(0x140000 | epoch_line1,
-<<<<<<< HEAD
-			vfe_dev->vfe_base + 0x4A0);
-	pr_debug("%s:%d: epoch_line1: %d\n",
-			__func__, __LINE__, epoch_line1);
-=======
 		vfe_dev->vfe_base + 0x4A0);
 	pr_debug("%s:%d: epoch_line1: %d\n",
 		__func__, __LINE__, epoch_line1);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	msm_camera_io_w(((irq_sub_period - 1) << 8) | 0 << 5 |
 		(frame_sub_period - 1), vfe_dev->vfe_base + 0x494);
 	msm_camera_io_w(0xFFFFFFFF, vfe_dev->vfe_base + 0x498);

@@ -22,13 +22,9 @@
 #include "sde_hw_util.h"
 #include "sde_hw_intf.h"
 #include "sde_hw_catalog.h"
-<<<<<<< HEAD
-#include "dsi_display.h"
-=======
 #include "sde_rm.h"
 #include "dsi_display.h"
 #include "sde_hdmi.h"
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 #define MDP_SSPP_TOP0_OFF		0x1000
 #define DISP_INTF_SEL			0x004
@@ -43,13 +39,9 @@
 #define SDE_LK_STOP_SPLASH_VALUE	0xDEADDEAD
 #define SDE_LK_EXIT_VALUE		0xDEADBEEF
 
-<<<<<<< HEAD
-#define SDE_LK_EXIT_MAX_LOOP		20
-=======
 #define INTF_HDMI_SEL                  (BIT(25) | BIT(24))
 #define INTF_DSI0_SEL                  BIT(8)
 #define INTF_DSI1_SEL                  BIT(16)
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 static DEFINE_MUTEX(sde_splash_lock);
 
@@ -283,21 +275,7 @@ static void _sde_splash_destroy_splash_node(struct sde_splash_info *sinfo)
 	sinfo->splash_mem_size = NULL;
 }
 
-<<<<<<< HEAD
-static void _sde_splash_get_connector_ref_cnt(struct sde_splash_info *sinfo,
-					u32 *hdmi_cnt, u32 *dsi_cnt)
-{
-	mutex_lock(&sde_splash_lock);
-	*hdmi_cnt = sinfo->hdmi_connector_cnt;
-	*dsi_cnt = sinfo->dsi_connector_cnt;
-	mutex_unlock(&sde_splash_lock);
-}
-
-static int _sde_splash_free_resource(struct msm_mmu *mmu,
-		struct sde_splash_info *sinfo, enum splash_connector_type conn)
-=======
 static void _sde_splash_update_display_splash_status(struct sde_kms *sde_kms)
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 {
 	struct dsi_display *dsi_display;
 	struct sde_hdmi *sde_hdmi;
@@ -634,20 +612,12 @@ int sde_splash_get_handoff_status(struct msm_kms *kms)
 
 	if (num_of_display_on) {
 		sinfo->handoff = true;
-<<<<<<< HEAD
-		sinfo->program_scratch_regs = true;
-		sinfo->lk_is_exited = false;
-	} else {
-		sinfo->handoff = false;
-		sinfo->program_scratch_regs = false;
-=======
 		sinfo->display_splash_enabled = true;
 		sinfo->lk_is_exited = false;
 		sinfo->intf_sel_status = intf_sel;
 	} else {
 		sinfo->handoff = false;
 		sinfo->display_splash_enabled = false;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		sinfo->lk_is_exited = true;
 	}
 
@@ -773,22 +743,6 @@ void sde_splash_setup_connector_count(struct sde_splash_info *sinfo,
 	}
 }
 
-<<<<<<< HEAD
-bool sde_splash_get_lk_complete_status(struct sde_splash_info *sinfo)
-{
-	bool ret = 0;
-
-	mutex_lock(&sde_splash_lock);
-	ret = !sinfo->handoff && !sinfo->lk_is_exited;
-	mutex_unlock(&sde_splash_lock);
-
-	return ret;
-}
-
-int sde_splash_clean_up_free_resource(struct msm_kms *kms,
-				struct sde_power_handle *phandle,
-				int connector_type, void *display)
-=======
 bool sde_splash_get_lk_complete_status(struct msm_kms *kms)
 {
 	struct sde_kms *sde_kms = to_sde_kms(kms);
@@ -815,7 +769,6 @@ bool sde_splash_get_lk_complete_status(struct msm_kms *kms)
 int sde_splash_free_resource(struct msm_kms *kms,
 			struct sde_power_handle *phandle,
 			int connector_type, void *display)
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 {
 	struct sde_kms *sde_kms;
 	struct sde_splash_info *sinfo;
@@ -838,26 +791,11 @@ int sde_splash_free_resource(struct msm_kms *kms,
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
-=======
 	/* Get connector number where the early splash in on. */
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	_sde_splash_get_connector_ref_cnt(sinfo, &hdmi_conn_count,
 						&dsi_conn_count);
 
 	mutex_lock(&sde_splash_lock);
-<<<<<<< HEAD
-	if (hdmi_conn_count == 0 && dsi_conn_count == 0 &&
-					!sinfo->lk_is_exited) {
-		/* When both hdmi's and dsi's handoff are finished,
-		 * 1. Destroy splash node objects.
-		 * 2. Release the memory which LK's stack is running on.
-		 * 3. Withdraw AHB data bus bandwidth voting.
-		 */
-		DRM_INFO("HDMI and DSI resource handoff is completed\n");
-
-		sinfo->lk_is_exited = true;
-=======
 	if (!sinfo->handoff) {
 		mutex_unlock(&sde_splash_lock);
 		return 0;
@@ -876,7 +814,6 @@ int sde_splash_free_resource(struct msm_kms *kms,
 
 		/* free HDMI's, DSI's and early camera's reserved memory */
 		_sde_splash_free_module_resource(mmu, sinfo);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 		_sde_splash_destroy_splash_node(sinfo);
 
@@ -902,15 +839,12 @@ int sde_splash_free_resource(struct msm_kms *kms,
 		/* set display's splash status to false after handoff is done */
 		_sde_splash_update_display_splash_status(sde_kms);
 
-<<<<<<< HEAD
-=======
 		/* Finally mark handoff flag to false to say
 		 * handoff is complete.
 		 */
 		sinfo->handoff = false;
 
 		DRM_INFO("HDMI and DSI resource handoff is completed\n");
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		mutex_unlock(&sde_splash_lock);
 		return 0;
 	}
@@ -921,36 +855,6 @@ int sde_splash_free_resource(struct msm_kms *kms,
 	 */
 	switch (connector_type) {
 	case DRM_MODE_CONNECTOR_HDMIA:
-<<<<<<< HEAD
-		if (sinfo->hdmi_connector_cnt == 1) {
-			sinfo->hdmi_connector_cnt--;
-
-			ret = _sde_splash_free_resource(mmu,
-					sinfo, SPLASH_HDMI);
-		}
-		break;
-	case DRM_MODE_CONNECTOR_DSI:
-		/*
-		 * Basically, we have commits coming on two DSI connectors.
-		 * So when releasing DSI resource, it's ensured that the
-		 * coming commits should happen on different DSIs, to promise
-		 * the handoff has finished on the two DSIs, then it's safe
-		 * to release DSI resource, otherwise, problem happens when
-		 * freeing memory, while DSI0 or DSI1 is still visiting
-		 * the memory.
-		 */
-		if (strcmp(dsi_display->display_type, "unknown") &&
-			strcmp(last_commit_display_type,
-					dsi_display->display_type)) {
-			if (sinfo->dsi_connector_cnt > 1)
-				sinfo->dsi_connector_cnt--;
-			else if (sinfo->dsi_connector_cnt == 1) {
-				ret = _sde_splash_free_resource(mmu,
-					sinfo, SPLASH_DSI);
-
-				sinfo->dsi_connector_cnt--;
-			}
-=======
 		if (sinfo->hdmi_connector_cnt == 1)
 			sinfo->hdmi_connector_cnt--;
 		break;
@@ -960,7 +864,6 @@ int sde_splash_free_resource(struct msm_kms *kms,
 				dsi_display->display_type)) {
 			if (sinfo->dsi_connector_cnt >= 1)
 				sinfo->dsi_connector_cnt--;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 			last_commit_display_type = dsi_display->display_type;
 		}
@@ -972,10 +875,6 @@ int sde_splash_free_resource(struct msm_kms *kms,
 	}
 
 	mutex_unlock(&sde_splash_lock);
-<<<<<<< HEAD
-
-=======
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	return ret;
 }
 
@@ -997,42 +896,12 @@ int sde_splash_lk_stop_splash(struct msm_kms *kms,
 
 	/* Monitor LK's status and tell it to exit. */
 	mutex_lock(&sde_splash_lock);
-<<<<<<< HEAD
-	if (sinfo->program_scratch_regs) {
-=======
 	if (_sde_splash_validate_commit(sde_kms, state) &&
 			sinfo->display_splash_enabled) {
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		if (_sde_splash_lk_check(sde_kms->hw_intr))
 			_sde_splash_notify_lk_stop_splash(sde_kms->hw_intr);
 
-<<<<<<< HEAD
-		sinfo->handoff = false;
-		sinfo->program_scratch_regs = false;
-	}
-	mutex_unlock(&sde_splash_lock);
-
-	if (!sde_kms->aspace[0] || !sde_kms->aspace[0]->mmu) {
-		/* We do not return fault value here, to ensure
-		 * flag "lk_is_exited" is set.
-		 */
-		SDE_ERROR("invalid mmu\n");
-		WARN_ON(1);
-	} else {
-		mmu = sde_kms->aspace[0]->mmu;
-		/* After LK has exited, set early domain map attribute
-		 * to 1 to enable stage 1 translation in iommu driver.
-		 */
-		if (mmu->funcs && mmu->funcs->set_property) {
-			ret = mmu->funcs->set_property(mmu,
-				DOMAIN_ATTR_EARLY_MAP, &sinfo->handoff);
-
-			if (ret)
-				SDE_ERROR("set_property failed\n");
-		}
-=======
 		sinfo->display_splash_enabled = false;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	}
 	mutex_unlock(&sde_splash_lock);
 

@@ -432,11 +432,7 @@ static void hidp_del_timer(struct hidp_session *session)
 }
 
 static void hidp_process_report(struct hidp_session *session, int type,
-<<<<<<< HEAD
-			const u8 *data, unsigned int len, int intr)
-=======
 				const u8 *data, unsigned int len, int intr)
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 {
 	if (len > HID_MAX_BUFFER_SIZE)
 		len = HID_MAX_BUFFER_SIZE;

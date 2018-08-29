@@ -3141,12 +3141,8 @@ static ssize_t diagchar_read(struct file *file, char __user *buf, size_t count,
 		pr_err("diag: bad address from user side\n");
 		return -EFAULT;
 	}
-<<<<<<< HEAD
-	wait_event_interruptible(driver->wait_q, (check_data_ready(index)) > 0);
-=======
 	wait_event_interruptible(driver->wait_q,
 			atomic_read(&driver->data_ready_notif[index]) > 0);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	mutex_lock(&driver->diagchar_mutex);
 

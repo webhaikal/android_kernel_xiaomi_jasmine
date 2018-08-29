@@ -126,9 +126,6 @@ static void sde_hdmi_clear_hdr_info(struct drm_bridge *bridge)
 	connector->hdr_supported = false;
 }
 
-<<<<<<< HEAD
-static void _sde_hdmi_bridge_power_on(struct drm_bridge *bridge)
-=======
 static void sde_hdmi_clear_vsdb_info(struct drm_bridge *bridge)
 {
 	struct sde_hdmi_bridge *sde_hdmi_bridge = to_hdmi_bridge(bridge);
@@ -179,7 +176,6 @@ static void sde_hdmi_clear_vsdbs(struct drm_bridge *bridge)
 }
 
 static int _sde_hdmi_bridge_power_on(struct drm_bridge *bridge)
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 {
 	struct sde_hdmi_bridge *sde_hdmi_bridge = to_hdmi_bridge(bridge);
 	struct hdmi *hdmi = sde_hdmi_bridge->hdmi;
@@ -668,11 +664,6 @@ static void _sde_hdmi_bridge_disable(struct drm_bridge *bridge)
 
 	display->pll_update_enable = false;
 	display->sink_hdcp_ver = SDE_HDMI_HDCP_NONE;
-<<<<<<< HEAD
-
-	if (sde_hdmi_tx_is_hdcp_enabled(display))
-		sde_hdmi_hdcp_off(display);
-=======
 	display->sink_hdcp22_support = false;
 
 	if (sde_hdmi_tx_is_hdcp_enabled(display))
@@ -683,7 +674,6 @@ static void _sde_hdmi_bridge_disable(struct drm_bridge *bridge)
 	sde_hdmi_clear_vsdbs(bridge);
 	/* Clear HDMI VCDB block info */
 	sde_hdmi_clear_vcdb_info(bridge);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	sde_hdmi_clear_hdr_info(bridge);
 	mutex_unlock(&display->display_lock);
@@ -714,15 +704,10 @@ static void _sde_hdmi_bridge_post_disable(struct drm_bridge *bridge)
 		hdmi->power_on = false;
 	}
 
-<<<<<<< HEAD
-	/* Powering-on the controller for HPD */
-	sde_hdmi_ctrl_cfg(hdmi, 1);
-=======
 	if (!display->non_pluggable) {
 		/* Powering-on the controller for HPD */
 		sde_hdmi_ctrl_cfg(hdmi, 1);
 	}
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 }
 
 static void _sde_hdmi_bridge_set_avi_infoframe(struct hdmi *hdmi,

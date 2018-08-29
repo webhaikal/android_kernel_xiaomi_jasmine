@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2008-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
 /* Copyright (c) 2008-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -711,19 +706,12 @@ static int diag_cmd_get_msg_mask(unsigned char *src_buf, int src_len,
 	}
 	if (!mask_info->ptr) {
 		pr_err("diag: In %s, invalid input mask_info->ptr: %pK\n",
-<<<<<<< HEAD
-				__func__, mask_info->ptr);
-		return -EINVAL;
-	}
-	if (!diag_apps_responds())
-=======
 			__func__, mask_info->ptr);
 		mutex_unlock(&driver->md_session_lock);
 		return -EINVAL;
 	}
 	if (!diag_apps_responds()) {
 		mutex_unlock(&driver->md_session_lock);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		return 0;
 	}
 
@@ -738,14 +726,9 @@ static int diag_cmd_get_msg_mask(unsigned char *src_buf, int src_len,
 	mask = (struct diag_msg_mask_t *)mask_info->ptr;
 	if (!mask->ptr) {
 		pr_err("diag: Invalid input in %s, mask->ptr: %pK\n",
-<<<<<<< HEAD
-				__func__, mask->ptr);
-		mutex_unlock(&driver->msg_mask_lock);
-=======
 			__func__, mask->ptr);
 		mutex_unlock(&driver->msg_mask_lock);
 		mutex_unlock(&driver->md_session_lock);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		return -EINVAL;
 	}
 	for (i = 0; i < driver->msg_mask_tbl_count; i++, mask++) {
@@ -818,16 +801,10 @@ static int diag_cmd_set_msg_mask(unsigned char *src_buf, int src_len,
 	mask = (struct diag_msg_mask_t *)mask_info->ptr;
 	if (!mask->ptr) {
 		pr_err("diag: Invalid input in %s, mask->ptr: %pK\n",
-<<<<<<< HEAD
-				__func__, mask->ptr);
-		mutex_unlock(&driver->msg_mask_lock);
-		mutex_unlock(&mask_info->lock);
-=======
 			__func__, mask->ptr);
 		mutex_unlock(&driver->msg_mask_lock);
 		mutex_unlock(&mask_info->lock);
 		mutex_unlock(&driver->md_session_lock);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		return -EINVAL;
 	}
 	for (i = 0; i < driver->msg_mask_tbl_count; i++, mask++) {
@@ -970,16 +947,10 @@ static int diag_cmd_set_all_msg_mask(unsigned char *src_buf, int src_len,
 	mask = (struct diag_msg_mask_t *)mask_info->ptr;
 	if (!mask->ptr) {
 		pr_err("diag: Invalid input in %s, mask->ptr: %pK\n",
-<<<<<<< HEAD
-				__func__, mask->ptr);
-		mutex_unlock(&driver->msg_mask_lock);
-		mutex_unlock(&mask_info->lock);
-=======
 			__func__, mask->ptr);
 		mutex_unlock(&driver->msg_mask_lock);
 		mutex_unlock(&mask_info->lock);
 		mutex_unlock(&driver->md_session_lock);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		return -EINVAL;
 	}
 	mask_info->status = (req->rt_mask) ? DIAG_CTRL_MASK_ALL_ENABLED :
@@ -1085,14 +1056,6 @@ static int diag_cmd_update_event_mask(unsigned char *src_buf, int src_len,
 		mutex_unlock(&driver->md_session_lock);
 		return -EINVAL;
 	}
-<<<<<<< HEAD
-	if (!mask_info->ptr) {
-		pr_err("diag: In %s, invalid input mask_info->ptr: %pK\n",
-				__func__, mask_info->ptr);
-		return -EINVAL;
-	}
-=======
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	req = (struct diag_event_mask_config_t *)src_buf;
 	mask_len = EVENT_COUNT_TO_BYTES(req->num_bits);
 	if (mask_len <= 0 || mask_len > event_mask.mask_len) {
@@ -1262,12 +1225,8 @@ static int diag_cmd_get_log_mask(unsigned char *src_buf, int src_len,
 	log_item = (struct diag_log_mask_t *)mask_info->ptr;
 	if (!log_item->ptr) {
 		pr_err("diag: Invalid input in %s, mask: %pK\n",
-<<<<<<< HEAD
-				__func__, log_item);
-=======
 			__func__, log_item);
 		mutex_unlock(&driver->md_session_lock);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		return -EINVAL;
 	}
 	for (i = 0; i < MAX_EQUIP_ID; i++, log_item++) {
@@ -1398,12 +1357,8 @@ static int diag_cmd_set_log_mask(unsigned char *src_buf, int src_len,
 	mask = (struct diag_log_mask_t *)mask_info->ptr;
 	if (!mask->ptr) {
 		pr_err("diag: Invalid input in %s, mask->ptr: %pK\n",
-<<<<<<< HEAD
-				__func__, mask->ptr);
-=======
 			__func__, mask->ptr);
 		mutex_unlock(&driver->md_session_lock);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		return -EINVAL;
 	}
 	if (req->equip_id >= MAX_EQUIP_ID) {
@@ -1535,23 +1490,11 @@ static int diag_cmd_disable_log_mask(unsigned char *src_buf, int src_len,
 		mutex_unlock(&driver->md_session_lock);
 		return -EINVAL;
 	}
-<<<<<<< HEAD
-	if (!mask_info->ptr) {
-		pr_err("diag: In %s, invalid input mask_info->ptr: %pK\n",
-				__func__, mask_info->ptr);
-		return -EINVAL;
-	}
-	mask = (struct diag_log_mask_t *)mask_info->ptr;
-	if (!mask->ptr) {
-		pr_err("diag: Invalid input in %s, mask->ptr: %pK\n",
-				__func__, mask->ptr);
-=======
 	mask = (struct diag_log_mask_t *)mask_info->ptr;
 	if (!mask->ptr) {
 		pr_err("diag: Invalid input in %s, mask->ptr: %pK\n",
 			__func__, mask->ptr);
 		mutex_unlock(&driver->md_session_lock);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		return -EINVAL;
 	}
 	for (i = 0; i < MAX_EQUIP_ID; i++, mask++) {
@@ -1888,11 +1831,7 @@ void diag_log_mask_free(struct diag_mask_info *mask_info)
 	mask = (struct diag_log_mask_t *)mask_info->ptr;
 	if (!mask->ptr) {
 		pr_err("diag: Invalid input in %s, mask->ptr: %pK\n",
-<<<<<<< HEAD
-				__func__, mask->ptr);
-=======
 			__func__, mask->ptr);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		mutex_unlock(&mask_info->lock);
 		return;
 	}
@@ -1977,11 +1916,7 @@ void diag_msg_mask_free(struct diag_mask_info *mask_info)
 	mask = (struct diag_msg_mask_t *)mask_info->ptr;
 	if (!mask->ptr) {
 		pr_err("diag: Invalid input in %s, mask->ptr: %pK\n",
-<<<<<<< HEAD
-				__func__, mask->ptr);
-=======
 			__func__, mask->ptr);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		mutex_unlock(&driver->msg_mask_lock);
 		mutex_unlock(&mask_info->lock);
 		return;
@@ -2154,11 +2089,7 @@ int diag_copy_to_user_msg_mask(char __user *buf, size_t count,
 
 	if (!mask_info->ptr || !mask_info->update_buf) {
 		pr_err("diag: In %s, invalid input mask_info->ptr: %pK, mask_info->update_buf: %pK\n",
-<<<<<<< HEAD
-				__func__, mask_info->ptr, mask_info->update_buf);
-=======
 			__func__, mask_info->ptr, mask_info->update_buf);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		return -EINVAL;
 	}
 	mutex_lock(&driver->diag_maskclear_mutex);
@@ -2175,11 +2106,7 @@ int diag_copy_to_user_msg_mask(char __user *buf, size_t count,
 	mask = (struct diag_msg_mask_t *)(mask_info->ptr);
 	if (!mask->ptr) {
 		pr_err("diag: Invalid input in %s, mask->ptr: %pK\n",
-<<<<<<< HEAD
-				__func__, mask->ptr);
-=======
 			__func__, mask->ptr);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		mutex_unlock(&driver->msg_mask_lock);
 		mutex_unlock(&mask_info->lock);
 		return -EINVAL;
@@ -2248,11 +2175,7 @@ int diag_copy_to_user_log_mask(char __user *buf, size_t count,
 
 	if (!mask_info->ptr || !mask_info->update_buf) {
 		pr_err("diag: In %s, invalid input mask_info->ptr: %pK, mask_info->update_buf: %pK\n",
-<<<<<<< HEAD
-				__func__, mask_info->ptr, mask_info->update_buf);
-=======
 			__func__, mask_info->ptr, mask_info->update_buf);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		return -EINVAL;
 	}
 
@@ -2260,11 +2183,7 @@ int diag_copy_to_user_log_mask(char __user *buf, size_t count,
 	mask = (struct diag_log_mask_t *)(mask_info->ptr);
 	if (!mask->ptr) {
 		pr_err("diag: Invalid input in %s, mask->ptr: %pK\n",
-<<<<<<< HEAD
-				__func__, mask->ptr);
-=======
 			__func__, mask->ptr);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		mutex_unlock(&mask_info->lock);
 		return -EINVAL;
 	}

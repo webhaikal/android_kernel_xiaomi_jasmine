@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2016-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
 /* Copyright (c) 2016-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -718,15 +713,9 @@
 				regulator-max-microvolt = <8>;
 
 				qcom,cpr-fuse-corners = <5>;
-<<<<<<< HEAD
-				qcom,cpr-fuse-combos = <32>;
-				qcom,cpr-speed-bins = <4>;
-				qcom,cpr-speed-bin-corners = <8 8 0 8>;
-=======
 				qcom,cpr-fuse-combos = <40>;
 				qcom,cpr-speed-bins = <5>;
 				qcom,cpr-speed-bin-corners = <8 8 0 8 8>;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 				qcom,cpr-corners =
 					/* Speed bin 0 */
 					<8 8 8 8 8 8 8 8>,
@@ -738,15 +727,11 @@
 					<0 0 0 0 0 0 0 0>,
 
 					/* Speed bin 3 */
-<<<<<<< HEAD
-					<8 8 8 8 8 8 8 8>;
-=======
 					<8 8 8 8 8 8 8 8>,
 
 					/* Speed bin 4 */
 					<8 8 8 8 8 8 8 8>;
 
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 				qcom,cpr-corner-fmax-map =
 					/* Speed bin 0 */
 					<2 3 4 5 8>,
@@ -758,12 +743,9 @@
 					<0 0 0 0 0>,
 
 					/* Speed bin 3 */
-<<<<<<< HEAD
-=======
 					<2 3 4 5 8>,
 
 					/* Speed bin 4 */
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 					<2 3 4 5 8>;
 
 				qcom,cpr-voltage-ceiling =
@@ -776,8 +758,6 @@
 
 				qcom,corner-frequencies =
 					/* Speed bin 0 */
-<<<<<<< HEAD
-=======
 					<300000000  633600000  902400000
 					1113600000 1401600000 1536000000
 					1747200000 1843200000>,
@@ -793,7 +773,6 @@
 					1612800000 1843200000>,
 
 					/* Speed bin 4 */
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 					<300000000  633600000  902400000
 					1113600000 1401600000 1536000000
 					1747200000 1843200000>,
@@ -895,15 +874,9 @@
 				regulator-max-microvolt = <7>;
 
 				qcom,cpr-fuse-corners = <5>;
-<<<<<<< HEAD
-				qcom,cpr-fuse-combos = <32>;
-				qcom,cpr-speed-bins = <4>;
-				qcom,cpr-speed-bin-corners = <7 7 0 7>;
-=======
 				qcom,cpr-fuse-combos = <40>;
 				qcom,cpr-speed-bins = <5>;
 				qcom,cpr-speed-bin-corners = <7 7 0 7 7>;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 				qcom,cpr-corners =
 					/* Speed-bin 0 */
 					<7 7 7 7 7 7 7 7>,
@@ -915,12 +888,9 @@
 					<0 0 0 0 0 0 0 0>,
 
 					/* Speed-bin 3 */
-<<<<<<< HEAD
-=======
 					<7 7 7 7 7 7 7 7>,
 
 					/* Speed-bin 4 */
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 					<7 7 7 7 7 7 7 7>;
 
 				qcom,cpr-corner-fmax-map =
@@ -934,12 +904,9 @@
 					<0 0 0 0 0>,
 
 					/* Speed-bin 3 */
-<<<<<<< HEAD
-=======
 					<2 3 4 6 7>,
 
 					/* Speed-bin 4 */
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 					<2 3 4 6 7>;
 
 				qcom,cpr-voltage-ceiling =
@@ -964,14 +931,11 @@
 					/* Speed bin 3 */
 					<300000000  1113600000 1401600000
 					 1747200000 1804800000 2150400000
-<<<<<<< HEAD
-=======
 					 2208000000>,
 
 					/* Speed bin 4 */
 					<300000000  1113600000 1401600000
 					 1747200000 1958400000 2150400000
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 					 2208000000>;
 
 				qcom,allow-voltage-interpolation;

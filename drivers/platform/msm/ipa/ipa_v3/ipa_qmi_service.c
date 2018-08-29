@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-/* Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
 /* Copyright (c) 2013-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -609,11 +605,6 @@ int ipa3_qmi_filter_request_send(struct ipa_install_fltr_rule_req_msg_v01 *req)
 	struct msg_desc req_desc, resp_desc;
 	int rc;
 	int i;
-<<<<<<< HEAD
-
-	/* check if the filter rules from IPACM is valid */
-	if (req->filter_spec_list_len == 0) {
-=======
 
 	/* check if modem up */
 	if (!ipa3_qmi_indication_fin ||
@@ -625,7 +616,6 @@ int ipa3_qmi_filter_request_send(struct ipa_install_fltr_rule_req_msg_v01 *req)
 
 	/* check if the filter rules from IPACM is valid */
 	if (req->filter_spec_list_len == 0)
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		IPAWANDBG("IPACM pass zero rules to Q6\n");
 	else
 		IPAWANDBG("IPACM pass %u rules to Q6\n",
@@ -739,8 +729,6 @@ int ipa3_qmi_filter_request_ex_send(
 	struct msg_desc req_desc, resp_desc;
 	int rc;
 	int i;
-<<<<<<< HEAD
-=======
 
 	/* check if modem up */
 	if (!ipa3_qmi_indication_fin ||
@@ -749,7 +737,6 @@ int ipa3_qmi_filter_request_ex_send(
 		IPAWANDBG("modem QMI haven't up yet\n");
 		return -EINVAL;
 	}
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	/* check if the filter rules from IPACM is valid */
 	if (req->filter_spec_ex_list_len == 0) {
@@ -761,18 +748,6 @@ int ipa3_qmi_filter_request_ex_send(
 
 	if (req->filter_spec_ex_list_len >= QMI_IPA_MAX_FILTERS_EX_V01) {
 		IPAWANDBG(
-<<<<<<< HEAD
-				"IPACM pass the number of filtering rules exceed limit\n");
-		return -EINVAL;
-	} else if (req->source_pipe_index_valid != 0) {
-		IPAWANDBG(
-				"IPACM passes source_pipe_index_valid not zero 0 != %d\n",
-				req->source_pipe_index_valid);
-		return -EINVAL;
-	}
-
-	for (i = 0; i < req->filter_spec_ex_list_len-1; i++) {
-=======
 		"IPACM pass the number of filtering rules exceed limit\n");
 		return -EINVAL;
 	} else if (req->source_pipe_index_valid != 0) {
@@ -783,7 +758,6 @@ int ipa3_qmi_filter_request_ex_send(
 	}
 
 	for (i = 0; i < req->filter_spec_ex_list_len; i++) {
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		if ((req->filter_spec_ex_list[i].ip_type !=
 			QMI_IPA_IP_TYPE_V4_V01) &&
 			(req->filter_spec_ex_list[i].ip_type !=

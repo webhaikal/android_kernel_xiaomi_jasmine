@@ -1218,24 +1218,9 @@ static int a5xx_pm_suspend(struct msm_gpu *gpu)
 {
 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
 
-<<<<<<< HEAD
-	/* Turn off the memory retention flag when not necessary */
-	if (gpu->core_clk) {
-		clk_set_flags(gpu->core_clk, CLKFLAG_NORETAIN_PERIPH);
-		clk_set_flags(gpu->core_clk, CLKFLAG_NORETAIN_MEM);
-	}
-
-	/* Only do this next bit if we are about to go down */
-	if (gpu->active_cnt == 1) {
-		/* Clear the VBIF pipe before shutting down */
-
-		gpu_write(gpu, REG_A5XX_VBIF_XIN_HALT_CTRL0, 0xF);
-		spin_until((gpu_read(gpu, REG_A5XX_VBIF_XIN_HALT_CTRL1) & 0xF)
-=======
 	/* Clear the VBIF pipe before shutting down */
 	gpu_write(gpu, REG_A5XX_VBIF_XIN_HALT_CTRL0, 0xF);
 	spin_until((gpu_read(gpu, REG_A5XX_VBIF_XIN_HALT_CTRL1) & 0xF)
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			== 0xF);
 
 	gpu_write(gpu, REG_A5XX_VBIF_XIN_HALT_CTRL0, 0);

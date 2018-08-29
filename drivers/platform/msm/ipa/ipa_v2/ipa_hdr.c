@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
 /* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -924,11 +920,7 @@ int __ipa_del_hdr(u32 hdr_hdl, bool by_user)
 	if (by_user) {
 		if (!strcmp(entry->name, IPA_LAN_RX_HDR_NAME)) {
 			IPADBG("Trying to delete hdr %s offset=%u\n",
-<<<<<<< HEAD
-					entry->name, entry->offset_entry->offset);
-=======
 				entry->name, entry->offset_entry->offset);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			if (!entry->offset_entry->offset) {
 				IPAERR("User cannot delete default header\n");
 				return -EPERM;
@@ -1279,11 +1271,7 @@ int ipa2_reset_hdr(bool user_only)
 		/* do not remove the default header */
 		if (!strcmp(entry->name, IPA_LAN_RX_HDR_NAME)) {
 			IPADBG("Trying to remove hdr %s offset=%u\n",
-<<<<<<< HEAD
-					entry->name, entry->offset_entry->offset);
-=======
 				entry->name, entry->offset_entry->offset);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			if (!entry->offset_entry->offset) {
 				if (entry->is_hdr_proc_ctx) {
 					mutex_unlock(&ipa_ctx->lock);

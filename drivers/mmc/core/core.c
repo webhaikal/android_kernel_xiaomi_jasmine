@@ -1171,8 +1171,6 @@ static int mmc_start_request(struct mmc_host *host, struct mmc_request *mrq)
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
 static int mmc_cmdq_check_retune(struct mmc_host *host)
 {
 	bool cmdq_mode;
@@ -1213,7 +1211,6 @@ halt_failed:
 	return err;
 }
 
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 static int mmc_start_cmdq_request(struct mmc_host *host,
 				   struct mmc_request *mrq)
 {
@@ -1240,30 +1237,19 @@ static int mmc_start_cmdq_request(struct mmc_host *host,
 	}
 
 	mmc_host_clk_hold(host);
-<<<<<<< HEAD
-=======
 	mmc_cmdq_check_retune(host);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	if (likely(host->cmdq_ops->request)) {
 		ret = host->cmdq_ops->request(host, mrq);
 	} else {
 		ret = -ENOENT;
 		pr_err("%s: %s: cmdq request host op is not available\n",
-<<<<<<< HEAD
-				mmc_hostname(host), __func__);
-=======
 			mmc_hostname(host), __func__);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	}
 
 	if (ret) {
 		mmc_host_clk_release(host);
 		pr_err("%s: %s: issue request failed, err=%d\n",
-<<<<<<< HEAD
-				mmc_hostname(host), __func__, ret);
-=======
 			mmc_hostname(host), __func__, ret);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	}
 
 	return ret;
@@ -4588,17 +4574,12 @@ int mmc_pm_notify(struct notifier_block *notify_block,
 
 		spin_lock_irqsave(&host->lock, flags);
 		host->rescan_disable = 0;
-<<<<<<< HEAD
-		if (mmc_bus_manual_resume(host) &&
-				!host->ignore_bus_resume_flags) {
-=======
 		if (mmc_card_is_removable(host))
 			present = !!mmc_gpio_get_cd(host);
 
 		if (mmc_bus_manual_resume(host) &&
 				!host->ignore_bus_resume_flags &&
 				present) {
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			spin_unlock_irqrestore(&host->lock, flags);
 			break;
 		}

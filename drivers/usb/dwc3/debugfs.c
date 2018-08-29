@@ -1275,11 +1275,7 @@ int dwc3_debugfs_init(struct dwc3 *dwc)
 
 	if (dwc->create_reg_debugfs) {
 		file = debugfs_create_regset32("regdump", 0444,
-<<<<<<< HEAD
-				root, dwc->regset);
-=======
 						root, dwc->regset);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		if (!file) {
 			dev_dbg(dwc->dev, "Can't create debugfs regdump\n");
 			ret = -ENOMEM;

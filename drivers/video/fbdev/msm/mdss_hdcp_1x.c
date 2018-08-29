@@ -865,11 +865,7 @@ static int hdcp_1x_revoked_rpt_chk(struct hdcp_1x *hdcp)
 	struct hdcp_srm_device_id_t *bksv_srm;
 
 	for (i = 0; i < hdcp->sink_addr.ksv_fifo.len;
-<<<<<<< HEAD
-		i += RECV_ID_SIZE) {
-=======
 		 i += RECV_ID_SIZE) {
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		pr_debug("bksv : 0x%2x%2x%2x%2x%2x\n",
 		bksv[i + 4],
 		bksv[i + 3], bksv[i + 2],

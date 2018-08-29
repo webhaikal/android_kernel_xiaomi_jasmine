@@ -817,16 +817,7 @@ static struct dm_buffer *__alloc_buffer_wait_no_callback(struct dm_bufio_client 
 {
 	struct dm_buffer *b;
 	bool tried_noio_alloc = false;
-<<<<<<< HEAD
-	#if LCT_DM_DEBUG
-	struct timespec ts_delta;
-	struct timespec ts_current;
-	struct timespec ts_start;
-	u32 ts_delta_ms;
-	#endif
-=======
 
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	/*
 	 * dm-bufio is resistant to allocation failures (it just keeps
 	 * one buffer reserved in cases all the allocations fail).
@@ -846,18 +837,6 @@ static struct dm_buffer *__alloc_buffer_wait_no_callback(struct dm_bufio_client 
 		#endif
 		if (dm_bufio_cache_size_latch != 1) {
 			b = alloc_buffer(c, GFP_NOWAIT | __GFP_NORETRY | __GFP_NOMEMALLOC | __GFP_NOWARN);
-<<<<<<< HEAD
-			#if LCT_DM_DEBUG
-			ts_current = current_kernel_time();
-			ts_delta = timespec_sub(ts_current, ts_start);
-			ts_delta_ms = ts_delta.tv_nsec / NSEC_PER_MSEC + ts_delta.tv_sec * MSEC_PER_SEC;
-
-			if (ts_delta_ms > 10) {
-				pr_err("zhaozy __alloc_buffer_wait_no_callback end 1111  alloc_buffer ts_delta_ms = %d, c->block_size = %d \n", ts_delta_ms, c->block_size);
-			}
-			#endif
-=======
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			if (b)
 				return b;
 		}
@@ -872,25 +851,15 @@ static struct dm_buffer *__alloc_buffer_wait_no_callback(struct dm_bufio_client 
 			ts_delta = timespec_sub(ts_current, ts_start);
 			ts_delta_ms = ts_delta.tv_nsec / NSEC_PER_MSEC + ts_delta.tv_sec * MSEC_PER_SEC;
 
-<<<<<<< HEAD
-			if (ts_delta_ms > 10) {
-				pr_err("zhaozy __alloc_buffer_wait_no_callback end  alloc_buffer ts_delta_ms = %d, c->block_size = %d \n", ts_delta_ms, c->block_size);
-			}
-			#endif
-=======
 		if (dm_bufio_cache_size_latch != 1 && !tried_noio_alloc) {
 			dm_bufio_unlock(c);
 			b = alloc_buffer(c, GFP_NOIO | __GFP_NORETRY | __GFP_NOMEMALLOC | __GFP_NOWARN);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			dm_bufio_lock(c);
 			if (b)
 				return b;
 			tried_noio_alloc = true;
 		}
-<<<<<<< HEAD
-=======
 
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		if (!list_empty(&c->reserved_buffers)) {
 			b = list_entry(c->reserved_buffers.next,
 				       struct dm_buffer, lru_list);
@@ -1653,17 +1622,11 @@ static unsigned long
 dm_bufio_shrink_count(struct shrinker *shrink, struct shrink_control *sc)
 {
 	struct dm_bufio_client *c = container_of(shrink, struct dm_bufio_client, shrinker);
-<<<<<<< HEAD
-	return ACCESS_ONCE(c->n_buffers[LIST_CLEAN]) + ACCESS_ONCE(c->n_buffers[LIST_DIRTY]);
-
-
-=======
 	unsigned long count = READ_ONCE(c->n_buffers[LIST_CLEAN]) +
 			      READ_ONCE(c->n_buffers[LIST_DIRTY]);
 	unsigned long retain_target = get_retain_buffers(c);
 
 	return (count < retain_target) ? 0 : (count - retain_target);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 }
 
 /*

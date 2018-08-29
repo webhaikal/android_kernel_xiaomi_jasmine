@@ -317,11 +317,7 @@ First Level Node - FG Gen3 device
 		    unit. Allowed range is 0 to 62200 in micro units.
 
 - qcom,ki-coeff-full-dischg
-<<<<<<< HEAD
-	Usage:    optional
-=======
 	Usage:	    optional
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	Value type: <u32>
 	Definition: Ki coefficient full SOC value that will be applied during
 		    discharging. If not specified, a value of 0 will be set.

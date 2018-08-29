@@ -525,10 +525,7 @@ int mdss_mdp_get_plane_sizes(struct mdss_mdp_format_params *fmt, u32 w, u32 h,
 		return -EINVAL;
 
 	memset(ps, 0, sizeof(struct mdss_mdp_plane_sizes));
-<<<<<<< HEAD
-=======
 
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	if ((w > MAX_IMG_WIDTH) || (h > MAX_IMG_HEIGHT))
 		return -ERANGE;
 

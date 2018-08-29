@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-/* Copyright (c) 2011-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
 /* Copyright (c) 2011-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1637,11 +1633,7 @@ unsigned int wcnss_get_serial_number(void)
 	if (penv) {
 		penv->serial_number = socinfo_get_serial_number();
 		pr_info("%s: Device serial number: %u\n",
-<<<<<<< HEAD
-				__func__, penv->serial_number);
-=======
 			__func__, penv->serial_number);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		return penv->serial_number;
 	}
 
@@ -2633,11 +2625,7 @@ static ssize_t wcnss_ctrl_write(struct file *fp, const char __user
 	u8 buf[WCNSS_MAX_CMD_LEN];
 
 	if (!penv || !penv->ctrl_device_opened ||
-<<<<<<< HEAD
-			WCNSS_MAX_CMD_LEN < count || WCNSS_MIN_CMD_LEN > count)
-=======
 	    WCNSS_MAX_CMD_LEN < count || WCNSS_MIN_CMD_LEN > count)
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		return -EFAULT;
 
 	mutex_lock(&penv->ctrl_lock);
@@ -2666,11 +2654,7 @@ static ssize_t wcnss_ctrl_write(struct file *fp, const char __user
 		}
 
 		memcpy(&penv->wlan_nv_macAddr, &buf[2],
-<<<<<<< HEAD
-				sizeof(penv->wlan_nv_macAddr));
-=======
 		       sizeof(penv->wlan_nv_macAddr));
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		pr_debug("%s:MAC Addr: %pM\n", __func__, penv->wlan_nv_macAddr);
 		break;
 	default:

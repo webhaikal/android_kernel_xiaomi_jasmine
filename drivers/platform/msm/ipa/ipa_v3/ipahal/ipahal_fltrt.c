@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
 /* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -2979,11 +2975,7 @@ static int ipa_fltrt_alloc_init_tbl_hdr(
 	obj = &ipahal_fltrt_objs[ipahal_ctx->hw_type];
 
 	if (!params) {
-<<<<<<< HEAD
-		IPAHAL_ERR_RL("Input error: params=%p\n", params);
-=======
 		IPAHAL_ERR_RL("Input error: params= NULL\n");
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		return -EINVAL;
 	}
 
@@ -3412,14 +3404,6 @@ int ipahal_flt_generate_equation(enum ipa_ip_type ipt,
 
 	if (ipt >= IPA_IP_MAX) {
 		IPAHAL_ERR_RL("Input err: Invalid ip type %d\n", ipt);
-<<<<<<< HEAD
-		return -EINVAL;
-	}
-
-	if (!attrib || !eq_atrb) {
-		IPAHAL_ERR_RL("Input err: attrib=%p eq_atrb=%p\n",
-			attrib, eq_atrb);
-=======
 		return -EINVAL;
 	}
 
@@ -3430,7 +3414,6 @@ int ipahal_flt_generate_equation(enum ipa_ip_type ipt,
 
 	if (!eq_atrb) {
 		IPAHAL_ERR_RL("Input err: eq_atrb = NULL\n");
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		return -EINVAL;
 	}
 

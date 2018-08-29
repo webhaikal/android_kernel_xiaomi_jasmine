@@ -912,37 +912,10 @@ int send_adm_apr(void *buf, u32 opcode)
 	if (opcode == ADM_CMD_GET_PP_PARAMS_V5) {
 		bytes_returned = ((u32 *)rtac_cal[ADM_RTAC_CAL].cal_data.
 			kvaddr)[2] + 3 * sizeof(u32);
-<<<<<<< HEAD
-
-		if (bytes_returned > rtac_cal[ADM_RTAC_CAL].
-			map_data.map_size) {
-			pr_err("%s: Invalid data size = %d\n",
-				__func__, bytes_returned);
-			result = -EINVAL;
-			goto err;
-		}
-
-		if (bytes_returned > user_buf_size) {
-			pr_err("%s: User buf not big enough, size = 0x%x, returned size = 0x%x\n",
-				__func__, user_buf_size, bytes_returned);
-			result = -EINVAL;
-			goto err;
-		}
-
-		if (copy_to_user(buf, (void *)
-				rtac_cal[ADM_RTAC_CAL].cal_data.kvaddr,
-				bytes_returned)) {
-			pr_err("%s: Could not copy buffer to user,size = %d\n",
-				__func__, bytes_returned);
-			result = -EINVAL;
-			goto err;
-		}
-=======
 	} else if (opcode == ADM_CMD_GET_PP_PARAMS_V6) {
 		bytes_returned =
 			((u32 *) rtac_cal[ADM_RTAC_CAL].cal_data.kvaddr)[3] +
 			4 * sizeof(u32);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	} else {
 		bytes_returned = data_size;
 		goto unlock;
@@ -1184,37 +1157,10 @@ int send_rtac_asm_apr(void *buf, u32 opcode)
 	if (opcode == ASM_STREAM_CMD_GET_PP_PARAMS_V2) {
 		bytes_returned = ((u32 *)rtac_cal[ASM_RTAC_CAL].cal_data.
 			kvaddr)[2] + 3 * sizeof(u32);
-<<<<<<< HEAD
-
-		if (bytes_returned > rtac_cal[ASM_RTAC_CAL].
-			map_data.map_size) {
-			pr_err("%s: Invalid data size = %d\n",
-				__func__, bytes_returned);
-			result = -EINVAL;
-			goto err;
-		}
-
-		if (bytes_returned > user_buf_size) {
-			pr_err("%s: User buf not big enough, size = 0x%x, returned size = 0x%x\n",
-				__func__, user_buf_size, bytes_returned);
-			result = -EINVAL;
-			goto err;
-		}
-
-		if (copy_to_user(buf, (void *)
-				rtac_cal[ASM_RTAC_CAL].cal_data.kvaddr,
-				bytes_returned)) {
-			pr_err("%s: Could not copy buffer to user,size = %d\n",
-				 __func__, bytes_returned);
-			result = -EINVAL;
-			goto err;
-		}
-=======
 	} else if (opcode == ASM_STREAM_CMD_GET_PP_PARAMS_V3) {
 		bytes_returned =
 			((u32 *) rtac_cal[ASM_RTAC_CAL].cal_data.kvaddr)[3] +
 			4 * sizeof(u32);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	} else {
 		bytes_returned = data_size;
 		goto unlock;
@@ -1537,30 +1483,12 @@ static int send_rtac_afe_apr(void __user *buf, uint32_t opcode)
 		goto err;
 	}
 
-<<<<<<< HEAD
-		if (bytes_returned > rtac_cal[AFE_RTAC_CAL].
-			map_data.map_size) {
-			pr_err("%s: Invalid data size = %d\n",
-				__func__, bytes_returned);
-			result = -EINVAL;
-			goto err;
-		}
-
-		if (bytes_returned > user_afe_buf.buf_size) {
-			pr_err("%s: user size = 0x%x, returned size = 0x%x\n",
-				__func__, user_afe_buf.buf_size,
-				bytes_returned);
-			result = -EINVAL;
-			goto err;
-		}
-=======
 	if (bytes_returned > user_afe_buf.buf_size) {
 		pr_err("%s: user size = 0x%x, returned size = 0x%x\n", __func__,
 		       user_afe_buf.buf_size, bytes_returned);
 		result = -EINVAL;
 		goto err;
 	}
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	if (copy_to_user((void __user *) buf,
 			 rtac_cal[AFE_RTAC_CAL].cal_data.kvaddr,
@@ -1785,37 +1713,10 @@ int send_voice_apr(u32 mode, void *buf, u32 opcode)
 	if (opcode == VSS_ICOMMON_CMD_GET_PARAM_V2) {
 		bytes_returned = ((u32 *)rtac_cal[VOICE_RTAC_CAL].cal_data.
 			kvaddr)[2] + 3 * sizeof(u32);
-<<<<<<< HEAD
-
-		if (bytes_returned > rtac_cal[VOICE_RTAC_CAL].
-			map_data.map_size) {
-			pr_err("%s: Invalid data size = %d\n",
-				__func__, bytes_returned);
-			result = -EINVAL;
-			goto err;
-		}
-
-		if (bytes_returned > user_buf_size) {
-			pr_err("%s: User buf not big enough, size = 0x%x, returned size = 0x%x\n",
-				__func__, user_buf_size, bytes_returned);
-			result = -EINVAL;
-			goto err;
-		}
-
-		if (copy_to_user(buf, (void *)
-				rtac_cal[VOICE_RTAC_CAL].cal_data.kvaddr,
-				bytes_returned)) {
-			pr_err("%s: Could not copy buffer to user, size = %d\n",
-				 __func__, bytes_returned);
-			result = -EINVAL;
-			goto err;
-		}
-=======
 	} else if (opcode == VSS_ICOMMON_CMD_GET_PARAM_V3) {
 		bytes_returned =
 			((u32 *) rtac_cal[VOICE_RTAC_CAL].cal_data.kvaddr)[3] +
 			4 * sizeof(u32);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	} else {
 		bytes_returned = data_size;
 		goto unlock;

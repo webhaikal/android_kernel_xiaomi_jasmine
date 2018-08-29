@@ -3293,11 +3293,7 @@ bool regulatory_pre_cac_allowed(struct wiphy *wiphy)
 	}
 
 	if (regd->dfs_region == wiphy_regd->dfs_region &&
-<<<<<<< HEAD
-			wiphy_regd->dfs_region == NL80211_DFS_ETSI)
-=======
 	    wiphy_regd->dfs_region == NL80211_DFS_ETSI)
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		pre_cac_allowed = true;
 
 	rcu_read_unlock();

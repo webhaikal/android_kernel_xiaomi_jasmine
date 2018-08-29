@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
 /* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -28,11 +24,7 @@
 
 #define MSM_VDEC_DVC_NAME "msm_vdec_8974"
 #define MIN_NUM_OUTPUT_BUFFERS 4
-<<<<<<< HEAD
-#define MIN_NUM_OUTPUT_BUFFERS_VP9 6
-=======
 #define MIN_NUM_OUTPUT_BUFFERS_HEVC 5
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 #define MIN_NUM_CAPTURE_BUFFERS 6
 #define MIN_NUM_THUMBNAIL_MODE_CAPTURE_BUFFERS 1
 #define MAX_NUM_OUTPUT_BUFFERS VB2_MAX_FRAME
@@ -1481,24 +1473,11 @@ static int msm_vdec_queue_setup(struct vb2_queue *q,
 		if (*num_buffers < MIN_NUM_OUTPUT_BUFFERS ||
 				*num_buffers > MAX_NUM_OUTPUT_BUFFERS)
 			*num_buffers = MIN_NUM_OUTPUT_BUFFERS;
-<<<<<<< HEAD
-		/*
-		 * Increase input buffer count to 6 as for some
-		 * vp9 clips which have superframes with more
-		 * than 4 subframes requires more than 4
-		 * reference frames to decode.
-		 */
-		if (inst->fmts[OUTPUT_PORT].fourcc ==
-				V4L2_PIX_FMT_VP9 &&
-				*num_buffers < MIN_NUM_OUTPUT_BUFFERS_VP9)
-			*num_buffers = MIN_NUM_OUTPUT_BUFFERS_VP9;
-=======
 
 		if (inst->fmts[OUTPUT_PORT].fourcc ==
 				V4L2_PIX_FMT_HEVC &&
 				*num_buffers < MIN_NUM_OUTPUT_BUFFERS_HEVC)
 			*num_buffers = MIN_NUM_OUTPUT_BUFFERS_HEVC;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 		for (i = 0; i < *num_planes; i++) {
 			sizes[i] = get_frame_size(inst,
@@ -2065,19 +2044,11 @@ int msm_vdec_inst_init(struct msm_vidc_inst *inst)
 
 	/* By default, initialize CAPTURE port to NV12 format */
 	fmt = msm_comm_get_pixel_fmt_fourcc(vdec_formats,
-<<<<<<< HEAD
-			ARRAY_SIZE(vdec_formats), V4L2_PIX_FMT_NV12,
-			CAPTURE_PORT);
-	if (!fmt || fmt->type != CAPTURE_PORT) {
-		dprintk(VIDC_ERR,
-				"vdec_formats corrupted\n");
-=======
 		ARRAY_SIZE(vdec_formats), V4L2_PIX_FMT_NV12,
 			CAPTURE_PORT);
 	if (!fmt || fmt->type != CAPTURE_PORT) {
 		dprintk(VIDC_ERR,
 			"vdec_formats corrupted\n");
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		return -EINVAL;
 	}
 	memcpy(&inst->fmts[fmt->type], fmt,
@@ -2090,17 +2061,10 @@ int msm_vdec_inst_init(struct msm_vidc_inst *inst)
 	/* By default, initialize OUTPUT port to H264 decoder */
 	fmt = msm_comm_get_pixel_fmt_fourcc(vdec_formats,
 			ARRAY_SIZE(vdec_formats), V4L2_PIX_FMT_H264,
-<<<<<<< HEAD
-			OUTPUT_PORT);
-	if (!fmt || fmt->type != OUTPUT_PORT) {
-		dprintk(VIDC_ERR,
-				"vdec_formats corrupted\n");
-=======
 				OUTPUT_PORT);
 	if (!fmt || fmt->type != OUTPUT_PORT) {
 		dprintk(VIDC_ERR,
 			"vdec_formats corrupted\n");
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		return -EINVAL;
 	}
 	memcpy(&inst->fmts[fmt->type], fmt,

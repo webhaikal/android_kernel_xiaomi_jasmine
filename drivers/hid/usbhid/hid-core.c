@@ -1005,11 +1005,7 @@ static int usbhid_parse(struct hid_device *hid)
 	hid->country = hdesc->bCountryCode;
 
 	num_descriptors = min_t(int, hdesc->bNumDescriptors,
-<<<<<<< HEAD
-			(hdesc->bLength - offset) / sizeof(struct hid_class_descriptor));
-=======
 	       (hdesc->bLength - offset) / sizeof(struct hid_class_descriptor));
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	for (n = 0; n < num_descriptors; n++)
 		if (hdesc->desc[n].bDescriptorType == HID_DT_REPORT)

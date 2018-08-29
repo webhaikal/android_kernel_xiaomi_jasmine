@@ -1622,49 +1622,12 @@ static int fwu_write_f34_v7_command(unsigned char cmd)
 
 	data_base = fwu->f34_fd.data_base_addr;
 
-<<<<<<< HEAD
-	switch (cmd) {
-	case CMD_WRITE_FW:
-	case CMD_WRITE_CONFIG:
-	case CMD_WRITE_LOCKDOWN:
-	case CMD_WRITE_GUEST_CODE:
-	case CMD_WRITE_BOOTLOADER:
-	case CMD_WRITE_UTILITY_PARAM:
-		command = CMD_V7_WRITE;
-		break;
-	case CMD_READ_CONFIG:
-		command = CMD_V7_READ;
-		break;
-	case CMD_ERASE_ALL:
-		command = CMD_V7_ERASE_AP;
-		break;
-	case CMD_ERASE_UI_FIRMWARE:
-	case CMD_ERASE_BL_CONFIG:
-	case CMD_ERASE_UI_CONFIG:
-	case CMD_ERASE_DISP_CONFIG:
-	case CMD_ERASE_FLASH_CONFIG:
-	case CMD_ERASE_GUEST_CODE:
-	case CMD_ERASE_BOOTLOADER:
-	case CMD_ERASE_UTILITY_PARAMETER:
-		command = CMD_V7_ERASE;
-		break;
-	case CMD_ENABLE_FLASH_PROG:
-		command = CMD_V7_ENTER_BL;
-		break;
-	default:
-		dev_err(rmi4_data->pdev->dev.parent,
-				"%s: Invalid command 0x%02x\n",
-				__func__, cmd);
-		return -EINVAL;
-	};
-=======
 		while ((index < MAX_FIRMWARE_ID_LEN - 1) && strptr[index] >= '0'
 						&& strptr[index] <= '9') {
 			firmware_id[index] = strptr[index];
 			index++;
 		}
 		firmware_id[index] = '\0';
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	fwu->command = command;
 

@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
 /* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -960,13 +956,6 @@ static int __ipa_create_rt_entry(struct ipa3_rt_entry **entry,
 	(*(entry))->tbl = tbl;
 	(*(entry))->hdr = hdr;
 	(*(entry))->proc_ctx = proc_ctx;
-<<<<<<< HEAD
-	id = ipa3_alloc_rule_id(&tbl->rule_ids);
-	if (id < 0) {
-		IPAERR_RL("failed to allocate rule id\n");
-		WARN_ON_RATELIMIT_IPA(1);
-		goto alloc_rule_id_fail;
-=======
 	if (rule_id) {
 		id = rule_id;
 		(*(entry))->rule_id_valid = 1;
@@ -977,7 +966,6 @@ static int __ipa_create_rt_entry(struct ipa3_rt_entry **entry,
 			WARN_ON_RATELIMIT_IPA(1);
 			goto alloc_rule_id_fail;
 		}
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	}
 	(*(entry))->rule_id = id;
 	(*(entry))->ipacm_installed = user;

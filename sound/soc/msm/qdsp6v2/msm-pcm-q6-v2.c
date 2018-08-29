@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
 /* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -192,11 +187,7 @@ static void event_handler(uint32_t opcode,
 		buf_index = q6asm_get_buf_index_from_token(token);
 		if (buf_index >= CAPTURE_MAX_NUM_PERIODS) {
 			pr_err("%s: buffer index %u is out of range.\n",
-<<<<<<< HEAD
-					__func__, buf_index);
-=======
 				__func__, buf_index);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			return;
 		}
 		pr_debug("%s: token=0x%08x buf_index=0x%08x\n",
@@ -1691,10 +1682,7 @@ static int msm_pcm_playback_pan_scale_ctl_put(struct snd_kcontrol *kcontrol,
 	struct asm_stream_pan_ctrl_params pan_param;
 	char *usr_value = NULL;
 	uint32_t *gain_ptr = NULL;
-<<<<<<< HEAD
-=======
 
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	if (!usr_info) {
 		pr_err("%s: usr_info is null\n", __func__);
 		ret = -EINVAL;

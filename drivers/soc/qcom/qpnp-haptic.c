@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-/* Copyright (c) 2014-2015, 2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
 /* Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -2259,15 +2255,10 @@ static int qpnp_hap_auto_mode_config(struct qpnp_hap *hap, int time_ms)
 static void qpnp_hap_td_enable(struct timed_output_dev *dev, int time_ms)
 {
 	struct qpnp_hap *hap = container_of(dev, struct qpnp_hap,
-<<<<<<< HEAD
-			timed_dev);
-	int rc, vmax_mv;
-=======
 					 timed_dev);
 	bool state = !!time_ms;
 	ktime_t rem;
 	int rc;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	if (time_ms < 0)
 		return;
@@ -2292,45 +2283,12 @@ static void qpnp_hap_td_enable(struct timed_output_dev *dev, int time_ms)
 		return;
 	}
 
-<<<<<<< HEAD
-	if (time_ms < 10)
-		time_ms = 10;
-	if ((time_ms >= 30) || (time_ms != 11) || (time_ms != 15) || (time_ms != 20)) {
-		vmax_mv = 2204;
-		qpnp_hap_vmax_config(hap, vmax_mv, false);
-		hap->play_mode = QPNP_HAP_DIRECT;
-	} else {
-		hap->play_mode = QPNP_HAP_BUFFER;
-		qpnp_hap_parse_buffer_dt(hap);
-		if (time_ms == 20) {
-			qpnp_hap_buffer_config(hap, hap->wave_samp_three, true);
-		} else if (time_ms == 15) {
-			qpnp_hap_buffer_config(hap, hap->wave_samp_two, true);
-		} else if (time_ms == 11) {
-			qpnp_hap_buffer_config(hap, hap->wave_samp, true);
-		}
-
-		vmax_mv = 2204;
-		qpnp_hap_vmax_config(hap, vmax_mv, false);
-
-		hap->play_mode = QPNP_HAP_BUFFER;
-		hap->wave_shape = QPNP_HAP_WAV_SQUARE;
-	}
-	qpnp_hap_mod_enable(hap, false);
-	qpnp_hap_play_mode_config(hap);
-
-	if (is_sw_lra_auto_resonance_control(hap))
-		hrtimer_cancel(&hap->auto_res_err_poll_timer);
-
-	hrtimer_cancel(&hap->hap_timer);
-=======
 	hap->state = state;
 	if (!hap->state) {
 		hrtimer_cancel(&hap->hap_timer);
 	} else {
 		if (time_ms < 10)
 			time_ms = 10;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 		if (hap->auto_mode) {
 			rc = qpnp_hap_auto_mode_config(hap, time_ms);
@@ -2350,16 +2308,6 @@ static void qpnp_hap_td_enable(struct timed_output_dev *dev, int time_ms)
 				HRTIMER_MODE_REL);
 	}
 
-<<<<<<< HEAD
-	time_ms = (time_ms > hap->timeout_ms ? hap->timeout_ms : time_ms);
-	hap->play_time_ms = time_ms;
-	hap->state = 1;
-	pr_info("zjl aaa  haptic  =%d\n", time_ms);
-	hrtimer_start(&hap->hap_timer,
-			ktime_set(time_ms / 1000, (time_ms % 1000) * 1000000),
-			HRTIMER_MODE_REL);
-=======
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	mutex_unlock(&hap->lock);
 	schedule_work(&hap->work);
 }

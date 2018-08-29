@@ -161,8 +161,6 @@ static void split_settled(struct pl_data *chip)
 		total_current_ua = pval.intval;
 	}
 
-<<<<<<< HEAD
-=======
 	/*
 	 * If there is an increase in slave share
 	 * (Also handles parallel enable case)
@@ -171,7 +169,6 @@ static void split_settled(struct pl_data *chip)
 	 * (Also handles parallel disable case)
 	 *	Set slave ICL then main ICL.
 	 */
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	if (slave_ua > chip->pl_settled_ua) {
 		pval.intval = total_current_ua - slave_ua;
 		/* Set ICL on main charger */
@@ -202,18 +199,6 @@ static void split_settled(struct pl_data *chip)
 		}
 
 		pval.intval = total_current_ua - slave_ua;
-<<<<<<< HEAD
-#if defined(CONFIG_KERNEL_CUSTOM_E7S)
-		if (chip->pl_mode == POWER_SUPPLY_PL_USBIN_USBIN) {
-			pr_err("pl_disable_votable effective main_psy current_ua =%d \n", pval.intval);
-			if (get_effective_result_locked(chip->pl_disable_votable) && (pval.intval > ONLY_PM660_CURRENT_UA)) {
-				pr_err("pl_disable_votable effective main_psy force current_ua =%d to %d \n", pval.intval, ONLY_PM660_CURRENT_UA);
-			pval.intval = ONLY_PM660_CURRENT_UA;
-			}
-		}
-#endif
-=======
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		/* Set ICL on main charger */
 		rc = power_supply_set_property(chip->main_psy,
 				POWER_SUPPLY_PROP_CURRENT_MAX, &pval);
@@ -567,59 +552,6 @@ static int pl_fcc_vote_callback(struct votable *votable, void *data,
 	}
 
 	if (chip->pl_mode != POWER_SUPPLY_PL_NONE) {
-<<<<<<< HEAD
-		split_fcc(chip, total_fcc_ua, &master_fcc_ua, &slave_fcc_ua);
-
-		/*
-		 * If there is an increase in slave share
-		 * (Also handles parallel enable case)
-		 *	Set Main ICL then slave FCC
-		 * else
-		 * (Also handles parallel disable case)
-		 *	Set slave ICL then main FCC.
-		 */
-		if (slave_fcc_ua > chip->slave_fcc_ua) {
-			pval.intval = master_fcc_ua;
-			rc = power_supply_set_property(chip->main_psy,
-					POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT_MAX,
-					&pval);
-			if (rc < 0) {
-				pr_err("Could not set main fcc, rc=%d\n", rc);
-				return rc;
-			}
-
-			pval.intval = slave_fcc_ua;
-			rc = power_supply_set_property(chip->pl_psy,
-					POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT_MAX,
-					&pval);
-			if (rc < 0) {
-				pr_err("Couldn't set parallel fcc, rc=%d\n",
-						rc);
-				return rc;
-			}
-
-			chip->slave_fcc_ua = slave_fcc_ua;
-		} else {
-			pval.intval = slave_fcc_ua;
-			rc = power_supply_set_property(chip->pl_psy,
-					POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT_MAX,
-					&pval);
-			if (rc < 0) {
-				pr_err("Couldn't set parallel fcc, rc=%d\n",
-						rc);
-				return rc;
-			}
-
-			chip->slave_fcc_ua = slave_fcc_ua;
-
-			pval.intval = master_fcc_ua;
-			rc = power_supply_set_property(chip->main_psy,
-				POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT_MAX,
-				&pval);
-			if (rc < 0) {
-				pr_err("Could not set main fcc, rc=%d\n", rc);
-				return rc;
-=======
 		get_fcc_split(chip, total_fcc_ua,
 			&master_fcc_ua, &slave_fcc_ua);
 		if (chip->fcc_step_update) {
@@ -681,7 +613,6 @@ static int pl_fcc_vote_callback(struct votable *votable, void *data,
 						rc);
 					return rc;
 				}
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			}
 		}
 	}
@@ -694,11 +625,6 @@ static int pl_fcc_vote_callback(struct votable *votable, void *data,
 	return 0;
 }
 
-<<<<<<< HEAD
-
-#define PARALLEL_FLOAT_VOLTAGE_DELTA_UV 100000
-
-=======
 static void fcc_step_update_work(struct work_struct *work)
 {
 	struct pl_data *chip = container_of(work,
@@ -886,7 +812,6 @@ stepper_exit:
 }
 
 #define PARALLEL_FLOAT_VOLTAGE_DELTA_UV 50000
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 static int pl_fv_vote_callback(struct votable *votable, void *data,
 			int fv_uv, const char *client)
 {

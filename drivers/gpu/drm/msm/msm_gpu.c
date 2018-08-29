@@ -813,17 +813,6 @@ int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
 	gpu->dev = drm;
 	gpu->funcs = funcs;
 	gpu->name = name;
-<<<<<<< HEAD
-	/*
-	 * Set the inactive flag to false, so that when the retire worker
-	 * kicks in from the init path, it knows that it has to turn off the
-	 * clocks. This should be fine to do since this is the init sequence
-	 * and we have an init_lock in msm_open() to protect against bad things
-	 * from happening.
-	 */
-	gpu->inactive = false;
-=======
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	INIT_LIST_HEAD(&gpu->active_list);
 	INIT_WORK(&gpu->retire_work, retire_worker);

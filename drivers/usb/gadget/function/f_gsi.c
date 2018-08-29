@@ -50,10 +50,7 @@ static struct gsi_inst_status {
 /* Deregister misc device and free instance structures */
 static void gsi_inst_clean(struct gsi_opts *opts);
 
-<<<<<<< HEAD
-=======
 static void gsi_rndis_ipa_reset_trigger(struct gsi_data_port *d_port);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 static void ipa_disconnect_handler(struct gsi_data_port *d_port);
 static int gsi_ctrl_send_notification(struct f_gsi *gsi);
 static int gsi_alloc_trb_buffer(struct f_gsi *gsi);
@@ -1007,15 +1004,9 @@ static int gsi_ctrl_dev_release(struct inode *ip, struct file *fp)
 	}
 
 	inst_cur->opts->gsi->c_port.is_open = false;
-<<<<<<< HEAD
 
 	mutex_unlock(&inst_cur->gsi_lock);
 
-=======
-
-	mutex_unlock(&inst_cur->gsi_lock);
-
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	log_event_dbg("close ctrl dev %s\n",
 			inst_cur->opts->gsi->c_port.name);
 
@@ -2634,19 +2625,11 @@ static int gsi_bind(struct usb_configuration *c, struct usb_function *f)
 					DEFAULT_PKT_ALIGNMENT_FACTOR);
 		if (gsi->rndis_use_wceis) {
 			info.iad_desc->bFunctionClass =
-<<<<<<< HEAD
-					USB_CLASS_WIRELESS_CONTROLLER;
-			info.iad_desc->bFunctionSubClass = 0x01;
-			info.iad_desc->bFunctionProtocol = 0x03;
-			info.ctrl_desc->bInterfaceClass =
-					USB_CLASS_WIRELESS_CONTROLLER;
-=======
 				USB_CLASS_WIRELESS_CONTROLLER;
 			info.iad_desc->bFunctionSubClass = 0x01;
 			info.iad_desc->bFunctionProtocol = 0x03;
 			info.ctrl_desc->bInterfaceClass =
 				USB_CLASS_WIRELESS_CONTROLLER;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			info.ctrl_desc->bInterfaceSubClass = 0x1;
 			info.ctrl_desc->bInterfaceProtocol = 0x03;
 		}
@@ -3218,12 +3201,7 @@ static int gsi_set_inst_name(struct usb_function_instance *fi,
 
 	if (prot_id == IPA_USB_RNDIS)
 		config_group_init_type_name(&opts->func_inst.group, "",
-<<<<<<< HEAD
-			&gsi_func_rndis_type);
-
-=======
 					    &gsi_func_rndis_type);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	gsi = gsi_function_init(prot_id);
 	if (IS_ERR(gsi))
 		return PTR_ERR(gsi);

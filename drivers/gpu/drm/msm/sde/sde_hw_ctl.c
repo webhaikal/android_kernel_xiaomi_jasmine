@@ -258,8 +258,6 @@ static inline int sde_hw_ctl_get_bitmask_cdm(struct sde_hw_ctl *ctx,
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
 static inline int sde_hw_ctl_get_splash_mixercfg(const u32 *resv_pipes,
 						u32 length)
 {
@@ -289,7 +287,6 @@ static inline int sde_hw_ctl_get_splash_mixercfg(const u32 *resv_pipes,
 	return mixercfg;
 }
 
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 static u32 sde_hw_ctl_poll_reset_status(struct sde_hw_ctl *ctx, u32 count)
 {
 	struct sde_hw_blk_reg_map *c = &ctx->hw;
@@ -324,21 +321,12 @@ static int sde_hw_ctl_reset_control(struct sde_hw_ctl *ctx)
 
 	return 0;
 }
-<<<<<<< HEAD
 
 static int sde_hw_ctl_wait_reset_status(struct sde_hw_ctl *ctx)
 {
 	struct sde_hw_blk_reg_map *c = &ctx->hw;
 	u32 status;
 
-=======
-
-static int sde_hw_ctl_wait_reset_status(struct sde_hw_ctl *ctx)
-{
-	struct sde_hw_blk_reg_map *c = &ctx->hw;
-	u32 status;
-
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	status = SDE_REG_READ(c, CTL_SW_RESET);
 	status &= 0x01;
 	if (!status)

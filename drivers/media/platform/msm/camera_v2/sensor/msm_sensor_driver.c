@@ -1657,18 +1657,6 @@ CSID_TG:
 
 	msm_sensor_fill_sensor_info(s_ctrl, probed_info, entity_name);
 
-<<<<<<< HEAD
-	msm_sensor_init_device_name();
-	msm_sensor_set_module_info(s_ctrl);
-	msm_sensorid_init_device_name();
-	msm_sensor_set_sesnor_id(s_ctrl);
-
-	/* Power down */
-	s_ctrl->func_tbl->sensor_power_down(s_ctrl);
-
-
-=======
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	/*
 	 * Set probe succeeded flag to 1 so that no other camera shall
 	 * probed on this slot

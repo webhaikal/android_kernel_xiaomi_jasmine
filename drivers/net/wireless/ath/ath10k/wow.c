@@ -234,10 +234,6 @@ static int ath10k_wow_wakeup(struct ath10k *ar)
 }
 
 static int
-<<<<<<< HEAD
-ath10k_wow_fill_vdev_arp_offload_struct(struct ath10k_vif *arvif,
-		bool enable_offload)
-=======
 ath10k_wow_fill_vdev_ns_offload_struct(struct ath10k_vif *arvif,
 				       bool enable_offload)
 {
@@ -350,7 +346,6 @@ ath10k_wow_fill_vdev_ns_offload_struct(struct ath10k_vif *arvif,
 static int
 ath10k_wow_fill_vdev_arp_offload_struct(struct ath10k_vif *arvif,
 					bool enable_offload)
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 {
 	struct in_device *in_dev;
 	struct in_ifaddr *ifa;
@@ -384,11 +379,7 @@ ath10k_wow_fill_vdev_arp_offload_struct(struct ath10k_vif *arvif,
 	if (!offload_params_found)
 		return -ENODEV;
 	memcpy(&arp->params.ipv4_addr, &ifa->ifa_local,
-<<<<<<< HEAD
-			sizeof(arp->params.ipv4_addr));
-=======
 	       sizeof(arp->params.ipv4_addr));
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	return 0;
 }
@@ -408,9 +399,6 @@ static int ath10k_wow_enable_ns_arp_offload(struct ath10k *ar, bool offload)
 		ret = ath10k_wow_fill_vdev_arp_offload_struct(arvif, offload);
 		if (ret) {
 			ath10k_err(ar, "ARP-offload config failed, vdev: %d\n",
-<<<<<<< HEAD
-					arvif->vdev_id);
-=======
 				   arvif->vdev_id);
 			return ret;
 		}
@@ -419,18 +407,13 @@ static int ath10k_wow_enable_ns_arp_offload(struct ath10k *ar, bool offload)
 		if (ret) {
 			ath10k_err(ar, "NS-offload config failed, vdev: %d\n",
 				   arvif->vdev_id);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			return ret;
 		}
 
 		ret = ath10k_wmi_set_arp_ns_offload(ar, arvif);
 		if (ret) {
 			ath10k_err(ar, "failed to send offload cmd, vdev: %d\n",
-<<<<<<< HEAD
-					arvif->vdev_id);
-=======
 				   arvif->vdev_id);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			return ret;
 		}
 	}
@@ -452,17 +435,10 @@ static int ath10k_config_wow_listen_interval(struct ath10k *ar)
 		if (arvif->vdev_type != WMI_VDEV_TYPE_STA)
 			continue;
 		ret = ath10k_wmi_vdev_set_param(ar, arvif->vdev_id,
-<<<<<<< HEAD
-				param, listen_interval);
-		if (ret) {
-			ath10k_err(ar, "failed to config LI for vdev_id: %d\n",
-					arvif->vdev_id);
-=======
 						param, listen_interval);
 		if (ret) {
 			ath10k_err(ar, "failed to config LI for vdev_id: %d\n",
 				   arvif->vdev_id);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			return ret;
 		}
 	}
@@ -470,25 +446,6 @@ static int ath10k_config_wow_listen_interval(struct ath10k *ar)
 	return 0;
 }
 
-<<<<<<< HEAD
-void ath10k_wow_op_set_rekey_data(struct ieee80211_hw *hw,
-			struct ieee80211_vif *vif,
-			struct cfg80211_gtk_rekey_data *data)
-{
-	struct ath10k *ar = hw->priv;
-	struct ath10k_vif *arvif = ath10k_vif_to_arvif(vif);
-
-	mutex_lock(&ar->conf_mutex);
-	memcpy(&arvif->gtk_rekey_data.kek, data->kek, NL80211_KEK_LEN);
-	memcpy(&arvif->gtk_rekey_data.kck, data->kck, NL80211_KCK_LEN);
-	arvif->gtk_rekey_data.replay_ctr =
-			__cpu_to_le64(*(__le64 *)data->replay_ctr);
-	arvif->gtk_rekey_data.valid = true;
-	mutex_unlock(&ar->conf_mutex);
-}
-
-=======
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 static int ath10k_wow_config_gtk_offload(struct ath10k *ar, bool gtk_offload)
 {
 	struct ath10k_vif *arvif;
@@ -515,11 +472,7 @@ static int ath10k_wow_config_gtk_offload(struct ath10k *ar, bool gtk_offload)
 		ret = ath10k_wmi_gtk_offload(ar, arvif);
 		if (ret) {
 			ath10k_err(ar, "GTK offload failed for vdev_id: %d\n",
-<<<<<<< HEAD
-					arvif->vdev_id);
-=======
 				   arvif->vdev_id);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			return ret;
 		}
 	}
@@ -629,18 +582,12 @@ void ath10k_wow_op_set_wakeup(struct ieee80211_hw *hw, bool enabled)
 
 	mutex_lock(&ar->conf_mutex);
 	if (test_bit(ATH10K_FW_FEATURE_WOWLAN_SUPPORT,
-<<<<<<< HEAD
-			ar->running_fw->fw_file.fw_features)) {
-=======
 		     ar->running_fw->fw_file.fw_features)) {
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		device_set_wakeup_enable(ar->dev, enabled);
 	}
 	mutex_unlock(&ar->conf_mutex);
 }
 
-<<<<<<< HEAD
-=======
 static void ath10k_wow_op_report_wakeup_reason(struct ath10k *ar)
 {
 	struct cfg80211_wowlan_wakeup *wakeup = &ar->wow.wakeup;
@@ -681,7 +628,6 @@ static void ath10k_wow_op_report_wakeup_reason(struct ath10k *ar)
 	}
 }
 
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 int ath10k_wow_op_resume(struct ieee80211_hw *hw)
 {
 	struct ath10k *ar = hw->priv;

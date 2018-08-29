@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-/* Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
 /* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -302,10 +298,7 @@ enum icnss_driver_state {
 	ICNSS_SHUTDOWN_DONE,
 	ICNSS_HOST_TRIGGERED_PDR,
 	ICNSS_FW_DOWN,
-<<<<<<< HEAD
-=======
 	ICNSS_DRIVER_UNLOADING,
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 };
 
 struct ce_irq_list {
@@ -2339,10 +2332,6 @@ out:
 	return 0;
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 static int icnss_fw_crashed(struct icnss_priv *priv,
 			    struct icnss_event_pd_service_down_data *event_data)
 {
@@ -2678,15 +2667,9 @@ static int icnss_service_notifier_notify(struct notifier_block *nb,
 	icnss_pr_info("PD service down, pd_state: %d, state: 0x%lx: cause: %s\n",
 		      *state, priv->state, icnss_pdr_cause[cause]);
 event_post:
-<<<<<<< HEAD
-	set_bit(ICNSS_FW_DOWN, &priv->state);
-	icnss_ignore_qmi_timeout(true);
-	clear_bit(ICNSS_HOST_TRIGGERED_PDR, &priv->state);
-=======
 	if (!test_bit(ICNSS_FW_DOWN, &priv->state)) {
 		set_bit(ICNSS_FW_DOWN, &priv->state);
 		icnss_ignore_qmi_timeout(true);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 		fw_down_data.crashed = event_data->crashed;
 		if (test_bit(ICNSS_FW_READY, &priv->state) &&
@@ -3920,11 +3903,8 @@ static int icnss_stats_show_state(struct seq_file *s, struct icnss_priv *priv)
 		case ICNSS_FW_DOWN:
 			seq_puts(s, "FW DOWN");
 			continue;
-<<<<<<< HEAD
-=======
 		case ICNSS_DRIVER_UNLOADING:
 			seq_puts(s, "DRIVER UNLOADING");
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		}
 
 		seq_printf(s, "UNKNOWN-%d", i);

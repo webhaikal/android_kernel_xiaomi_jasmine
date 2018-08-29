@@ -2,12 +2,7 @@
  * drivers/mmc/host/sdhci-msm.c - Qualcomm Technologies, Inc. MSM SDHCI Platform
  * driver source file
  *
-<<<<<<< HEAD
- * Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
  * Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -4807,13 +4802,10 @@ static int sdhci_msm_probe(struct platform_device *pdev)
 	if (sdhci_msm_is_bootdevice(&pdev->dev))
 		mmc_flush_detect_work(host->mmc);
 
-<<<<<<< HEAD
-=======
 	snprintf(boot_marker, sizeof(boot_marker),
 			"M - DRIVER %s Ready", mmc_hostname(host->mmc));
 	place_marker(boot_marker);
 
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	/* Successful initialization */
 	goto out;
 

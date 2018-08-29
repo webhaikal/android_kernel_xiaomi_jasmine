@@ -1,8 +1,5 @@
 /* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
-<<<<<<< HEAD
  * Copyright (C) 2018 XiaoMi, Inc.
-=======
->>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -17020,18 +17017,8 @@ static int msm_routing_probe(struct snd_soc_platform *platform)
 	snd_soc_add_platform_controls(platform, channel_mixer_controls,
 				ARRAY_SIZE(channel_mixer_controls));
 
-<<<<<<< HEAD
-		/*tang shouxing add for voice wake up device  10/01 begin*/
-
-	#ifdef CONFIG_SND_SOC_DBMDX
-	snd_soc_add_platform_controls(platform, dbmdx_va_snd_controls,
-			ARRAY_SIZE(dbmdx_va_snd_controls));
-		#endif
-
-=======
 	snd_soc_add_platform_controls(platform, native_mode_controls,
 				ARRAY_SIZE(native_mode_controls));
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	msm_qti_pp_add_controls(platform);
 

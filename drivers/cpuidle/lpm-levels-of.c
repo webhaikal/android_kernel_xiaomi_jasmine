@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-/* Copyright (c) 2014-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
 /* Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -841,10 +837,6 @@ failed:
 
 void free_cluster_node(struct lpm_cluster *cluster)
 {
-<<<<<<< HEAD
-	int i;
-=======
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	struct lpm_cluster *cl, *m;
 
 	list_for_each_entry_safe(cl, m, &cluster->child, list) {
