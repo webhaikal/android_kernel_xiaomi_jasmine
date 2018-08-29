@@ -466,19 +466,10 @@ static struct key *construct_key_and_link(struct keyring_search_context *ctx,
 
 	if (ctx->index_key.type == &key_type_keyring)
 		return ERR_PTR(-EPERM);
-<<<<<<< HEAD
-	
 	ret = construct_get_dest_keyring(&dest_keyring);
 	if (ret)
 		goto error;
 
-=======
-
-	ret = construct_get_dest_keyring(&dest_keyring);
-	if (ret)
-		goto error;
-
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	user = key_user_lookup(current_fsuid());
 	if (!user) {
 		ret = -ENOMEM;
