@@ -1,11 +1,7 @@
 /* Copyright (c) 2005-2011 Atheros Communications Inc.
  * Copyright (c) 2011-2013 Qualcomm Atheros, Inc.
-<<<<<<< HEAD
- * Copyright (c) 2017, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2018, The Linux Foundation. All rights reserved.
  * Copyright (C) 2018 XiaoMi, Inc.
-=======
- * Copyright (c) 2017-2018 The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -957,11 +953,8 @@ static void ath10k_snoc_hif_power_down(struct ath10k *ar)
 
 	if (!atomic_read(&ar_snoc->pm_ops_inprogress))
 		ath10k_snoc_qmi_wlan_disable(ar);
-<<<<<<< HEAD
-=======
 
 	ce_remove_rri_on_ddr(ar);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 }
 
 int ath10k_snoc_get_ce_id(struct ath10k *ar, int irq)
@@ -1161,12 +1154,6 @@ static int ath10k_snoc_hif_power_up(struct ath10k *ar)
 		atomic_set(&ar_snoc->pm_ops_inprogress, 0);
 	}
 
-<<<<<<< HEAD
-	ret = ath10k_snoc_bus_configure(ar);
-	if (ret) {
-		ath10k_err(ar, "failed to configure bus: %d\n", ret);
-		return ret;
-=======
 	if ((ar->state == ATH10K_STATE_ON) ||
 	    (ar->state == ATH10K_STATE_RESTARTING) ||
 	    test_bit(ATH10K_FLAG_CRASH_FLUSH, &ar->dev_flags)) {
@@ -1175,7 +1162,6 @@ static int ath10k_snoc_hif_power_up(struct ath10k *ar)
 			ath10k_err(ar, "failed to configure bus: %d\n", ret);
 			return ret;
 		}
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	}
 
 	ret = ath10k_snoc_init_pipes(ar);
@@ -1594,11 +1580,7 @@ static int ath10k_snoc_hif_suspend(struct ath10k *ar)
 	ret = enable_irq_wake(ar_snoc->ce_irqs[WCN3990_WAKE_IRQ_CE].irq_line);
 	if (ret) {
 		ath10k_dbg(ar, ATH10K_DBG_SNOC,
-<<<<<<< HEAD
-				"HIF Suspend: Failed to enable wakeup IRQ\n");
-=======
 			   "HIF Suspend: Failed to enable wakeup IRQ\n");
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		return ret;
 	}
 
@@ -1620,11 +1602,7 @@ static int ath10k_snoc_hif_resume(struct ath10k *ar)
 	ret = disable_irq_wake(ar_snoc->ce_irqs[WCN3990_WAKE_IRQ_CE].irq_line);
 	if (ret) {
 		ath10k_dbg(ar, ATH10K_DBG_SNOC,
-<<<<<<< HEAD
-				"HIF Resume: Failed to disable wakeup IRQ\n");
-=======
 			   "HIF Resume: Failed to disable wakeup IRQ\n");
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		return ret;
 	}
 
@@ -1661,10 +1639,7 @@ static int ath10k_snoc_probe(struct platform_device *pdev)
 	struct ath10k_snoc_qmi_config *qmi_cfg;
 	enum ath10k_hw_rev hw_rev;
 	struct device *dev;
-<<<<<<< HEAD
-=======
 	u32 chip_id;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	u32 i;
 
 	dev = &pdev->dev;
@@ -1715,16 +1690,6 @@ static int ath10k_snoc_probe(struct platform_device *pdev)
 	}
 
 	ret = ath10k_hw_power_on(ar);
-<<<<<<< HEAD
-	if (ret) {
-		ath10k_err(ar, "failed to power on device: %d\n", ret);
-		goto err_stop_qmi_service;
-	}
-
-	ret = ath10k_snoc_claim(ar);
-	if (ret) {
-		ath10k_err(ar, "failed to claim device: %d\n", ret);
-=======
 	if (ret) {
 		ath10k_err(ar, "failed to power on device: %d\n", ret);
 		goto err_stop_qmi_service;
@@ -1739,7 +1704,6 @@ static int ath10k_snoc_probe(struct platform_device *pdev)
 	ret = ath10k_snoc_bus_configure(ar);
 	if (ret) {
 		ath10k_err(ar, "failed to configure bus: %d\n", ret);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		goto err_hw_power_off;
 	}
 
