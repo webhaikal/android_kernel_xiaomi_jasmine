@@ -416,13 +416,8 @@ static int raid0_run(struct mddev *mddev)
 		 */
 		int stripe = mddev->raid_disks *
 			(mddev->chunk_sectors << 9) / PAGE_SIZE;
-<<<<<<< HEAD
-		if (mddev->queue->backing_dev_info->ra_pages < 2 * stripe)
-			mddev->queue->backing_dev_info->ra_pages = 2 * stripe;
-=======
 		if (mddev->queue->backing_dev_info->ra_pages < 2* stripe)
 			mddev->queue->backing_dev_info->ra_pages = 2* stripe;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	}
 
 	dump_zones(mddev);
