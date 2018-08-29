@@ -306,11 +306,7 @@ static struct device_attribute power_supply_attrs[] = {
 	POWER_SUPPLY_ATTR(pd_voltage_max),
 	POWER_SUPPLY_ATTR(pd_voltage_min),
 	POWER_SUPPLY_ATTR(sdp_current_max),
-<<<<<<< HEAD
-	POWER_SUPPLY_ATTR(rerun_apsd),
-=======
 	POWER_SUPPLY_ATTR(fcc_stepper_enable),
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	/* Local extensions of type int64_t */
 	POWER_SUPPLY_ATTR(charge_counter_ext),
 	/* Properties of type `const char *' */
