@@ -352,24 +352,13 @@ struct smb_charger {
 	u8			float_cfg;
 	bool			use_extcon;
 	bool			otg_present;
-<<<<<<< HEAD
-#ifdef THERMAL_CONFIG_FB
-	struct notifier_block notifier;
-	struct work_struct fb_notify_work;
-#endif
-=======
 	bool			fcc_stepper_mode;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	/* workaround flag */
 	u32			wa_flags;
 	bool			cc2_detach_wa_active;
 	bool			typec_en_dis_active;
-<<<<<<< HEAD
-	bool			float_rerun_apsd;
-=======
 	bool			try_sink_active;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	int			boost_current_ua;
 	int			temp_speed_reading_count;
 
@@ -450,17 +439,6 @@ int smblib_get_prop_system_temp_level(struct smb_charger *chg,
 				union power_supply_propval *val);
 int smblib_get_prop_input_current_limited(struct smb_charger *chg,
 				union power_supply_propval *val);
-<<<<<<< HEAD
-int smblib_get_prop_batt_voltage_now(struct smb_charger *chg,
-				union power_supply_propval *val);
-int smblib_get_prop_batt_current_now(struct smb_charger *chg,
-				union power_supply_propval *val);
-int smblib_get_prop_batt_temp(struct smb_charger *chg,
-				union power_supply_propval *val);
-int smblib_get_prop_batt_charge_counter(struct smb_charger *chg,
-				union power_supply_propval *val);
-=======
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 int smblib_set_prop_input_suspend(struct smb_charger *chg,
 				const union power_supply_propval *val);
 int smblib_set_prop_batt_capacity(struct smb_charger *chg,
