@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2014-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
 /* Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -171,15 +166,10 @@ int diag_md_write(int id, unsigned char *buf, int len, int ctx)
 	pid = session_info->pid;
 
 	ch = &diag_md[id];
-<<<<<<< HEAD
-	if (!ch)
-		return -EINVAL;
-=======
 	if (!ch || !ch->md_info_inited) {
 		mutex_unlock(&driver->md_session_lock);
 		return -EINVAL;
 	}
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	spin_lock_irqsave(&ch->lock, flags);
 	for (i = 0; i < ch->num_tbl_entries && !found; i++) {
