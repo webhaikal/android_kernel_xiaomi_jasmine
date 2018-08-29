@@ -221,10 +221,7 @@ struct sdcardfs_mount_options {
 	userid_t fs_user_id;
 	bool multiuser;
 	bool gid_derivation;
-<<<<<<< HEAD
-=======
 	bool default_normal;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	unsigned int reserved_mb;
 };
 
