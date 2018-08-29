@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2008-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
 /* Copyright (c) 2008-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1734,13 +1729,8 @@ static int diagfwd_mux_write_done(unsigned char *buf, int len, int buf_ctxt,
 	case TYPE_DATA:
 		if (peripheral >= 0 && peripheral < NUM_PERIPHERALS) {
 			DIAG_LOG(DIAG_DEBUG_PERIPHERALS,
-<<<<<<< HEAD
-					"Marking buffer as free after write done p: %d, t: %d, buf_num: %d\n",
-					peripheral, type, num);
-=======
 			"Marking buffer as free after write done p: %d, t: %d, buf_num: %d\n",
 				peripheral, type, num);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			diagfwd_write_done(peripheral, type, num);
 			diag_ws_on_copy(DIAG_WS_MUX);
 		} else if (peripheral == APPS_DATA) {
