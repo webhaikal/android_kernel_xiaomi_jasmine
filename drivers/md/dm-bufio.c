@@ -832,9 +832,6 @@ static struct dm_buffer *__alloc_buffer_wait_no_callback(struct dm_bufio_client 
 	 * be allocated.
 	 */
 	while (1) {
-		#if LCT_DM_DEBUG
-		ts_start = current_kernel_time();
-		#endif
 		if (dm_bufio_cache_size_latch != 1) {
 			b = alloc_buffer(c, GFP_NOWAIT | __GFP_NORETRY | __GFP_NOMEMALLOC | __GFP_NOWARN);
 			if (b)
@@ -843,13 +840,6 @@ static struct dm_buffer *__alloc_buffer_wait_no_callback(struct dm_bufio_client 
 
 		if (nf == NF_PREFETCH)
 			return NULL;
-		if (dm_bufio_cache_size_latch != 1 && !tried_noio_alloc) {
-			dm_bufio_unlock(c);
-			b = alloc_buffer(c, GFP_NOIO | __GFP_NORETRY | __GFP_NOMEMALLOC | __GFP_NOWARN);
-			#if LCT_DM_DEBUG
-			ts_current = current_kernel_time();
-			ts_delta = timespec_sub(ts_current, ts_start);
-			ts_delta_ms = ts_delta.tv_nsec / NSEC_PER_MSEC + ts_delta.tv_sec * MSEC_PER_SEC;
 
 		if (dm_bufio_cache_size_latch != 1 && !tried_noio_alloc) {
 			dm_bufio_unlock(c);
