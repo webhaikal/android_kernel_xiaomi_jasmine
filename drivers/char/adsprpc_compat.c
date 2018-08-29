@@ -1,10 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2014-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
  * Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -93,14 +88,11 @@ struct compat_fastrpc_ioctl_mmap_64 {
 struct compat_fastrpc_ioctl_munmap {
 	compat_uptr_t vaddrout;	/* address to unmap */
 	compat_size_t size;	/* size */
-<<<<<<< HEAD
-=======
 };
 
 struct compat_fastrpc_ioctl_munmap_64 {
 	compat_u64 vaddrout;	/* address to unmap */
 	compat_size_t size;	/* size */
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 };
 
 struct compat_fastrpc_ioctl_init {
@@ -289,8 +281,6 @@ static int compat_get_fastrpc_ioctl_munmap(
 {
 	compat_uptr_t p;
 	compat_size_t s;
-<<<<<<< HEAD
-=======
 	int err;
 
 	err = get_user(p, &unmap32->vaddrout);
@@ -307,7 +297,6 @@ static int compat_get_fastrpc_ioctl_munmap_64(
 {
 	compat_u64 p;
 	compat_size_t s;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	int err;
 
 	err = get_user(p, &unmap32->vaddrout);
