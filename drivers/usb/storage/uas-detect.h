@@ -61,11 +61,7 @@ static int uas_use_uas_driver(struct usb_interface *intf,
 	unsigned long flags = id->driver_info;
 	struct usb_host_interface *alt;
 	int r;
-<<<<<<< HEAD
-
-=======
->>>>>>> stable/kernel.lnx.4.4.r35-rel
-
+	
 	alt = uas_find_uas_alt_setting(intf);
 	if (!alt)
 		return 0;
