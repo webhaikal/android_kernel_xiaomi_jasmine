@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2017, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -20,8 +16,6 @@
 #include "sda636.dtsi"
 #include "sdm636-qrd.dtsi"
 #include "msm-pm660a.dtsi"
-<<<<<<< HEAD
-=======
 
 &i2c_2 {
 	smb138x: qcom,smb138x@8 {
@@ -156,20 +150,15 @@
 	};
 };
 
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 #include "sdm660-external-codec.dtsi"
 
 / {
 	model = "Qualcomm Technologies, Inc. SDA 636 PM660 + PM660A QRD HDK636";
 	compatible = "qcom,sda636-qrd", "qcom,sda636", "qcom,qrd";
 	qcom,board-id = <0x0016000b 0>;
-<<<<<<< HEAD
-	qcom,pmic-id = <0x0001001b 0x0001011a 0x0 0x0>;
-=======
 	qcom,pmic-id = <0x0001001b 0x0001011a 0x0 0x0>,
 			<0x0001001b 0x0002001a 0x0 0x0>,
 			<0x0001001b 0x0202001a 0x0 0x0>;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 };
 
 &pm660a_oledb {
