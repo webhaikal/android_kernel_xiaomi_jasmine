@@ -30,12 +30,6 @@
 &tavil_snd {
 	qcom,msm-mbhc-moist-cfg = <0>, <0>, <3>;
 };
-<<<<<<< HEAD
-&pm660l_l3 {
-	regulator-always-on;
-};
-=======
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 &slim_aud {
 	/delete-node/tasha_codec;
