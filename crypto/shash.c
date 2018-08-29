@@ -25,11 +25,7 @@
 static const struct crypto_type crypto_shash_type;
 
 int shash_no_setkey(struct crypto_shash *tfm, const u8 *key,
-<<<<<<< HEAD
-			   unsigned int keylen)
-=======
 		    unsigned int keylen)
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 {
 	return -ENOSYS;
 }
