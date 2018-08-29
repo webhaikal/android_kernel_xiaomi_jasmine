@@ -605,8 +605,6 @@
 					qcom,bus-max = <0>;
 				};
 			};
-<<<<<<< HEAD
-=======
 
 			qcom,gpu-pwrlevels-6 {
 				#address-cells = <1>;
@@ -670,7 +668,6 @@
 					qcom,bus-max = <0>;
 				};
 			};
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		};
 	};
 
