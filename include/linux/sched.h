@@ -2457,12 +2457,8 @@ static inline void memalloc_noio_restore(unsigned int flags)
 #define PFA_NO_NEW_PRIVS 0	/* May not gain new privileges. */
 #define PFA_SPREAD_PAGE  1      /* Spread page cache over cpuset */
 #define PFA_SPREAD_SLAB  2      /* Spread some slab caches over cpuset */
-<<<<<<< HEAD
-#define PFA_LMK_WAITING  3      /* Lowmemorykiller is waiting */
-=======
 #define PFA_SPEC_SSB_DISABLE		4	/* Speculative Store Bypass disabled */
 #define PFA_SPEC_SSB_FORCE_DISABLE	5	/* Speculative Store Bypass force disabled*/
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 
 #define TASK_PFA_TEST(name, func)					\
@@ -2486,17 +2482,12 @@ TASK_PFA_TEST(SPREAD_SLAB, spread_slab)
 TASK_PFA_SET(SPREAD_SLAB, spread_slab)
 TASK_PFA_CLEAR(SPREAD_SLAB, spread_slab)
 
-<<<<<<< HEAD
-TASK_PFA_TEST(LMK_WAITING, lmk_waiting)
-TASK_PFA_SET(LMK_WAITING, lmk_waiting)
-=======
 TASK_PFA_TEST(SPEC_SSB_DISABLE, spec_ssb_disable)
 TASK_PFA_SET(SPEC_SSB_DISABLE, spec_ssb_disable)
 TASK_PFA_CLEAR(SPEC_SSB_DISABLE, spec_ssb_disable)
 
 TASK_PFA_TEST(SPEC_SSB_FORCE_DISABLE, spec_ssb_force_disable)
 TASK_PFA_SET(SPEC_SSB_FORCE_DISABLE, spec_ssb_force_disable)
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 /*
  * task->jobctl flags
@@ -3028,10 +3019,7 @@ extern int mmput(struct mm_struct *);
  * be called from the atomic context as well
  */
 extern void mmput_async(struct mm_struct *);
-<<<<<<< HEAD
-=======
 
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 /* Grab a reference to a task's mm, if it is not already going away */
 extern struct mm_struct *get_task_mm(struct task_struct *task);
 /*
