@@ -90,11 +90,7 @@ static inline void efi_set_pgd(struct mm_struct *mm)
 			 * until uaccess_enable(). Restore the current
 			 * thread's saved ttbr0 corresponding to its active_mm
 			 */
-<<<<<<< HEAD
-			cpu_set_reserved_ttbr0();
-=======
 			uaccess_ttbr0_disable();
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			update_saved_ttbr0(current, current->active_mm);
 		}
 	}
