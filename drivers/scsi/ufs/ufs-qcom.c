@@ -2596,11 +2596,7 @@ bool ufs_qcom_testbus_cfg_is_ok(struct ufs_qcom_host *host,
 int ufs_qcom_testbus_config(struct ufs_qcom_host *host)
 {
 	int reg = 0;
-<<<<<<< HEAD
-	int offset, ret = 0, testbus_sel_offset = 19;
-=======
 	int offset = 0, ret = 0, testbus_sel_offset = 19;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	u32 mask = TEST_BUS_SUB_SEL_MASK;
 	unsigned long flags;
 	struct ufs_hba *hba;
