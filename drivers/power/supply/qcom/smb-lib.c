@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-/* Copyright (c) 2016-2017 The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
 /* Copyright (c) 2016-2018 The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1881,50 +1877,20 @@ int smblib_get_prop_charge_qnovo_enable(struct smb_charger *chg,
 	return 0;
 }
 
-<<<<<<< HEAD
-int smblib_get_prop_batt_charge_counter(struct smb_charger *chg,
-				     union power_supply_propval *val)
-=======
 int smblib_get_prop_from_bms(struct smb_charger *chg,
 				enum power_supply_property psp,
 				union power_supply_propval *val)
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 {
 	int rc;
 
 	if (!chg->bms_psy)
 		return -EINVAL;
 
-<<<<<<< HEAD
-	rc = power_supply_get_property(chg->bms_psy,
-				       POWER_SUPPLY_PROP_CHARGE_COUNTER, val);
-	return rc;
-}
-
-
-int smblib_get_prop_battery_full_design(struct smb_charger *chg,
-				     union power_supply_propval *val)
-{
-	struct fg_chip *chip;
-
-	if (!chg->bms_psy)
-		return -EINVAL;
-	chip = power_supply_get_drvdata(chg->bms_psy);
-	if (chip->battery_full_design)
-		val->intval =  chip->battery_full_design;
-	else
-		val->intval = 4000;
-	return 0;
-}
-
-
-=======
 	rc = power_supply_get_property(chg->bms_psy, psp, val);
 
 	return rc;
 }
 
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 /***********************
  * BATTERY PSY SETTERS *
  ***********************/
@@ -2139,13 +2105,6 @@ static int smblib_dm_pulse(struct smb_charger *chg)
 	return rc;
 }
 
-<<<<<<< HEAD
-#if defined(CONFIG_KERNEL_CUSTOM_D2S)
-#define MAX_PLUSE_COUNT_ALLOWED 8
-#elif defined(CONFIG_KERNEL_CUSTOM_E7S)
-#define MAX_PLUSE_COUNT_ALLOWED 15
-#endif
-=======
 static int smblib_force_vbus_voltage(struct smb_charger *chg, u8 val)
 {
 	int rc;
@@ -2158,7 +2117,6 @@ static int smblib_force_vbus_voltage(struct smb_charger *chg, u8 val)
 	return rc;
 }
 
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 int smblib_dp_dm(struct smb_charger *chg, int val)
 {
 	int target_icl_ua, rc = 0;
@@ -2370,28 +2328,6 @@ int smblib_get_prop_usb_online(struct smb_charger *chg,
 }
 
 int smblib_get_prop_usb_voltage_max(struct smb_charger *chg,
-<<<<<<< HEAD
-				    union power_supply_propval *val)
-{
-	switch (chg->real_charger_type) {
-	case POWER_SUPPLY_TYPE_USB_HVDCP:
-	case POWER_SUPPLY_TYPE_USB_PD:
-		if (chg->smb_version == PM660_SUBTYPE)
-			val->intval = MICRO_9V;
-		else
-			val->intval = MICRO_12V;
-		break;
-	default:
-		val->intval = MICRO_5V;
-		break;
-	}
-
-	return 0;
-}
-
-int smblib_get_prop_usb_voltage_now(struct smb_charger *chg,
-=======
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 				    union power_supply_propval *val)
 {
 	switch (chg->real_charger_type) {
@@ -3545,16 +3481,8 @@ void smblib_usb_plugin_locked(struct smb_charger *chg)
 		rc = smblib_request_dpdm(chg, true);
 		if (rc < 0)
 			smblib_err(chg, "Couldn't to enable DPDM rc=%d\n", rc);
-<<<<<<< HEAD
-		chg->pl_psy =  power_supply_get_by_name("parallel");
-		if (chg->pl_psy) {
-			power_supply_set_property(chg->pl_psy, POWER_SUPPLY_PROP_INPUT_SUSPEND, &pval);
-		}
-
-=======
 		if (chg->fcc_stepper_mode)
 			vote(chg->fcc_votable, FCC_STEPPER_VOTER, false, 0);
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		/* Schedule work to enable parallel charger */
 		vote(chg->awake_votable, PL_DELAY_VOTER, true, 0);
 		schedule_delayed_work(&chg->pl_enable_work,
