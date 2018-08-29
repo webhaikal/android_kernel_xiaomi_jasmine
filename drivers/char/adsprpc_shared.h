@@ -1,10 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
  * Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -176,14 +171,11 @@ struct fastrpc_ioctl_init_attrs {
 struct fastrpc_ioctl_munmap {
 	uintptr_t vaddrout;	/* address to unmap */
 	size_t size;		/* size */
-<<<<<<< HEAD
-=======
 };
 
 struct fastrpc_ioctl_munmap_64 {
 	uint64_t vaddrout;	/* address to unmap */
 	size_t size;		/* size */
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 };
 
 struct fastrpc_ioctl_mmap {
