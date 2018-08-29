@@ -944,17 +944,11 @@ int usb_get_bos_descriptor(struct usb_device *dev)
 	for (i = 0; i < num; i++) {
 		buffer += length;
 		cap = (struct usb_dev_cap_header *)buffer;
-<<<<<<< HEAD
-=======
 
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		if (total_len < sizeof(*cap) || total_len < cap->bLength) {
 			dev->bos->desc->bNumDeviceCaps = i;
 			break;
 		}
-<<<<<<< HEAD
-		length = cap->bLength;
-=======
 		cap_type = cap->bDevCapabilityType;
 		length = cap->bLength;
 		if (bos_desc_len[cap_type] && length < bos_desc_len[cap_type]) {
@@ -962,7 +956,6 @@ int usb_get_bos_descriptor(struct usb_device *dev)
 			break;
 		}
 
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		total_len -= length;
 
 		if (cap->bDescriptorType != USB_DT_DEVICE_CAPABILITY) {
