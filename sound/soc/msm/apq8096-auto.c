@@ -151,8 +151,6 @@ static int msm_pri_tdm_rate = SAMPLING_RATE_48KHZ;
 static int msm_pri_tdm_slot_width = 32;
 static int msm_pri_tdm_slot_num = 8;
 
-<<<<<<< HEAD
-=======
 static int msm_sec_tdm_slot_width = 32;
 static int msm_sec_tdm_slot_num = 8;
 
@@ -162,7 +160,6 @@ static int msm_tert_tdm_slot_num = 8;
 static int msm_quat_tdm_slot_width = 32;
 static int msm_quat_tdm_slot_num = 8;
 
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 /* EC Reference default values are set in mixer_paths.xml */
 static int msm_ec_ref_ch = 4;
 static int msm_ec_ref_bit_format = SNDRV_PCM_FORMAT_S16_LE;
@@ -242,11 +239,7 @@ enum {
 	TDM_MAX,
 };
 
-<<<<<<< HEAD
-#define TDM_SLOT_OFFSET_MAX    8
-=======
 #define TDM_SLOT_OFFSET_MAX   32
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 /* TDM default offset */
 static unsigned int tdm_slot_offset[TDM_MAX][TDM_SLOT_OFFSET_MAX] = {
 	/* QUAT_TDM_RX */
@@ -537,15 +530,6 @@ static const char *const ec_ref_rate_text[] = {"0", "8000", "16000",
 
 static const char *const mi2s_rate_text[] = {"32000", "44100", "48000"};
 
-<<<<<<< HEAD
-static const char *const pri_tdm_rate_text[] = {"8000", "16000", "48000"};
-
-static const char *const pri_tdm_slot_num_text[] = {"One", "Two", "Four",
-	"Eight", "Sixteen", "Thirtytwo"};
-
-
-static const char *const pri_tdm_slot_width_text[] = {"16", "24", "32"};
-=======
 static const char *const tdm_rate_text[] = {"8000", "16000", "48000"};
 
 static const char *const tdm_slot_num_text[] = {"One", "Two", "Four",
@@ -553,7 +537,6 @@ static const char *const tdm_slot_num_text[] = {"One", "Two", "Four",
 
 
 static const char *const tdm_slot_width_text[] = {"16", "24", "32"};
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 static struct afe_clk_set sec_mi2s_tx_clk = {
 	AFE_API_VERSION_I2S_CONFIG,
@@ -864,158 +847,9 @@ static int msm_sec_mi2s_rx_bit_format_put(struct snd_kcontrol *kcontrol,
 	return 0;
 }
 
-<<<<<<< HEAD
-static int msm_pri_tdm_tx_0_ch_get(struct snd_kcontrol *kcontrol,
-			       struct snd_ctl_elem_value *ucontrol)
-{
-	pr_debug("%s: msm_pri_tdm_tx_0_ch = %d\n", __func__,
-		msm_pri_tdm_tx_0_ch);
-	ucontrol->value.integer.value[0] = msm_pri_tdm_tx_0_ch - 1;
-	return 0;
-}
-
-static int msm_pri_tdm_tx_0_ch_put(struct snd_kcontrol *kcontrol,
-			       struct snd_ctl_elem_value *ucontrol)
-{
-	msm_pri_tdm_tx_0_ch = ucontrol->value.integer.value[0] + 1;
-	pr_debug("%s: msm_pri_tdm_tx_0_ch = %d\n", __func__,
-		msm_pri_tdm_tx_0_ch);
-	return 0;
-}
-
-static int msm_pri_tdm_tx_1_ch_get(struct snd_kcontrol *kcontrol,
-			       struct snd_ctl_elem_value *ucontrol)
-{
-	pr_debug("%s: pri_tdm_tx_1_ch = %d\n", __func__,
-		msm_pri_tdm_tx_1_ch);
-	ucontrol->value.integer.value[0] = msm_pri_tdm_tx_1_ch - 1;
-	return 0;
-}
-
-static int msm_pri_tdm_tx_1_ch_put(struct snd_kcontrol *kcontrol,
-			       struct snd_ctl_elem_value *ucontrol)
-{
-	msm_pri_tdm_tx_1_ch = ucontrol->value.integer.value[0] + 1;
-	pr_debug("%s: msm_pri_tdm_tx_1_ch = %d\n", __func__,
-		msm_pri_tdm_tx_1_ch);
-	return 0;
-}
-
-static int msm_pri_tdm_tx_2_ch_get(struct snd_kcontrol *kcontrol,
-			       struct snd_ctl_elem_value *ucontrol)
-{
-	pr_debug("%s: msm_pri_tdm_tx_2_ch = %d\n", __func__,
-		msm_pri_tdm_tx_2_ch);
-	ucontrol->value.integer.value[0] = msm_pri_tdm_tx_2_ch - 1;
-	return 0;
-}
-
-static int msm_pri_tdm_tx_2_ch_put(struct snd_kcontrol *kcontrol,
-			       struct snd_ctl_elem_value *ucontrol)
-{
-	msm_pri_tdm_tx_2_ch = ucontrol->value.integer.value[0] + 1;
-	pr_debug("%s: msm_pri_tdm_tx_2_ch = %d\n", __func__,
-		msm_pri_tdm_tx_2_ch);
-	return 0;
-}
-
-static int msm_pri_tdm_tx_3_ch_get(struct snd_kcontrol *kcontrol,
-			       struct snd_ctl_elem_value *ucontrol)
-{
-	pr_debug("%s: msm_pri_tdm_tx_3_ch = %d\n", __func__,
-		msm_pri_tdm_tx_3_ch);
-	ucontrol->value.integer.value[0] = msm_pri_tdm_tx_3_ch - 1;
-	return 0;
-}
-
-static int msm_pri_tdm_tx_3_ch_put(struct snd_kcontrol *kcontrol,
-			       struct snd_ctl_elem_value *ucontrol)
-{
-	msm_pri_tdm_tx_3_ch = ucontrol->value.integer.value[0] + 1;
-	pr_debug("%s: msm_pri_tdm_tx_3_ch = %d\n", __func__,
-		msm_pri_tdm_tx_3_ch);
-	return 0;
-}
-
-static int msm_pri_tdm_rx_0_ch_get(struct snd_kcontrol *kcontrol,
-			       struct snd_ctl_elem_value *ucontrol)
-{
-	pr_debug("%s: msm_pri_tdm_rx_0_ch = %d\n", __func__,
-		msm_pri_tdm_rx_0_ch);
-	ucontrol->value.integer.value[0] = msm_pri_tdm_rx_0_ch - 1;
-	return 0;
-}
-
-static int msm_pri_tdm_rx_0_ch_put(struct snd_kcontrol *kcontrol,
-			       struct snd_ctl_elem_value *ucontrol)
-{
-	msm_pri_tdm_rx_0_ch = ucontrol->value.integer.value[0] + 1;
-	pr_debug("%s: msm_pri_tdm_rx_0_ch = %d\n", __func__,
-		msm_pri_tdm_rx_0_ch);
-	return 0;
-}
-
-static int msm_pri_tdm_rx_1_ch_get(struct snd_kcontrol *kcontrol,
-			       struct snd_ctl_elem_value *ucontrol)
-{
-	pr_debug("%s: msm_pri_tdm_rx_1_ch = %d\n", __func__,
-		msm_pri_tdm_rx_1_ch);
-	ucontrol->value.integer.value[0] = msm_pri_tdm_rx_1_ch - 1;
-	return 0;
-}
-
-static int msm_pri_tdm_rx_1_ch_put(struct snd_kcontrol *kcontrol,
-			       struct snd_ctl_elem_value *ucontrol)
-{
-	msm_pri_tdm_rx_1_ch = ucontrol->value.integer.value[0] + 1;
-	pr_debug("%s: msm_pri_tdm_rx_1_ch = %d\n", __func__,
-		msm_pri_tdm_rx_1_ch);
-	return 0;
-}
-
-static int msm_pri_tdm_rx_2_ch_get(struct snd_kcontrol *kcontrol,
-			       struct snd_ctl_elem_value *ucontrol)
-{
-	pr_debug("%s: msm_pri_tdm_rx_2_ch = %d\n", __func__,
-		msm_pri_tdm_rx_2_ch);
-	ucontrol->value.integer.value[0] = msm_pri_tdm_rx_2_ch - 1;
-	return 0;
-}
-
-static int msm_pri_tdm_rx_2_ch_put(struct snd_kcontrol *kcontrol,
-			       struct snd_ctl_elem_value *ucontrol)
-{
-	msm_pri_tdm_rx_2_ch = ucontrol->value.integer.value[0] + 1;
-	pr_debug("%s: msm_pri_tdm_rx_2_ch = %d\n", __func__,
-		msm_pri_tdm_rx_2_ch);
-	return 0;
-}
-
-static int msm_pri_tdm_rx_3_ch_get(struct snd_kcontrol *kcontrol,
-			       struct snd_ctl_elem_value *ucontrol)
-{
-	pr_debug("%s: msm_pri_tdm_rx_3_ch = %d\n", __func__,
-		msm_pri_tdm_rx_3_ch);
-	ucontrol->value.integer.value[0] = msm_pri_tdm_rx_3_ch - 1;
-	return 0;
-}
-
-static int msm_pri_tdm_rx_3_ch_put(struct snd_kcontrol *kcontrol,
-			       struct snd_ctl_elem_value *ucontrol)
-{
-	msm_pri_tdm_rx_3_ch = ucontrol->value.integer.value[0] + 1;
-	pr_debug("%s: msm_pri_tdm_rx_3_ch = %d\n", __func__,
-		msm_pri_tdm_rx_3_ch);
-	return 0;
-}
-
-static int msm_sec_mi2s_rate_get(struct snd_kcontrol *kcontrol,
-				    struct snd_ctl_elem_value *ucontrol)
-=======
 
 static int msm_sec_mi2s_tx_bit_format_get(struct snd_kcontrol *kcontrol,
 				  struct snd_ctl_elem_value *ucontrol)
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 {
 	switch (msm_sec_mi2s_tx_bit_format) {
 	case SNDRV_PCM_FORMAT_S24_LE:
@@ -1048,180 +882,7 @@ static int msm_sec_mi2s_tx_bit_format_put(struct snd_kcontrol *kcontrol,
 	return 0;
 }
 
-<<<<<<< HEAD
-static int msm_pri_tdm_rate_get(struct snd_kcontrol *kcontrol,
-				    struct snd_ctl_elem_value *ucontrol)
-{
-	ucontrol->value.integer.value[0] = msm_pri_tdm_rate;
-	pr_debug("%s: msm_pri_tdm_rate = %d\n", __func__, msm_pri_tdm_rate);
-	return 0;
-}
-
-static int msm_pri_tdm_rate_put(struct snd_kcontrol *kcontrol,
-				    struct snd_ctl_elem_value *ucontrol)
-{
-	switch (ucontrol->value.integer.value[0]) {
-	case 0:
-		msm_pri_tdm_rate = SAMPLING_RATE_8KHZ;
-		break;
-	case 1:
-		msm_pri_tdm_rate = SAMPLING_RATE_16KHZ;
-		break;
-	case 2:
-		msm_pri_tdm_rate = SAMPLING_RATE_48KHZ;
-		break;
-	default:
-		msm_pri_tdm_rate = SAMPLING_RATE_48KHZ;
-		break;
-	}
-	pr_debug("%s: msm_pri_tdm_rate = %d\n",
-		__func__, msm_pri_tdm_rate);
-	return 0;
-}
-
-static int msm_pri_tdm_slot_width_get(struct snd_kcontrol *kcontrol,
-				    struct snd_ctl_elem_value *ucontrol)
-{
-	ucontrol->value.integer.value[0] = msm_pri_tdm_slot_width;
-	pr_debug("%s: msm_pri_tdm_slot_width = %d\n",
-			__func__, msm_pri_tdm_slot_width);
-	return 0;
-}
-
-static int msm_pri_tdm_slot_width_put(struct snd_kcontrol *kcontrol,
-				    struct snd_ctl_elem_value *ucontrol)
-{
-	switch (ucontrol->value.integer.value[0]) {
-	case 0:
-		msm_pri_tdm_slot_width = 16;
-		break;
-	case 1:
-		msm_pri_tdm_slot_width = 24;
-		break;
-	case 2:
-		msm_pri_tdm_slot_width = 32;
-		break;
-	default:
-		msm_pri_tdm_slot_width = 32;
-		break;
-	}
-	pr_debug("%s: msm_pri_tdm_slot_width= %d\n",
-		__func__, msm_pri_tdm_slot_width);
-	return 0;
-}
-
-static int msm_pri_tdm_slot_num_get(struct snd_kcontrol *kcontrol,
-				    struct snd_ctl_elem_value *ucontrol)
-{
-	switch (msm_pri_tdm_slot_num) {
-	case 1:
-		ucontrol->value.integer.value[0] = 0;
-		break;
-	case 2:
-		ucontrol->value.integer.value[0] = 1;
-		break;
-	case 4:
-		ucontrol->value.integer.value[0] = 2;
-		break;
-	case 8:
-		ucontrol->value.integer.value[0] = 3;
-		break;
-	case 16:
-		ucontrol->value.integer.value[0] = 4;
-		break;
-	case 32:
-	default:
-		ucontrol->value.integer.value[0] = 5;
-		break;
-	}
-
-	pr_debug("%s: msm_pri_tdm_slot_num = %d\n",
-		__func__, msm_pri_tdm_slot_num);
-	return 0;
-}
-
-static int msm_pri_tdm_slot_num_put(struct snd_kcontrol *kcontrol,
-				    struct snd_ctl_elem_value *ucontrol)
-{
-	switch (ucontrol->value.integer.value[0]) {
-	case 0:
-		msm_pri_tdm_slot_num = 1;
-		break;
-	case 1:
-		msm_pri_tdm_slot_num = 2;
-		break;
-	case 2:
-		msm_pri_tdm_slot_num = 4;
-		break;
-	case 3:
-		msm_pri_tdm_slot_num = 8;
-		break;
-	case 4:
-		msm_pri_tdm_slot_num = 16;
-		break;
-	case 5:
-		msm_pri_tdm_slot_num = 32;
-		break;
-	default:
-		msm_pri_tdm_slot_num = 8;
-		break;
-	}
-	pr_debug("%s: msm_pri_tdm_slot_num = %d\n",
-		__func__,  msm_pri_tdm_slot_num);
-	return 0;
-}
-
-static int msm_tdm_slot_mapping_get(struct snd_kcontrol *kcontrol,
-				    struct snd_ctl_elem_value *ucontrol)
-{
-	struct soc_multi_mixer_control *mc =
-		(struct soc_multi_mixer_control *)kcontrol->private_value;
-	unsigned int *slot_offset;
-	int i;
-
-	if (mc->shift >= TDM_MAX) {
-		pr_err("%s invalid port index %d\n", __func__, mc->shift);
-		return -EINVAL;
-	}
-
-	slot_offset = tdm_slot_offset[mc->shift];
-	for (i = 0; i < TDM_SLOT_OFFSET_MAX; i++) {
-		ucontrol->value.integer.value[i] = slot_offset[i];
-		pr_debug("%s port index %d offset %d value %d\n",
-				__func__, mc->shift, i, slot_offset[i]);
-	}
-
-	return 0;
-}
-
-static int msm_tdm_slot_mapping_put(struct snd_kcontrol *kcontrol,
-				    struct snd_ctl_elem_value *ucontrol)
-{
-	struct soc_multi_mixer_control *mc =
-		(struct soc_multi_mixer_control *)kcontrol->private_value;
-	unsigned int *slot_offset;
-	int i;
-
-	if (mc->shift >= TDM_MAX) {
-		pr_err("%s invalid port index %d\n", __func__, mc->shift);
-		return -EINVAL;
-	}
-
-	slot_offset = tdm_slot_offset[mc->shift];
-
-	for (i = 0; i < TDM_SLOT_OFFSET_MAX; i++) {
-		slot_offset[i] = ucontrol->value.integer.value[i];
-		pr_debug("%s port index %d offset %d value %d\n",
-				__func__, mc->shift, i, slot_offset[i]);
-	}
-
-	return 0;
-}
-
-static int msm_sec_tdm_tx_0_ch_get(struct snd_kcontrol *kcontrol,
-=======
 static int msm_pri_tdm_tx_0_ch_get(struct snd_kcontrol *kcontrol,
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 			       struct snd_ctl_elem_value *ucontrol)
 {
 	pr_debug("%s: msm_pri_tdm_tx_0_ch = %d\n", __func__,
@@ -4006,8 +3667,6 @@ static int msm_tdm_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
 			msm_pri_tdm_rx_3_bit_format);
 		rate->min = rate->max = msm_pri_tdm_rate;
 		break;
-<<<<<<< HEAD
-=======
 	case AFE_PORT_ID_SECONDARY_TDM_RX:
 		channels->min = channels->max = msm_sec_tdm_rx_0_ch;
 		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
@@ -4028,7 +3687,6 @@ static int msm_tdm_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
 		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
 			msm_sec_tdm_rx_3_bit_format);
 		break;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	case AFE_PORT_ID_SECONDARY_TDM_TX:
 		channels->min = channels->max = msm_sec_tdm_tx_0_ch;
 		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
@@ -4262,11 +3920,7 @@ static unsigned int tdm_param_set_slot_mask(int slots)
 	unsigned int slot_mask = 0;
 	unsigned int i = 0;
 
-<<<<<<< HEAD
-	if ((slots != 16) && (slots != 8)) {
-=======
 	if ((slots <= 0) || (slots > 32)) {
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		pr_err("%s: invalid slot number %d\n", __func__, slots);
 		return -EINVAL;
 	}
@@ -4733,15 +4387,9 @@ static const struct soc_enum msm_snd_enum[] = {
 	SOC_ENUM_SINGLE_EXT(3, ec_ref_bit_format_text),
 	SOC_ENUM_SINGLE_EXT(9, ec_ref_rate_text),
 	SOC_ENUM_SINGLE_EXT(3, mi2s_rate_text),
-<<<<<<< HEAD
-	SOC_ENUM_SINGLE_EXT(3, pri_tdm_rate_text),
-	SOC_ENUM_SINGLE_EXT(6, pri_tdm_slot_num_text),
-	SOC_ENUM_SINGLE_EXT(3, pri_tdm_slot_width_text),
-=======
 	SOC_ENUM_SINGLE_EXT(3, tdm_rate_text),
 	SOC_ENUM_SINGLE_EXT(6, tdm_slot_num_text),
 	SOC_ENUM_SINGLE_EXT(3, tdm_slot_width_text),
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 };
 
 static const struct snd_kcontrol_new msm_snd_controls[] = {
@@ -4771,8 +4419,6 @@ static const struct snd_kcontrol_new msm_snd_controls[] = {
 			msm_pri_tdm_rx_2_ch_get, msm_pri_tdm_rx_2_ch_put),
 	SOC_ENUM_EXT("PRI_TDM_RX_3 Channels", msm_snd_enum[5],
 			msm_pri_tdm_rx_3_ch_get, msm_pri_tdm_rx_3_ch_put),
-<<<<<<< HEAD
-=======
 	SOC_ENUM_EXT("SEC_TDM_RX_0 Channels", msm_snd_enum[5],
 			msm_sec_tdm_rx_0_ch_get, msm_sec_tdm_rx_0_ch_put),
 	SOC_ENUM_EXT("SEC_TDM_RX_1 Channels", msm_snd_enum[5],
@@ -4781,7 +4427,6 @@ static const struct snd_kcontrol_new msm_snd_controls[] = {
 			msm_sec_tdm_rx_2_ch_get, msm_sec_tdm_rx_2_ch_put),
 	SOC_ENUM_EXT("SEC_TDM_RX_3 Channels", msm_snd_enum[5],
 			msm_sec_tdm_rx_3_ch_get, msm_sec_tdm_rx_3_ch_put),
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	SOC_ENUM_EXT("SEC_TDM_TX_0 Channels", msm_snd_enum[5],
 			msm_sec_tdm_tx_0_ch_get, msm_sec_tdm_tx_0_ch_put),
 	SOC_ENUM_EXT("SEC_TDM_TX_1 Channels", msm_snd_enum[5],
@@ -4848,8 +4493,6 @@ static const struct snd_kcontrol_new msm_snd_controls[] = {
 	SOC_ENUM_EXT("PRI_TDM_RX_3 Bit Format", msm_snd_enum[6],
 			msm_pri_tdm_rx_3_bit_format_get,
 			msm_pri_tdm_rx_3_bit_format_put),
-<<<<<<< HEAD
-=======
 	SOC_ENUM_EXT("SEC_TDM_RX_0 Bit Format", msm_snd_enum[6],
 			msm_sec_tdm_rx_0_bit_format_get,
 			msm_sec_tdm_rx_0_bit_format_put),
@@ -4862,7 +4505,6 @@ static const struct snd_kcontrol_new msm_snd_controls[] = {
 	SOC_ENUM_EXT("SEC_TDM_RX_3 Bit Format", msm_snd_enum[6],
 			msm_sec_tdm_rx_3_bit_format_get,
 			msm_sec_tdm_rx_3_bit_format_put),
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	SOC_ENUM_EXT("SEC_TDM_TX_0 Bit Format", msm_snd_enum[6],
 			msm_sec_tdm_tx_0_bit_format_get,
 			msm_sec_tdm_tx_0_bit_format_put),
@@ -4946,263 +4588,6 @@ static const struct snd_kcontrol_new msm_snd_controls[] = {
 			msm_pri_tdm_slot_num_get, msm_pri_tdm_slot_num_put),
 	SOC_ENUM_EXT("PRI_TDM Slot Width", msm_snd_enum[14],
 			msm_pri_tdm_slot_width_get, msm_pri_tdm_slot_width_put),
-<<<<<<< HEAD
-	SOC_SINGLE_MULTI_EXT("PRI_TDM_RX_0 Slot Mapping", SND_SOC_NOPM,
-		PRIMARY_TDM_RX_0, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("PRI_TDM_RX_1 Slot Mapping", SND_SOC_NOPM,
-		PRIMARY_TDM_RX_1, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("PRI_TDM_RX_2 Slot Mapping", SND_SOC_NOPM,
-		PRIMARY_TDM_RX_2, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("PRI_TDM_RX_3 Slot Mapping", SND_SOC_NOPM,
-		PRIMARY_TDM_RX_3, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("PRI_TDM_RX_4 Slot Mapping", SND_SOC_NOPM,
-		PRIMARY_TDM_RX_4, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("PRI_TDM_RX_5 Slot Mapping", SND_SOC_NOPM,
-		PRIMARY_TDM_RX_5, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("PRI_TDM_RX_6 Slot Mapping", SND_SOC_NOPM,
-		PRIMARY_TDM_RX_6, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("PRI_TDM_RX_7 Slot Mapping", SND_SOC_NOPM,
-		PRIMARY_TDM_RX_7, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("PRI_TDM_TX_0 Slot Mapping", SND_SOC_NOPM,
-		PRIMARY_TDM_TX_0, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("PRI_TDM_TX_1 Slot Mapping", SND_SOC_NOPM,
-		PRIMARY_TDM_TX_1, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("PRI_TDM_TX_2 Slot Mapping", SND_SOC_NOPM,
-		PRIMARY_TDM_TX_2, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("PRI_TDM_TX_3 Slot Mapping", SND_SOC_NOPM,
-		PRIMARY_TDM_TX_3, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("PRI_TDM_TX_4 Slot Mapping", SND_SOC_NOPM,
-		PRIMARY_TDM_TX_4, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("PRI_TDM_TX_5 Slot Mapping", SND_SOC_NOPM,
-		PRIMARY_TDM_TX_5, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("PRI_TDM_TX_6 Slot Mapping", SND_SOC_NOPM,
-		PRIMARY_TDM_TX_6, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("PRI_TDM_TX_7 Slot Mapping", SND_SOC_NOPM,
-		PRIMARY_TDM_TX_7, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("SEC_TDM_RX_0 Slot Mapping", SND_SOC_NOPM,
-		SECONDARY_TDM_RX_0, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("SEC_TDM_RX_1 Slot Mapping", SND_SOC_NOPM,
-		SECONDARY_TDM_RX_1, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("SEC_TDM_RX_2 Slot Mapping", SND_SOC_NOPM,
-		SECONDARY_TDM_RX_2, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("SEC_TDM_RX_3 Slot Mapping", SND_SOC_NOPM,
-		SECONDARY_TDM_RX_3, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("SEC_TDM_RX_4 Slot Mapping", SND_SOC_NOPM,
-		SECONDARY_TDM_RX_4, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("SEC_TDM_RX_5 Slot Mapping", SND_SOC_NOPM,
-		SECONDARY_TDM_RX_5, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("SEC_TDM_RX_6 Slot Mapping", SND_SOC_NOPM,
-		SECONDARY_TDM_RX_6, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("SEC_TDM_RX_7 Slot Mapping", SND_SOC_NOPM,
-		SECONDARY_TDM_RX_7, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("SEC_TDM_TX_0 Slot Mapping", SND_SOC_NOPM,
-		SECONDARY_TDM_TX_0, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("SEC_TDM_TX_1 Slot Mapping", SND_SOC_NOPM,
-		SECONDARY_TDM_TX_1, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("SEC_TDM_TX_2 Slot Mapping", SND_SOC_NOPM,
-		SECONDARY_TDM_TX_2, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("SEC_TDM_TX_3 Slot Mapping", SND_SOC_NOPM,
-		SECONDARY_TDM_TX_3, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("SEC_TDM_TX_4 Slot Mapping", SND_SOC_NOPM,
-		SECONDARY_TDM_TX_4, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("SEC_TDM_TX_5 Slot Mapping", SND_SOC_NOPM,
-		SECONDARY_TDM_TX_5, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("SEC_TDM_TX_6 Slot Mapping", SND_SOC_NOPM,
-		SECONDARY_TDM_TX_6, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("SEC_TDM_TX_7 Slot Mapping", SND_SOC_NOPM,
-		SECONDARY_TDM_TX_7, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("TERT_TDM_RX_0 Slot Mapping", SND_SOC_NOPM,
-		TERTIARY_TDM_RX_0, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("TERT_TDM_RX_1 Slot Mapping", SND_SOC_NOPM,
-		TERTIARY_TDM_RX_1, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("TERT_TDM_RX_2 Slot Mapping", SND_SOC_NOPM,
-		TERTIARY_TDM_RX_2, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("TERT_TDM_RX_3 Slot Mapping", SND_SOC_NOPM,
-		TERTIARY_TDM_RX_3, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("TERT_TDM_RX_4 Slot Mapping", SND_SOC_NOPM,
-		TERTIARY_TDM_RX_4, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("TERT_TDM_RX_5 Slot Mapping", SND_SOC_NOPM,
-		TERTIARY_TDM_RX_5, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("TERT_TDM_RX_6 Slot Mapping", SND_SOC_NOPM,
-		TERTIARY_TDM_RX_6, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("TERT_TDM_RX_7 Slot Mapping", SND_SOC_NOPM,
-		TERTIARY_TDM_RX_7, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("TERT_TDM_TX_0 Slot Mapping", SND_SOC_NOPM,
-		TERTIARY_TDM_TX_0, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("TERT_TDM_TX_1 Slot Mapping", SND_SOC_NOPM,
-		TERTIARY_TDM_TX_1, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("TERT_TDM_TX_2 Slot Mapping", SND_SOC_NOPM,
-		TERTIARY_TDM_TX_2, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("TERT_TDM_TX_3 Slot Mapping", SND_SOC_NOPM,
-		TERTIARY_TDM_TX_3, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("TERT_TDM_TX_4 Slot Mapping", SND_SOC_NOPM,
-		TERTIARY_TDM_TX_4, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("TERT_TDM_TX_5 Slot Mapping", SND_SOC_NOPM,
-		TERTIARY_TDM_TX_5, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("TERT_TDM_TX_6 Slot Mapping", SND_SOC_NOPM,
-		TERTIARY_TDM_TX_6, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("TERT_TDM_TX_7 Slot Mapping", SND_SOC_NOPM,
-		TERTIARY_TDM_TX_7, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("QUAT_TDM_RX_0 Slot Mapping", SND_SOC_NOPM,
-		QUATERNARY_TDM_RX_0, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("QUAT_TDM_RX_1 Slot Mapping", SND_SOC_NOPM,
-		QUATERNARY_TDM_RX_1, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("QUAT_TDM_RX_2 Slot Mapping", SND_SOC_NOPM,
-		QUATERNARY_TDM_RX_2, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("QUAT_TDM_RX_3 Slot Mapping", SND_SOC_NOPM,
-		QUATERNARY_TDM_RX_3, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("QUAT_TDM_RX_4 Slot Mapping", SND_SOC_NOPM,
-		QUATERNARY_TDM_RX_4, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("QUAT_TDM_RX_5 Slot Mapping", SND_SOC_NOPM,
-		QUATERNARY_TDM_RX_5, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("QUAT_TDM_RX_6 Slot Mapping", SND_SOC_NOPM,
-		QUATERNARY_TDM_RX_6, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("QUAT_TDM_RX_7 Slot Mapping", SND_SOC_NOPM,
-		QUATERNARY_TDM_RX_7, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("QUAT_TDM_TX_0 Slot Mapping", SND_SOC_NOPM,
-		QUATERNARY_TDM_TX_0, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("QUAT_TDM_TX_1 Slot Mapping", SND_SOC_NOPM,
-		QUATERNARY_TDM_TX_1, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("QUAT_TDM_TX_2 Slot Mapping", SND_SOC_NOPM,
-		QUATERNARY_TDM_TX_2, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("QUAT_TDM_TX_3 Slot Mapping", SND_SOC_NOPM,
-		QUATERNARY_TDM_TX_3, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("QUAT_TDM_TX_4 Slot Mapping", SND_SOC_NOPM,
-		QUATERNARY_TDM_TX_4, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("QUAT_TDM_TX_5 Slot Mapping", SND_SOC_NOPM,
-		QUATERNARY_TDM_TX_5, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("QUAT_TDM_TX_6 Slot Mapping", SND_SOC_NOPM,
-		QUATERNARY_TDM_TX_6, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-		msm_tdm_slot_mapping_put),
-	SOC_SINGLE_MULTI_EXT("QUAT_TDM_TX_7 Slot Mapping", SND_SOC_NOPM,
-		QUATERNARY_TDM_TX_7, 0xFFFF,
-		0, 8, msm_tdm_slot_mapping_get,
-=======
 	SOC_ENUM_EXT("SEC_TDM Slot Number", msm_snd_enum[13],
 			msm_sec_tdm_slot_num_get, msm_sec_tdm_slot_num_put),
 	SOC_ENUM_EXT("SEC_TDM Slot Width", msm_snd_enum[14],
@@ -5474,7 +4859,6 @@ static const struct snd_kcontrol_new msm_snd_controls[] = {
 	SOC_SINGLE_MULTI_EXT("QUAT_TDM_TX_7 Slot Mapping", SND_SOC_NOPM,
 		QUATERNARY_TDM_TX_7, 0xFFFF,
 		0, TDM_SLOT_OFFSET_MAX, msm_tdm_slot_mapping_get,
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		msm_tdm_slot_mapping_put),
 	SOC_ENUM_EXT("EC Reference Channels", msm_snd_enum[8],
 			msm_ec_ref_ch_get, msm_ec_ref_ch_put),
@@ -6606,8 +5990,6 @@ static struct snd_soc_dai_link apq8096_auto_fe_dai_links[] = {
 		.ignore_pmdown_time = 1,
 		.codec_dai_name = "snd-soc-dummy-dai",
 		.codec_name = "snd-soc-dummy",
-<<<<<<< HEAD
-=======
 	},
 	{
 		.name = "DTMF RX Hostless",
@@ -6624,7 +6006,6 @@ static struct snd_soc_dai_link apq8096_auto_fe_dai_links[] = {
 		.codec_dai_name = "snd-soc-dummy-dai",
 		.codec_name = "snd-soc-dummy",
 		.be_id = MSM_FRONTEND_DAI_DTMF_RX,
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	}
 };
 
@@ -7810,10 +7191,7 @@ static int apq8096_asoc_machine_probe(struct platform_device *pdev)
 		goto err;
 	}
 	dev_info(&pdev->dev, "Sound card %s registered\n", card->name);
-<<<<<<< HEAD
-=======
 	place_marker("M - DRIVER Audio Ready");
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	return 0;
 
 err:
