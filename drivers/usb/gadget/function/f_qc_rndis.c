@@ -224,15 +224,9 @@ rndis_qc_iad_descriptor = {
 	.bDescriptorType =	USB_DT_INTERFACE_ASSOCIATION,
 	.bFirstInterface =	0, /* XXX, hardcoded */
 	.bInterfaceCount =	2, /* control + data */
-<<<<<<< HEAD
-	.bFunctionClass =	USB_CLASS_WIRELESS_CONTROLLER,
-	.bFunctionSubClass =   0x01,
-	.bFunctionProtocol =   0x03,
-=======
 	.bFunctionClass =	USB_CLASS_MISC,
 	.bFunctionSubClass =	0x04,
 	.bFunctionProtocol =	0x01, /* RNDIS over ethernet */
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	/* .iFunction = DYNAMIC */
 };
 
