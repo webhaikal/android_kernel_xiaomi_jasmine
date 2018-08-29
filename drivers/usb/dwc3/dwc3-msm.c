@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
-=======
 /* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
->>>>>>> stable/kernel.lnx.4.4.r35-rel
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -242,10 +237,7 @@ struct dwc3_msm {
 	struct pm_qos_request pm_qos_req_dma;
 	struct delayed_work perf_vote_work;
 	struct delayed_work sdp_check;
-<<<<<<< HEAD
-=======
 	bool usb_compliance_mode;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 	struct mutex suspend_resume_mutex;
 };
 
@@ -2085,13 +2077,6 @@ static int dwc3_msm_suspend(struct dwc3_msm *mdwc, bool hibernation)
 		mutex_unlock(&mdwc->suspend_resume_mutex);
 		return ret;
 	}
-<<<<<<< HEAD
-
-	/* Initialize variables here */
-	can_suspend_ssphy = !(mdwc->in_host_mode &&
-				dwc3_msm_is_host_superspeed(mdwc));
-=======
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 
 	/* Disable core irq */
 	if (dwc->irq)
@@ -3546,10 +3531,6 @@ static int dwc3_otg_start_host(struct dwc3_msm *mdwc, int on)
 		}
 
 		usb_phy_notify_connect(mdwc->hs_phy, USB_SPEED_HIGH);
-<<<<<<< HEAD
-		pm_runtime_get_sync(mdwc->dev);
-=======
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		dbg_event(0xFF, "StrtHost gync",
 			atomic_read(&mdwc->dev->power.usage_count));
 		if (!IS_ERR(mdwc->vbus_reg))
@@ -3802,14 +3783,10 @@ static int dwc3_msm_gadget_vbus_draw(struct dwc3_msm *mdwc, unsigned mA)
 
 	psy_type = get_psy_type(mdwc);
 	if (psy_type == POWER_SUPPLY_TYPE_USB_FLOAT) {
-<<<<<<< HEAD
-		pval.intval = -ETIMEDOUT;
-=======
 		if (!mA)
 			pval.intval = -ETIMEDOUT;
 		else
 			pval.intval = 1000 * mA;
->>>>>>> stable/kernel.lnx.4.4.r35-rel
 		goto set_prop;
 	}
 
