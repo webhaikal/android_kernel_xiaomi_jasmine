@@ -1271,9 +1271,6 @@ static int msm_compr_configure_dsp_for_playback
 	int dir = IN, ret = 0;
 	struct audio_client *ac = prtd->audio_client;
 	uint32_t stream_index;
-	union snd_codec_options *codec_options =
-		&(prtd->codec_param.codec.options);
-
 	struct asm_softpause_params softpause = {
 		.enable = SOFT_PAUSE_ENABLE,
 		.period = SOFT_PAUSE_PERIOD,
@@ -1298,9 +1295,6 @@ static int msm_compr_configure_dsp_for_playback
 		bits_per_sample = 24;
 	else if (prtd->codec_param.codec.format == SNDRV_PCM_FORMAT_S32_LE)
 		bits_per_sample = 32;
-	else if (prtd->codec == FORMAT_FLAC && codec_options &&
-		(codec_options->flac_dec.sample_size != 0))
-		bits_per_sample = codec_options->flac_dec.sample_size;
 
 	if (prtd->compr_passthr != LEGACY_PCM) {
 		ret = q6asm_open_write_compressed(ac, prtd->codec,
@@ -1543,35 +1537,6 @@ static int msm_compr_map_ion_fd(struct msm_compr_audio *prtd, int fd)
 					prtd->lib_ion_handle,
 					&paddr, &pa_len, ADSP_TO_HLOS);
 	}
-
-done:
-	return ret;
-}
-
-static int msm_compr_unmap_ion_fd(struct msm_compr_audio *prtd)
-{
-	ion_phys_addr_t paddr;
-	size_t pa_len = 0;
-	int ret = 0;
-
-	if (!prtd->lib_ion_client || !prtd->lib_ion_handle) {
-		pr_err("%s: ion_client or ion_handle is NULL", __func__);
-		return -EINVAL;
-	}
-
-	ret = msm_audio_ion_phys_free(prtd->lib_ion_client,
-				      prtd->lib_ion_handle,
-				      &paddr, &pa_len, ADSP_TO_HLOS);
-	if (ret) {
-		pr_err("%s: audio lib ION phys failed, rc = %d\n",
-			__func__, ret);
-		goto done;
-	}
-
-	ret = q6core_add_remove_pool_pages(paddr, pa_len,
-				 ADSP_MEMORY_MAP_HLOS_PHYSPOOL, false);
-	if (ret)
-		pr_err("%s: add remove pages failed, rc = %d\n", __func__, ret);
 
 done:
 	return ret;
@@ -2244,8 +2209,6 @@ static int msm_compr_trigger(struct snd_compr_stream *cstream, int cmd)
 	int stream_id;
 	uint32_t stream_index;
 	uint16_t bits_per_sample = 16;
-	union snd_codec_options *codec_options =
-		&(prtd->codec_param.codec.options);
 
 	spin_lock_irqsave(&prtd->lock, flags);
 	if (atomic_read(&prtd->error)) {
@@ -2664,9 +2627,6 @@ static int msm_compr_trigger(struct snd_compr_stream *cstream, int cmd)
 		else if (prtd->codec_param.codec.format ==
 			 SNDRV_PCM_FORMAT_S32_LE)
 			bits_per_sample = 32;
-		else if (prtd->codec == FORMAT_FLAC && codec_options &&
-			(codec_options->flac_dec.sample_size != 0))
-			bits_per_sample = codec_options->flac_dec.sample_size;
 
 		pr_debug("%s: open_write stream_id %d bits_per_sample %d",
 				__func__, stream_id, bits_per_sample);
