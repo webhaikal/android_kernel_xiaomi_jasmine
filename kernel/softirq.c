@@ -310,7 +310,6 @@ restart:
 
 	if (pending) {
 		if (time_before(jiffies, end) && !need_resched() &&
-		    !defer_for_rt() &&
 		    --max_restart)
 			goto restart;
 	}
@@ -363,7 +362,7 @@ void irq_enter(void)
 
 static inline void invoke_softirq(void)
 {
-	if (!force_irqthreads && !defer_for_rt()) {
+	if (!force_irqthreads) {
 #ifdef CONFIG_HAVE_IRQ_EXIT_ON_IRQ_STACK
 		/*
 		 * We can safely execute softirq on the current stack if
